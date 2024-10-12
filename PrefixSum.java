@@ -26,3 +26,38 @@ class Solution {
         return max; // finally return it
     }
 }
+
+
+// 2. Divide Intervals Into Minimum Number of Groups
+
+
+class Solution {
+    public int minGroups(int[][] intervals) {
+        
+        int n = intervals.length;
+        int[] startTime = new int[n];
+        int[] endTime = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            startTime[i] = intervals[i][0];
+            endTime[i] = intervals[i][1];
+        }
+
+        Arrays.sort(startTime);
+        Arrays.sort(endTime);
+
+        int endPtr = 0;
+        int groupCount = 0;
+
+        for (int start : startTime) {
+            if (start > endTime[endPtr]) {
+                endPtr++;
+            }
+            else {
+                groupCount++;
+            }
+        }
+
+        return groupCount;
+    }
+}
