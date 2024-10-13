@@ -61,3 +61,38 @@ class Solution {
         return groupCount;
     }
 }
+
+
+
+// 3. Implement Trie (Prefix Tree)
+
+
+class Trie {
+
+    private HashSet<String> data;
+    private HashSet<String> prefs;
+
+    public Trie() {
+        
+        data = new HashSet<>();
+        prefs = new HashSet<>();
+    }
+    
+    public void insert(String word) {
+        
+        StringBuilder curr = new StringBuilder();
+        for (int i = 0; i < word.length(); i++) {
+            curr.append(word.charAt(i));
+            prefs.add(curr.toString());
+        }
+        data.add(word);
+    }
+    
+    public boolean search(String word) {
+        return data.contains(word);
+    }
+    
+    public boolean startsWith(String prefix) {
+        return prefs.contains(prefix);
+    }
+}
