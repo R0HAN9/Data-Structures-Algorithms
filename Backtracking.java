@@ -69,3 +69,45 @@ class Solution {
         return returnArr;
     }
 }
+
+
+
+// 2. Permutations
+
+
+class Solution {
+    public void swap(List<Integer> numberList, int indexA, int indexB) {
+
+        int temp = numberList.get(indexA);
+        numberList.set(indexA, numberList.get(indexB));
+        numberList.set(indexB, temp);
+    }
+
+    public void generatePermutations(List<List<Integer>> allPermutations, List<Integer> currentPermutation, int currentIndex) {
+
+        if (currentIndex == currentPermutation.size()) {
+            allPermutations.add(new ArrayList<>(currentPermutation));
+            return;
+        }
+
+        for (int j = currentIndex; j < currentPermutation.size(); j++) {
+
+            swap(currentPermutation, currentIndex, j);
+            generatePermutations(allPermutations, currentPermutation, currentIndex + 1);
+            swap(currentPermutation, currentIndex, j); // backtrack
+        }
+    }
+
+    public List<List<Integer>> permute(int[] inputArray) {
+
+        List<List<Integer>> allPermutations = new ArrayList<>();
+        List<Integer> currentPermutation = new ArrayList<>();
+
+        for (int element : inputArray) {
+            currentPermutation.add(element);
+        }
+        
+        generatePermutations(allPermutations, currentPermutation, 0);
+        return allPermutations;
+    }
+}
