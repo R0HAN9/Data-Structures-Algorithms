@@ -45,3 +45,34 @@ class Solution {
         return res;
     }
 }
+
+
+// Unique Paths
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        
+        if (m == 1 && n == 1) return 1;
+        int[] prev = new int[n];
+
+        for (int i = 0; i < m; i++) {
+            int[] curr = new int[n];
+
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) {
+                    curr[j] = 1;
+                }
+                else {
+                    int up = prev[j];
+                    int left = 0;
+
+                    if (j > 0) left = curr[j - 1];
+                    curr[j] = left + up;
+                }
+            }
+            prev = curr;
+        }
+
+        return prev[n - 1];
+    }
+}
