@@ -22,6 +22,34 @@ class Solution {
 }
 
 
+// Copy List with Random Pointer
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        
+        Map<Node, Node> hashMap = new HashMap<>();
+        Node current = head;
+
+        while (current != null) {
+            hashMap.put(current, new Node(current.val));
+            current = current.next;
+        }
+
+        current = head;
+
+        while (current != null) {
+            Node copy = hashMap.get(current);
+
+            copy.next = hashMap.get(current.next);
+            copy.random = hashMap.get(current.random);
+            current = current.next;
+
+        }
+        return hashMap.get(head);
+    }
+}
+
+
 
 // Swap Nodes in Pairs
 
