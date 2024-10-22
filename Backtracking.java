@@ -113,6 +113,36 @@ class Solution {
 }
 
 
+// 3. Combination Sum
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        
+        List<List<Integer>> result = new ArrayList<>();
+        makeCombination(candidates, target, 0, new ArrayList<>(), 0, result);
+        return result;
+    }
+
+    private void makeCombination(int[] candidates, int target, int index, List<Integer> comb, int total, List<List<Integer>> result) {
+
+        if (total == target) {
+            result.add(new ArrayList<>(comb));
+            return;
+        }
+
+        if (total > target || index >= candidates.length) return;
+
+        comb.add(candidates[index]);
+        makeCombination(candidates, target, index, comb, total + candidates[index], result);
+
+        comb.remove(comb.size() - 1);
+        makeCombination(candidates, target, index + 1, comb, total, result);
+    }
+}
+
+
+
+
 // Subsets
 
 
@@ -186,3 +216,6 @@ class Solution {
         return false;
     }
 }
+
+
+
