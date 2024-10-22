@@ -1,3 +1,37 @@
+// Kth Largest Sum in a Binary Tree
+
+class Solution {
+    public long kthLargestLevelSum(TreeNode root, int k) {
+        
+        List<Long> result = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int num = queue.size();
+            long sum = 0;
+
+            for (int i = 0; i < num; i++) {
+                TreeNode node = queue.poll();
+                sum += node.val;
+
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+
+            result.add(sum);
+        }
+
+        if (k > result.size()) return -1;
+        result.sort(Collections.reverseOrder());
+
+        return result.get(k - 1);
+    }
+}
+
+
+
+
 // Coin Change
 
 class Solution {
