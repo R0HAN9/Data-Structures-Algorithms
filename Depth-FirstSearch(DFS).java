@@ -1,28 +1,5 @@
 // Clone Graph
 
-
-
-
-/*
-// Definition for a Node.
-class Node {
-    public int val;
-    public List<Node> neighbors;
-    public Node() {
-        val = 0;
-        neighbors = new ArrayList<Node>();
-    }
-    public Node(int _val) {
-        val = _val;
-        neighbors = new ArrayList<Node>();
-    }
-    public Node(int _val, ArrayList<Node> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
-}
-*/
-
 class Solution {
     public Node cloneGraph(Node node) {
      if(node==null)
@@ -60,5 +37,54 @@ class Solution {
 
 return map.get(node);
         
+    }
+}
+
+
+
+// Cousins in Binary Tree II
+
+
+class Solution {
+    public TreeNode replaceValueInTree(TreeNode root) {
+        
+        dfs(new TreeNode[] {root});
+        root.val = 0;
+        return root;
+    }
+
+    private void dfs(TreeNode[] arr) {
+
+        if (arr.length == 0) return;
+        int sum = 0;
+
+        for (TreeNode node : arr) {
+
+            if (node == null) continue;
+            if (node.left != null) sum += node.left.val;
+            if (node.right != null) sum += node.right.val;
+        }
+
+        TreeNode[] childArr = new TreeNode[arr.length * 2];
+        int index = 0;
+
+        for (TreeNode node : arr) {
+            int currSum = 0;
+
+            if (node.left != null) currSum += node.left.val;
+            if (node.right != null) currSum += node.right.val;
+
+            if (node.left != null) {
+                node.left.val = sum - currSum;
+                childArr[index++] = node.left;
+            }
+
+            if (node.right != null) {
+                node.right.val = sum - currSum;
+                childArr[index++] = node.right;
+            }
+        }
+
+        dfs(java.util.Arrays.copyOf(childArr, index));
     }
 }
