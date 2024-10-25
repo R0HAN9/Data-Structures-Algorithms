@@ -1,3 +1,33 @@
+// Median of Two Sorted Arrays
+
+
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        
+        double[] mergedArray = new double[nums1.length + nums2.length];
+        int index = 0;
+
+        for (int num : nums1) {
+            mergedArray[index++] = num;
+        }
+        for (int num : nums2) {
+            mergedArray[index++] = num;
+        }
+
+        Arrays.sort(mergedArray);
+        int totalLength = mergedArray.length;
+
+        if (totalLength % 2 == 0) {
+            return (mergedArray[totalLength / 2] + mergedArray[totalLength / 2 - 1]) / 2.0;
+        }
+        else {
+            return mergedArray[totalLength / 2];
+        }
+    }
+}
+
+
+
 // Longest Increasing Subsequence
 
 class Solution {
