@@ -1,3 +1,24 @@
+// Remove Sub-Folders from the Filesystem
+
+class Solution {
+    public List<String> removeSubfolders(String[] folder) {
+        
+        Arrays.sort(folder);
+        List<String> answer = new ArrayList<>();
+        answer.add(folder[0]);
+
+        for (int i = 1; i < folder.length; i++) {
+            String lastFolder = answer.get(answer.size() - 1) + "/";
+
+            if (!folder[i].startsWith(lastFolder)) {
+                answer.add(folder[i]);
+            }
+        }
+
+        return answer;
+    }
+}
+
 
 // Basic Calculator
 
