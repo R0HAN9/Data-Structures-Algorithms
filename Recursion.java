@@ -1,3 +1,72 @@
+// Reverse Nodes in k-Group
+
+
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        
+        ListNode prevTail = null;
+        ListNode currentHead = head;
+        ListNode currentTail = head;
+
+        ListNode nextHead = null;
+        while (currentHead != null) {
+
+            int count = 1;
+            while (currentTail.next != null && count < k) {
+
+                currentTail = currentTail.next;
+                count++;
+            }
+            if (count != k) {
+                break;
+            }
+
+            nextHead = currentTail.next;
+            currentTail.next = null;
+
+            if (prevTail != null) {
+                prevTail.next = null;
+            }
+
+            currentTail = reverse(currentHead);
+            if (prevTail != null) {
+                prevTail.next = currentTail;
+            }
+            else {
+                head = currentTail;
+            }
+
+            currentHead.next = nextHead;
+            prevTail = currentHead;
+            currentHead = nextHead;
+            currentTail = nextHead;
+
+        }
+        return head;
+    }
+
+    private ListNode reverse(ListNode head) {
+
+        ListNode prevNode = null;
+        ListNode currentNode = head;
+        ListNode nextNode = head;
+
+        while (currentNode != null) {
+
+            nextNode = nextNode.next;
+            currentNode.next = prevNode;
+
+            prevNode = currentNode;
+            currentNode = nextNode;
+        }
+
+        return prevNode;
+    }
+}
+
+
+
+
 // Parsing A Boolean Expression
 
 import java.util.*;
