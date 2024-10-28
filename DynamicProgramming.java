@@ -172,3 +172,29 @@ class Solution {
         return totalCount;
     }
 }
+
+
+// Longest Square Streak in an Array
+
+class Solution {
+    public int longestSquareStreak(int[] nums) {
+        
+        Map<Integer, Integer> mp = new HashMap<>();
+        Arrays.sort(nums);
+
+        int result = -1;
+        for (int num : nums) {
+
+            int sqrt = (int) Math.sqrt(num);
+            if (sqrt * sqrt == num && mp.containsKey(sqrt)) {
+                mp.put(num, mp.get(sqrt) + 1);
+                result = Math.max(result, mp.get(num));
+            }
+            else {
+                mp.put(num, 1);
+            }
+        }
+
+        return result;
+    }
+}
