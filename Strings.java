@@ -180,3 +180,26 @@ class Solution {
         }
     }
 }
+
+
+// Generate Parentheses
+
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+
+        dfs(0, 0, "", n, result);
+        return result;
+    }
+
+    private void dfs(int openP, int closeP, String str, int n, List<String> result) {
+       
+        if (openP == closeP && openP + closeP == n * 2) {
+            result.add(str);
+            return;
+        }
+        if (openP < n) dfs(openP + 1, closeP, str + "(", n, result);
+        if (closeP < openP) dfs(openP, closeP + 1, str + ")", n, result);
+    }
+}
