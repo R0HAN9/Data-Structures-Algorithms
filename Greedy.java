@@ -109,3 +109,44 @@ class Solution {
         return goal == 0;
     }
 }
+
+
+// Minimum Number of Removals to Make Mountain Array
+
+class Solution {
+    public int minimumMountainRemovals(int[] nums) {
+        int num = nums.length;
+        int[] LIS = new int[num];
+        int[] LDS = new int[num];
+
+        Arrays.fill(LIS, 1);
+        Arrays.fill(LDS, 1);
+
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j < i; j++) {
+
+                if (nums[i] > nums[j]) {
+                    LIS[i] = Math.max(LIS[i], LIS[j] + 1);
+                }
+            }
+        }
+
+        for (int i = num - 1; i >= 0; --i) {
+            for (int j = num - 1; j > i; --j) {
+
+                if (nums[i] > nums[j]) {
+                    LDS[i] = Math.max(LDS[i], LDS[j] + 1);
+                }
+            }
+        }
+        int maxMountainLength = 0;
+
+        for (int i = 1; i < num - 1; ++i) {
+            if (LIS[i] > 1 && LDS[i] > 1) {
+                maxMountainLength = Math.max(maxMountainLength, LIS[i] + LDS[i] - 1);
+            }
+        }
+
+        return num - maxMountainLength;
+    }
+}
