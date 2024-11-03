@@ -53,3 +53,17 @@ public class Solution {
     }
 }
 
+
+
+// Sum of 7's Multiple
+
+public class Solution {
+    public long solve(int A, int B) {
+        long first = (A % 7 == 0) ? A : A + (7 - A % 7);
+        long last = (B % 7 == 0) ? B : B - (B % 7);
+        long n = (last - first) / 7 + 1;
+        long ans = n * (2 * first + (n - 1) * 7) / 2;
+        
+        return ans;
+    }
+}
