@@ -32,3 +32,24 @@ public class Solution {
 }
 
 
+// Maximum height of staircase
+
+public class Solution {
+    public int solve(int A) {
+        int blocksUsed = 0;
+        int height = 0;
+        
+        while (blocksUsed <= A) {
+            height++;
+            blocksUsed += height;
+        }
+        
+        // Adjust height if we used more blocks than allowed
+        if (blocksUsed > A) {
+            height--;
+        }
+        
+        return height;
+    }
+}
+
