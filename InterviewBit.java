@@ -81,3 +81,15 @@ public class Solution {
         return 0;
     }
 }
+
+
+// Find Last Digit
+
+public class Solution {
+    public int solve(String A, String B) {
+        int a = A.charAt(A.length()-1) - '0';
+        int b = Integer.parseInt(B.substring(B.length()-2));
+        long ans = (long)Math.pow(a,(b%4+4));
+        return (int)(ans%10);
+    }
+}
