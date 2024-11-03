@@ -93,3 +93,18 @@ public class Solution {
         return (int)(ans%10);
     }
 }
+
+
+// Digital Root
+
+public class Solution {
+    public int solve(int A) {
+        if(A==0){
+            return 0;
+        }
+        else if(A%9==0){
+            return 9;
+        }
+        return A%9;
+    }        
+}   
