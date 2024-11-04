@@ -220,3 +220,19 @@ public class Solution {
         return 0;
     }
 }
+
+
+// Leap Year
+
+public class Solution {
+    public int solve(int A) {
+        // Check if A is a leap year
+        if (A % 4 == 0 && A % 100 != 0) {
+            return 1;
+        } else if (A % 400 == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
