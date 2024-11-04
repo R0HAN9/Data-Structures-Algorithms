@@ -135,3 +135,21 @@ public class Solution {
         return count;
     }
 }
+
+
+// Product of Digits
+
+public class Solution {
+    public int solve(int A) {
+        String[] s = String.valueOf(A).split("");
+        int[] num = new int[s.length];
+        for (int i = 0; i < s.length; i++) {
+            num[i] = Integer.parseInt(s[i]);
+        }
+        int a = 1;
+        for (int i = 0; i < num.length; i++) {
+            a *= num[i];
+        }
+        return a;
+    }
+}
