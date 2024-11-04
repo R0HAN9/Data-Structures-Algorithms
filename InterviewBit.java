@@ -170,3 +170,26 @@ public class Solution {
         return (int) ans;  // Cast to int before returning since `solve` returns an int
     }
 }
+
+
+// Odd Even Rule
+
+public class Solution {
+    public int solve(ArrayList<Integer> A, int B, int C) {
+        int ans =0;
+        if(B%2 == 0){
+            for(int i =0; i<A.size(); i++){
+                if(A.get(i) %2 != 0){
+                    ans += C;
+                }
+            }
+        }else{
+             for(int i =0; i<A.size(); i++){
+                if(A.get(i) % 2 == 0){
+                    ans += C;
+                }
+            }
+        }
+        return ans;
+    }
+}
