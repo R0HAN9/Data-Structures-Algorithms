@@ -193,3 +193,30 @@ public class Solution {
         return ans;
     }
 }
+
+
+// Armstrong Number
+
+public class Solution {
+    static int countDigit(int n)
+    {
+        return (int)Math.floor(Math.log10(n) + 1);
+    }
+    public int solve(int A) {
+        int temp =A;
+        int len = countDigit(A);
+    long rem = 0;
+    long sum =0;
+        while(A>0){
+            rem = A%10;
+            A=A/10;
+            sum+=Math.pow(rem,len);
+        }
+
+        if(temp==(int)sum){
+            return 1;
+        }
+
+        return 0;
+    }
+}
