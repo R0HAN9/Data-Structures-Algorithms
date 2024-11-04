@@ -153,3 +153,20 @@ public class Solution {
         return a;
     }
 }
+
+
+// Round Table
+
+public class Solution {
+    public int solve(int A) {
+        int mod = 1000000007;
+        long ans = 2;  // Start with 2 as given in the original code
+
+        for (int i = 2; i <= A; i++) {
+            ans *= i;
+            ans = ans % mod;  // Apply modulo to keep the result within bounds
+        }
+
+        return (int) ans;  // Cast to int before returning since `solve` returns an int
+    }
+}
