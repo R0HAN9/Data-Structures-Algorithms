@@ -273,3 +273,28 @@ public class Solution {
     }
 }
 
+
+// Socks Pair
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Solution {
+    public int solve(ArrayList<Integer> A) {
+        HashMap<Integer, Integer> mp = new HashMap<>(); // To store the frequency of each sock type
+
+        // Count the frequency of each sock type
+        for (int i = 0; i < A.size(); i++) {
+            mp.put(A.get(i), mp.getOrDefault(A.get(i), 0) + 1);
+        }
+
+        int count = 0; // To count the pairs
+        // Calculate the number of pairs
+        for (int frequency : mp.values()) {
+            count += frequency / 2; // Each pair consists of 2 socks
+        }
+
+        return count; // Return the total count of pairs
+    }
+}
+
