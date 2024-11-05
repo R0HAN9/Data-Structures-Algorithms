@@ -298,3 +298,32 @@ public class Solution {
     }
 }
 
+
+// Two Stores
+
+public class Solution {
+    public int solve(int a, int b, int c, int d, int e) {
+        int ans = Integer.MAX_VALUE; // Initialize answer to maximum integer value
+
+        // First loop to calculate costs using type 1
+        for (int i = 0; i <= a / b; i++) {
+            int temp = c * i; // Cost of using type 1
+            if ((a - b * i) >= d && (a - b * i) % d == 0) {
+                temp += ((a - b * i) / d) * e; // Add cost of using type 2
+                ans = Math.min(ans, temp); // Update the minimum cost
+            }
+        }
+
+        // Second loop to calculate costs using type 2
+        for (int i = 0; i <= a / d; i++) {
+            int temp = e * i; // Cost of using type 2
+            if ((a - d * i) >= b && (a - d * i) % b == 0) {
+                temp += ((a - d * i) / b) * c; // Add cost of using type 1
+                ans = Math.min(ans, temp); // Update the minimum cost
+            }
+        }
+
+        // If no valid solution found, return -1
+        return (ans == Integer.MAX_VALUE) ? -1 : ans;
+    }
+}
