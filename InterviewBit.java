@@ -236,3 +236,21 @@ public class Solution {
         }
     }
 }
+
+
+// Lowest Common Multiple (LCM)
+
+public class Solution {
+    public Long solve(int A, int B) {
+         long a = A;
+       long b = B;
+       long gcd = gcd(A, B);
+       
+       return ((a * b) / gcd);
+    }
+    
+    int gcd(int a, int b){
+        if(b==0) return a;
+        return gcd(b,a%b);
+    }
+}
