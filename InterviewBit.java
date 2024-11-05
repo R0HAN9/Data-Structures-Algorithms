@@ -1,3 +1,70 @@
+// X - Permutations
+
+public class Solution {
+    private static final long MOD = 1000000007;
+
+    // Function to perform modular exponentiation
+    private long modularExponentiation(long base, long exponent, long modulus) {
+        long result = 1;
+        while (exponent > 0) {
+            if (exponent % 2 == 1) {
+                result = (result * base) % modulus;
+            }
+            base = (base * base) % modulus;
+            exponent /= 2;
+        }
+        return result;
+    }
+
+    // Function to find modular inverse
+    private long modularInverse(long number, long modulus) {
+        return modularExponentiation(number, modulus - 2, modulus);
+    }
+
+    public ArrayList<Integer> solve(int A) {
+        ArrayList<Long> factorial = new ArrayList<>(A + 1);
+        ArrayList<Long> inverseFactorial = new ArrayList<>(A + 1);
+        ArrayList<Long> derangements = new ArrayList<>(A + 1);
+
+        // Initialize factorial, inverseFactorial, and derangements
+        for (int i = 0; i <= A; i++) {
+            factorial.add(0L);
+            inverseFactorial.add(0L);
+            derangements.add(0L);
+        }
+
+        factorial.set(0, 1L);
+        for (int i = 1; i <= A; i++) {
+            factorial.set(i, (factorial.get(i - 1) * i) % MOD);
+        }
+
+        for (int i = 0; i <= A; i++) {
+            inverseFactorial.set(i, modularInverse(factorial.get(i), MOD));
+        }
+
+        derangements.set(0, 1L);
+        if (A > 0) {
+            derangements.set(1, 0L);
+        }
+        for (int i = 2; i <= A; i++) {
+            derangements.set(i, ((i - 1) * (derangements.get(i - 1) + derangements.get(i - 2))) % MOD);
+        }
+
+        ArrayList<Integer> result = new ArrayList<>(A + 1);
+        for (int x = 0; x <= A; x++) {
+            long combinations = (factorial.get(A) * inverseFactorial.get(x)) % MOD * inverseFactorial.get(A - x) % MOD;
+            long numberOfPermutations = (combinations * derangements.get(A - x)) % MOD;
+            result.add((int) numberOfPermutations);
+        }
+
+        return result; // Return the result list
+    }
+}
+
+
+
+
+
 // Expected number of Segments
 
 public class Solution {
@@ -363,3 +430,5 @@ public class Solution {
         return count; // Return the total count of triplets
     }
 }
+
+
