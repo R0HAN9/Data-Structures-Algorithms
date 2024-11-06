@@ -1,3 +1,98 @@
+
+// Coin Queue
+
+public class Solution {
+    Stack<Integer> stk1, stk2;
+    Stack<ArrayList<Integer> > l1, l2;
+    ArrayList<Integer> push(ArrayList<Integer> l, int x)
+    {
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        for(int i=0; i<x; i++)
+        {
+            ans.add(l.get(i));
+        }
+        for(int i = x; i <=350; i++)
+        {
+            if(l.get(i-x)>=0)
+                ans.add(Math.max(l.get(i-x) +1,  l.get(i)));
+            else
+                ans.add(l.get(i));
+        }
+        return ans;
+    }
+    public ArrayList<Integer> solve(ArrayList<ArrayList<Integer>> A) {
+        int n = A.size();
+        ArrayList<Integer> starting = new ArrayList<Integer>();
+        starting.add(0);
+        for(int i=1;i<=350;i++)
+            starting.add(-1);
+        ArrayList <Integer> ans = new ArrayList<Integer>();
+        stk1 = new Stack<Integer>(); 
+        l1 = new Stack<ArrayList<Integer> >();
+        stk2 = new Stack<Integer>();
+        l2 = new Stack<ArrayList<Integer> >();
+        for(int i = 0; i < n; i++)
+        {
+            int x = A.get(i).get(0), y = A.get(i).get(1);
+            if(x==1)
+            {
+                stk1.push(y);
+                if(l1.empty())
+                {
+                    l1.push(push(starting, y));
+                }
+                else
+                {
+                    l1.push(push(l1.peek(), y));
+                }
+            }
+            else if(x==2)
+            {
+                if(stk2.empty())
+                {
+                    while(!stk1.empty())
+                    {
+                        stk2.push(stk1.peek());
+                        if(l2.empty())
+                        {
+                            l2.push(push(starting, stk1.peek()));
+                        }
+                        else
+                        {
+                            l2.push(push(l2.peek(), stk1.peek()));
+                        }
+                        stk1.pop();
+                        l1.pop();
+                    }
+                }
+                stk2.pop();
+                l2.pop();
+            }
+            else
+            {
+                int a=-1;
+                if(l1.empty() && l2.empty())
+                    ans.add(-1);
+                else if(l1.empty())
+                    ans.add(l2.peek().get(y));
+                else if(l2.empty())
+                    ans.add(l1.peek().get(y));
+                else{
+                    for(int j = 0; j<=y; j++)
+                    {
+                        if(l1.peek().get(j) != -1 && l2.peek().get(y-j) != -1)
+                            a = Math.max(a, l1.peek().get(j) + l2.peek().get(y-j));
+                    }
+                    ans.add(a);
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+
+
 // X - Permutations
 
 public class Solution {
