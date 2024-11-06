@@ -492,3 +492,27 @@ public class Solution {
         return (int) sum;
     }
 }
+
+
+// Ticket Counter
+
+
+import java.util.List;
+
+public class Solution {
+    public int solve(List<Integer> A, List<Integer> B) {
+        int time = 0;
+        int ans = 0;
+        
+        // Iterate through the array
+        for (int i = 0; i < A.size(); i++) {
+            // If the time is greater than or equal to the arrival time
+            if (A.get(i) < time) {
+                ans++;  // Increment the answer if the current event starts before the previous one finishes
+            } else {
+                time += B.get(i);  // Add the duration of the current event to the time
+            }
+        }
+        return ans;
+    }
+}
