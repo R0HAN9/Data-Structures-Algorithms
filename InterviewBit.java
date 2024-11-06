@@ -432,3 +432,63 @@ public class Solution {
 }
 
 
+
+// Prime calculations
+
+import java.util.*;
+
+public class Solution {
+
+    final static int MAX_N = 1000006;
+    final static int MOD = (int) 1e9 + 7;
+    int[] primeFactorsCount = new int[MAX_N];
+
+    // Sieve to count distinct prime factors
+    public void sieve() {
+        for (int i = 2; i < MAX_N; i++) {
+            if (primeFactorsCount[i] == 0) {
+                for (int j = i; j < MAX_N; j += i) {
+                    primeFactorsCount[j]++;
+                }
+            }
+        }
+    }
+
+    public int solve(ArrayList<Integer> A, int B) {
+        int n = A.size();
+        if (primeFactorsCount[0] == 0) {
+            sieve();
+        }
+
+        // Variable to hold the sum of results
+        long sum = 0;
+        
+        // Deque to maintain the index of elements in the current window
+        Deque<Integer> deque = new ArrayDeque<>();
+
+        // Traverse the array with sliding window approach
+        for (int i = 0; i < n; i++) {
+            // Remove elements outside the current window
+            if (!deque.isEmpty() && deque.peekFirst() <= i - B) {
+                deque.pollFirst();
+            }
+
+            // Maintain the deque such that it holds the index of elements
+            // with the maximum number of distinct prime factors
+            while (!deque.isEmpty() && primeFactorsCount[A.get(deque.peekLast())] < primeFactorsCount[A.get(i)]) {
+                deque.pollLast();
+            }
+
+            // Add the current element to the deque
+            deque.offer(i);
+
+            // If we have filled a full window, we calculate the result
+            if (i >= B - 1) {
+                // The leftmost element with the max prime factors is at the front of the deque
+                sum = (sum + A.get(deque.peekFirst())) % MOD;
+            }
+        }
+
+        return (int) sum;
+    }
+}
