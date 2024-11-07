@@ -1,4 +1,103 @@
 
+// Queries in Infinite String!
+
+import java.util.ArrayList;
+
+public class Solution {
+   static int flag = 0;
+   static ArrayList<Integer> v = new ArrayList<Integer>();
+
+   // This is the updated solve method accepting ArrayList<ArrayList<Integer>> A
+   public ArrayList<Integer> solve(ArrayList<ArrayList<Integer>> A) {
+      if (flag == 0) {
+         flag = 1;
+         pre();
+      }
+      
+      ArrayList<Integer> ans = new ArrayList<Integer>(); // To hold the result
+      char[] arr = new char[]{'a', 'e', 'i', 'o', 'u'};  // Vowels array
+      
+      for (int i = 0; i < A.size(); i++) {
+         int res = 0;
+         ArrayList<Integer> row = A.get(i); // Get the current row from ArrayList<ArrayList<Integer>>
+
+         for (int j = 0; j < 5; j++) {
+            res += (f(row.get(1), arr[j]) - (f(row.get(0) - 1, arr[j])));
+         }
+
+         ans.add(res);  // Add result for the current row to the result list
+      }
+      
+      return ans;  // Return the final list of results
+   }
+
+   public static void pre() {
+      v.add(0);
+      int diff = 26;
+      int prev = 0;
+      for (int i = 1; i <= 8771; i++) {
+         v.add(prev + diff);
+         prev = prev + diff;
+         diff += 26;
+      }
+   }
+
+   public static int f(int index, char temp) {
+      if (index == 0)
+         return 0;
+
+      int ascii = (temp - 'a') + 1;
+      int id = upperBound(v, 0, v.size(), index);
+      id--;
+      int ans = ((id) * (id + 1)) / 2;
+
+      if (index == v.get(id))
+         return ans;
+
+      int ct = id + 1;
+      int startIndex = v.get(id) + 1 + ct * (ascii - 1);
+      int endIndex = Math.min(index, startIndex + ct - 1);
+      if (startIndex > endIndex)
+         return ans;
+
+      ans += (endIndex - startIndex + 1);
+      return ans;
+   }
+
+   static int upperBound(ArrayList<Integer> a, int low, int high, int element) {
+      while (low < high) {
+         int middle = low + (high - low) / 2;
+         if (a.get(middle) > element) {
+            high = middle;
+         } else {
+            low = middle + 1;
+         }
+      }
+      return low;
+   }
+
+   public static void main(String[] args) {
+      Solution solution = new Solution();
+
+      // Example input as ArrayList<ArrayList<Integer>>
+      ArrayList<ArrayList<Integer>> input = new ArrayList<>();
+      ArrayList<Integer> row1 = new ArrayList<>();
+      row1.add(1); row1.add(10);
+      ArrayList<Integer> row2 = new ArrayList<>();
+      row2.add(5); row2.add(20);
+      input.add(row1);
+      input.add(row2);
+
+      // Solve the problem
+      ArrayList<Integer> result = solution.solve(input);
+
+      // Print the result
+      System.out.println(result);
+   }
+}
+
+
+
 // Coin Queue
 
 public class Solution {
