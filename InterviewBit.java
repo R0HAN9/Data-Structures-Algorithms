@@ -1,3 +1,81 @@
+// Text Editor
+
+public class Solution {
+    static int N = 500005;
+    //static ArrayList < ArrayList < Integer > > f;
+    static int[] ans = new int[N];
+    //static int flag = 0;
+   /* public static void sieve() {
+          f = new ArrayList < ArrayList < Integer > > (N);
+        for (int i = 0; i < N; i++)
+            f.add(new ArrayList < Integer > ());
+        for (int i = 1; i < N; i++) {
+            for (int j = i; j < N; j += i)
+                f.get(j).add(i);
+        }
+    }*/
+    public static int[] prefix_function(String S) {
+        char[] s = S.toCharArray();
+        int n = s.length;
+        int[] pi = new int[n];
+        Arrays.fill(pi, 0);
+        for (int i = 1; i < n; i++) {
+            int j = pi[i - 1];
+            while (j > 0 && s[i] != s[j])
+                j = pi[j - 1];
+            if (s[i] == s[j])
+                j++;
+            pi[i] = j;
+        }
+        return pi;
+    }
+    public int solve(String A) {
+        /*if(flag==0)
+        {
+            sieve();
+            flag=1;
+        }*/
+        Arrays.fill(ans,0);
+        char[] s = A.toCharArray();
+        int[] pi = prefix_function(A);
+        ans[0] = 1;
+        for (int i = 1; i < s.length; i++) {
+            ans[i] = 1 + ans[i - 1];
+            int k = i + 1 - pi[i];
+            if (((i + 1) % k)>0)
+                k = i + 1;
+            int c = (i + 1) / k;
+            ArrayList<Integer> f = getDiv(c);
+            for (int j: f) {
+                if (j == c) break;
+                ans[i] = Math.min(ans[i], ans[k * j - 1] + c / j);
+            }
+        }
+        return ans[s.length - 1];
+    }
+    public static ArrayList<Integer> getDiv(int c)
+    {
+        ArrayList<Integer>ret = new ArrayList<>();
+        for(int i=1;i*i<=c;i++)
+        {
+            if(c%i==0)
+            {
+                if(i==c/i)
+                    ret.add(i);
+                else
+                {
+                    ret.add(i);
+                    ret.add(c/i);
+                }
+            }
+        }
+        Collections.sort(ret);
+        return ret;
+    }
+}
+
+
+
 
 // Flipping String
 
