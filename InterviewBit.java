@@ -1,3 +1,34 @@
+
+// Maximum Substring
+
+public class Solution {
+    public int solve(String A, int B) {
+       int even=A.length()%B;
+      int max=0;
+        for(int i=0;i<A.length()-even;i=i+B){
+            String s=A.substring(i,i+B);
+             int count=Count(s);
+           
+            max=Math.max(max,count);
+           
+        }
+        max=Math.max(max,Count(A.substring(A.length()-even,A.length()))) ;
+        return max;
+    }
+   
+    int Count(String s){
+        int count=0;
+        for(int j=0;j<s.length();j++){
+                char k=s.charAt(j);
+                if(k=='a'){
+                    count++;
+                }
+            }
+            return count;
+    }
+}
+
+
 // Frequency of Characters
 
 public class Solution {
