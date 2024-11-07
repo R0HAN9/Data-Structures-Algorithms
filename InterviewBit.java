@@ -1,3 +1,33 @@
+// Frequency of Characters
+
+public class Solution {
+    public ArrayList<Integer> solve(String A) {
+        // Initialize an array of size 26 to store the frequency of each character
+        int[] arr = new int[26];
+        
+        // Iterate over each character in the input string
+        for (int i = 0; i < A.length(); i++) {
+            char c = A.charAt(i);
+            // Convert the character to its corresponding index (0 for 'a', 1 for 'b', etc.)
+            int ascii = (int) c;
+            arr[ascii - 97] += 1;
+        }
+        
+        // Create an ArrayList to store the result
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        // Populate the ArrayList with the frequencies from the array
+        for (int i = 0; i < 26; i++) {
+            result.add(arr[i]);
+        }
+        
+        // Return the ArrayList containing the frequency of each character
+        return result;
+    }
+}
+
+
+
 // Text Editor
 
 public class Solution {
