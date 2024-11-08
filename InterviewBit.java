@@ -1,3 +1,40 @@
+// Binary String Cleanup Challenge
+
+public class Solution {
+    public String solve(String A) {
+        
+        StringBuilder sb1=new StringBuilder();
+        StringBuilder sb2=new StringBuilder();
+        
+        int i=A.length()-1;
+        
+        while(i>=0 && A.charAt(i)=='1'){
+            sb1.append(A.charAt(i));
+            i--;
+        }
+        while(i>=0){
+            
+            if(A.charAt(i)=='1'){
+                sb2.delete(0,sb2.length());
+                sb2.append('0');
+            }else{
+                sb2.append(A.charAt(i));
+            }
+            i--;
+        }
+        sb1.append(sb2.toString());
+        String s1= sb1.toString();
+        
+        StringBuilder s3=new StringBuilder();
+        
+        for(int j=s1.length()-1;j>=0;j--){
+            s3.append(s1.charAt(j));
+        }
+        return s3.toString();
+    }
+}
+
+
 // Palindromic Words
 
 public class Solution {
