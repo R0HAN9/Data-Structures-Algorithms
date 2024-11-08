@@ -1,3 +1,18 @@
+// Valid Password
+
+public class Solution {
+    public int solve(String A) {
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#%&!$*])(?=\\S+$).{8,15}$";
+       
+        if (A.matches(regex)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+
 // String Inversion
 
 public class Solution {
