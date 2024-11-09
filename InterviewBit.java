@@ -1,3 +1,34 @@
+// Serialize Binary Tree Migrated
+
+public class Solution {
+    public ArrayList<Integer> solve(TreeNode A) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(A);
+
+        while (!q.isEmpty()) {
+            TreeNode temp = q.poll();
+            ans.add(temp.val);
+
+            if (temp.left != null) {
+                q.add(temp.left);
+            } else if (temp.val != -1) {
+                q.add(new TreeNode(-1)); // Assuming TreeNode class has this constructor
+            }
+
+            if (temp.right != null) {
+                q.add(temp.right);
+            } else if (temp.val != -1) {
+                q.add(new TreeNode(-1));
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+
 // Unequal Ancestor
 
 public class Solution {
