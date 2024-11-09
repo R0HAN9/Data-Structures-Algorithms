@@ -1,3 +1,38 @@
+// Maximum level sum
+
+
+public class Solution {
+    public int solve(TreeNode A) {
+        if (A == null) return Integer.MIN_VALUE;
+        
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(A);
+        int res = Integer.MIN_VALUE;
+        
+        while (!q.isEmpty()) {
+            int n = q.size();
+            int sum = 0;
+            
+            for (int i = 0; i < n; i++) {
+                TreeNode curr = q.poll();
+                sum += curr.val;
+                
+                if (curr.left != null) {
+                    q.add(curr.left);
+                }
+                if (curr.right != null) {
+                    q.add(curr.right);
+                }
+            }
+            
+            res = Math.max(sum, res);
+        }
+        
+        return res;
+    }
+}
+
+
 // Binary String Cleanup Challenge
 
 public class Solution {
