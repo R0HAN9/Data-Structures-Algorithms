@@ -1,5 +1,27 @@
-// Maximum level sum
+// BST Sum
 
+public class Solution {
+    final long MOD = 1000000007;
+    long[] fact = new long[100001];
+    final long MODINV6 = 166666668;
+    public Solution()
+    {
+        fact[0]=1;
+        for(long i=1; i<=100000; i++)
+        {
+            fact[(int)i] = (fact[(int)(i-1)] * i)%MOD;
+        }
+    }
+    public int solve(int A) {
+        long a =A, ans;
+        ans = ((fact[A-1]*a)%MOD * (a*a -1)%MOD)%MOD;
+        return (int)((ans * MODINV6)%MOD);
+    }
+}
+
+
+
+// Maximum level sum
 
 public class Solution {
     public int solve(TreeNode A) {
