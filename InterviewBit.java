@@ -1,3 +1,75 @@
+// Unequal Ancestor
+
+public class Solution {
+    private static final int N = 100001;
+    private static final int LOG = 20;
+    private int[] par = new int[N];
+    private int[] val = new int[N];
+    private int[][] up = new int[N][LOG];
+    private int node = 1;
+
+    // Method to perform the preorder traversal and populate parent and value arrays
+    private void preorder(TreeNode A, int value, int p) {
+        if (A == null) return;
+
+        par[value] = p;
+        val[value] = A.val;
+
+        if (A.left != null) {
+            node++;
+            preorder(A.left, node, value);
+        }
+        if (A.right != null) {
+            node++;
+            preorder(A.right, node, value);
+        }
+    }
+
+    public int solve(TreeNode A, int B) {
+        // Reset the data structures for each call
+        Arrays.fill(par, 0);
+        Arrays.fill(val, 0);
+        for (int[] row : up) Arrays.fill(row, 0);
+
+        val[0] = 5;
+        node = 1;
+
+        // Populate the parent and value arrays
+        preorder(A, 1, 0);
+
+        // Initialize the binary lifting table
+        for (int i = 1; i < N; i++) up[i][0] = par[i];
+
+        for (int i = 1; i < LOG; i++) {
+            for (int j = 1; j < N; j++) {
+                up[j][i] = up[up[j][i - 1]][i - 1];
+            }
+        }
+
+        // Calculate the answer
+        int ans = 0;
+        for (int i = 1; i < N; i++) {
+            int hi = 0;
+            int ansc = i;
+
+            // Find the B-th ancestor
+            for (int j = LOG - 1; j >= 0; j--) {
+                if (hi + (1 << j) <= B) {
+                    ansc = up[ansc][j];
+                    hi += (1 << j);
+                }
+            }
+
+            // Check if the XOR condition is satisfied
+            if ((val[ansc] ^ val[i]) == 1) ans++;
+        }
+
+        return ans;
+    }
+}
+
+
+
 // BST Sum
 
 public class Solution {
