@@ -1,3 +1,79 @@
+// Prefix with key greater than X
+
+public class Solution {
+
+    class TrieNode {
+        Map<Character, TrieNode> children = new HashMap<>();
+        List<Integer> keys = new ArrayList<>();
+    }
+
+    private TrieNode root = new TrieNode();
+
+    public ArrayList<Integer> solve(ArrayList<Integer> A, ArrayList<String> B, ArrayList<Integer> C) {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        // Process each query
+        for (int i = 0; i < A.size(); i++) {
+            int queryType = A.get(i);
+            String str = B.get(i);
+            int key = C.get(i);
+
+            if (queryType == 1) {
+                // Insert operation
+                insert(str, key);
+            } else if (queryType == 2) {
+                // Query operation
+                result.add(query(str, key));
+            }
+        }
+
+        return result;
+    }
+
+    // Insert a string with key into the Trie
+    private void insert(String str, int key) {
+        TrieNode node = root;
+        for (char c : str.toCharArray()) {
+            node = node.children.computeIfAbsent(c, k -> new TrieNode());
+            node.keys.add(key);
+            Collections.sort(node.keys); // Maintain sorted keys at each node
+        }
+    }
+
+    // Query for count of strings with prefix `str` and key >= `key`
+    private int query(String str, int key) {
+        TrieNode node = root;
+        for (char c : str.toCharArray()) {
+            node = node.children.get(c);
+            if (node == null) {
+                return 0; // No such prefix
+            }
+        }
+
+        // Binary search the keys list to find count of keys >= key
+        return countKeysGreaterThanEqual(node.keys, key);
+    }
+
+    // Helper method to count keys >= the given key
+    private int countKeysGreaterThanEqual(List<Integer> keys, int key) {
+        int low = 0, high = keys.size() - 1;
+        int result = keys.size();
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (keys.get(mid) >= key) {
+                result = mid;  // Update the position of the first key >= key
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return keys.size() - result;
+    }
+}
+
+
 // Serialize Binary Tree Migrated
 
 public class Solution {
