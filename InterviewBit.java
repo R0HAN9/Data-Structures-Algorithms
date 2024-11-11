@@ -1,3 +1,45 @@
+// Help Rishabh!
+
+public class Solution {
+    public int solve(ArrayList<Integer> A, int B) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int n = A.size(), count = 0, l = 0, twice = 0;
+
+        for (int right = 0; right < n; right++) {
+            int re = A.get(right);
+            map.put(re, map.getOrDefault(re, 0) + 1);
+            if (map.get(re) == 2) twice++;
+            
+
+            while (twice > B) {
+                int le = A.get(l++);
+                if (map.get(le) == 2) twice--; 
+                map.put(le, map.get(le) - 1);
+               
+            }
+
+            int tl = l;
+            while (twice == B) {
+                count++;
+                int tmp = A.get(tl++);
+                if (map.get(tmp) == 2) twice--;
+                map.put(tmp, map.get(tmp) - 1);
+            }
+
+            for (int i = l; i < tl; i++) {
+                map.put(A.get(i), map.getOrDefault(A.get(i), 0) + 1);
+                if (map.get(A.get(i)) == 2) twice++;
+            }
+        }
+
+        return count;
+    }
+}
+
+
+
+
+
 // Prefix with key greater than X
 
 public class Solution {
