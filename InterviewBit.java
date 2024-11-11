@@ -1,3 +1,47 @@
+// Palindrome Numbers
+
+public class Solution {
+    public int solve(int A, int B, int C) {
+        ArrayList<Integer> ans=new ArrayList<>();
+        for(int i=A;i<=B;i++)
+        {
+            if(isPalandrome(i))
+            {
+                ans.add(i);
+            }
+        }
+        int res=0;
+        int temp=0;
+        int j=0;
+        for(int i=0;i<ans.size();i++)
+        {
+            temp++;
+            while(j<i && ans.get(i)-ans.get(j)>C)
+            {
+                temp--;
+                j++;
+            }
+            res=Math.max(res,temp);  
+              
+        }
+        return res;
+    }
+    boolean isPalandrome(int i)
+    {
+        String s=Integer.toString(i);
+        int l=0;
+        int r=s.length()-1;
+        while(l<r)
+        {
+            if(s.charAt(l)!=s.charAt(r))
+                return false;
+           l++;
+            r--;
+        }
+        return true;
+    }
+}
+
 // At most Two Occurrences!
 
 public class Solution {
