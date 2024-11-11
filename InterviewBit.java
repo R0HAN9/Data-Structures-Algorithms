@@ -1,3 +1,37 @@
+// Lexicographically largest Array
+
+public class Solution {
+    public ArrayList<Integer> solve(ArrayList<Integer> A) {
+        ArrayList<Integer> x = new ArrayList<>();  // List to store elements before the first < A[n-1]
+        ArrayList<Integer> y = new ArrayList<>();  // List to store elements after the first < A[n-1]
+        int n = A.size();
+        
+        // Iterate through the array to split it into x and y
+        for (int i = 0; i < n; i++) {
+            if (A.get(i) < A.get(n - 1)) {
+                // Once we find the first element < A[n-1], push remaining elements into y
+                for (int j = i; j < n; j++) {
+                    y.add(A.get(j));
+                }
+                break;  // No need to continue the loop after we split the array
+            } else {
+                // Otherwise, add the element to x
+                x.add(A.get(i));
+            }
+        }
+        
+        // Reverse y
+        Collections.reverse(y);
+        
+        // Combine x and y into the result
+        x.addAll(y);
+        
+        return x;  // Return the modified list
+    }
+}
+
+
+
 // Help Rishabh!
 
 public class Solution {
