@@ -1,3 +1,51 @@
+// At most Two Occurrences!
+
+public class Solution {
+    public int solve(ArrayList<Integer> A) {
+        int n = A.size();
+        int ans =n;
+        int r = -1;
+        int countocc =0;
+        HashMap<Integer,Integer> hash = new HashMap<>();
+        for(int i:A){
+            if(hash.get(i)==null){
+                hash.put(i, 0);
+            }
+            hash.put(i, hash.get(i)+1);
+            if (hash.get(i)==3){
+                countocc++;
+            }
+            
+        }
+        for(int i =0; i<n; i++){
+            while(r+1<n && countocc>0){
+                r++;
+                hash.put(A.get(r), hash.get(A.get(r))-1);
+                if(hash.get(A.get(r))==2){
+                    countocc--;
+                    
+                }
+                
+            }
+            if(countocc ==0){
+                ans = Math.min(Math.abs(r-i+1), ans);
+            }
+            if(hash.get(A.get(i))==null){
+                hash.put(A.get(i),0);
+            }
+            hash.put(A.get(i), hash.get(A.get(i))+1);
+            if (hash.get(A.get(i))==3){
+                countocc++;
+            }
+        }
+        return ans;
+        
+    }
+}
+
+
+
+
 // Lexicographically largest Array
 
 public class Solution {
