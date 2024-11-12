@@ -1,5 +1,40 @@
-// Minimum Path Sum
+// BurstBallons
 
+public class BurstBallons {
+    public int maxCoins(int[] nums) {
+
+        int n = nums.length;
+        int[] balloons = new int[n + 2];
+
+        balloons[0] = 1;
+        balloons[n + 1] = 1;
+
+        for (int i = 0; i < n; i++) {
+            balloons[i + 1] = nums[i];
+        }
+        int[][] dp = new int[n + 2][n + 2];
+
+        for (int length = 2; length <= n + 1; length++) {
+            for (int start = 0; start <= n + 1 - length; start++) {
+
+                int end = start + length;
+                for (int k = start + 1; k < end; k++) {
+
+                    int coins = balloons[start] * balloons[k] * balloons[end];
+                    int totalCoins = coins + dp[start][k] * dp[k][end];
+
+                    dp[start][end] = Math.max(dp[start][end], totalCoins);
+                }
+            }
+        }
+
+        return dp[0][n + 1];
+    }
+}
+
+
+
+// Minimum Path Sum
 
 class Solution {
     public int minPathSum(int[][] grid) {
