@@ -25,26 +25,32 @@ class Solution {
 
 class Solution {
     public void rotate(int[] nums, int k) {
-        k %= nums.length;
+        k %= nums.length; // Ensure that k is within the bounds of the array length
 
+        // Reverse the entire array
         reverse(nums, 0, nums.length - 1);
+
+        // Reverse the first k elements
         reverse(nums, 0, k - 1);
+
+        // Reverse the remaining elements
         reverse(nums, k, nums.length - 1);
     }
 
+    // Helper method to reverse a portion of the array from index `left` to index `right`
     private void reverse(int[] nums, int left, int right) {
-
         while (left < right) {
+            // Swap the elements at `left` and `right`
             int temp = nums[left];
-
             nums[left] = nums[right];
             nums[right] = temp;
 
-            left++;
-            right--;
+            left++; // Move the left pointer to the right
+            right--; // Move the right pointer to the left
         }
     }
 }
+
 
 
 // Find Peak Element
