@@ -198,27 +198,45 @@ class Solution {
 class Solution {
     public int longestConsecutive(int[] nums) {
         
-        int maxSeq = 0;
-        Set<Integer> sequences = new HashSet<>();
+        int maxSequenceLength = 0;  // Store the length of the longest consecutive sequence
+        Set<Integer> uniqueNums = new HashSet<>();  // A set to hold all unique numbers for O(1) lookups
 
+        // Step 1: Add all numbers from 'nums' to the 'uniqueNums' set to eliminate duplicates
         for (int num : nums) {
-            sequences.add(num);
+            uniqueNums.add(num);
         }
 
+        // Step 2: Iterate over each number in the array 'nums'
         for (int num : nums) {
 
-            int nextInSeq = num + 1;
-            int prevInSeq = num - 1;
-            int currentSequence = 1;
+            // Step 3: Skip the number if it is not the start of a sequence
+            if (!uniqueNums.contains(num)) continue;
 
-            while (sequences.remove(prevInSeq--)) currentSequence++;
-            while (sequences.remove(nextInSeq++)) currentSequence++;
+            int currentNum = num;
+            int currentSequenceLength = 1;  // At least the number itself forms a sequence of length 1
 
-            if (currentSequence > maxSeq) maxSeq = currentSequence;
+            // Step 4: Check for consecutive numbers before the current number (num - 1, num - 2, ...)
+            while (uniqueNums.remove(currentNum - 1)) {
+                currentSequenceLength++;
+                currentNum--;
+            }
 
+            // Step 5: Check for consecutive numbers after the current number (num + 1, num + 2, ...)
+            currentNum = num;  // Reset currentNum to the original number
+            while (uniqueNums.remove(currentNum + 1)) {
+                currentSequenceLength++;
+                currentNum++;
+            }
+
+            // Step 6: Update the maximum sequence length found
+            maxSequenceLength = Math.max(maxSequenceLength, currentSequenceLength);
         }
-        return maxSeq;
+
+        // Step 7: Return the length of the longest consecutive sequence
+        return maxSequenceLength;
     }
+}
+
 
 
 
