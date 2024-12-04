@@ -158,27 +158,37 @@ class Solution {
 class Solution {
     public int lengthOfLIS(int[] nums) {
         
+        // Step 1: Create an array 'tails' to store the smallest tail of all increasing subsequences of different lengths
         int[] tails = new int[nums.length];
-        int size = 0;
+        int size = 0;  // This will keep track of the length of the longest increasing subsequence
 
+        // Step 2: Iterate over each element in the input array 'nums'
         for (int x : nums) {
             int i = 0;
             int j = size;
 
+            // Step 3: Perform binary search to find the correct position of 'x' in the 'tails' array
             while (i != j) {
                 int m = (i + j) / 2;
 
+                // Step 4: If 'tails[m]' is smaller than 'x', move the left pointer 'i' to m+1
+                // Otherwise, move the right pointer 'j' to 'm'
                 if (tails[m] < x) i = m + 1;
                 else j = m;
             }
 
+            // Step 5: Assign 'x' to 'tails[i]'
             tails[i] = x;
+
+            // Step 6: If 'i' is equal to 'size', increase the 'size' as we found a new longer subsequence
             if (i == size) ++size;
         }
 
+        // Step 7: Return the length of the longest increasing subsequence found
         return size;
     }
 }
+
 
 
 
