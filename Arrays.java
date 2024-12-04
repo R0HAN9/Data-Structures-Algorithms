@@ -119,27 +119,37 @@ class Solution {
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         
-        double[] mergedArray = new double[nums1.length + nums2.length];
+        // Step 1: Merge the two arrays into one sorted array
+        double[] mergedArray = new double[nums1.length + nums2.length]; // Create a new array to hold both arrays
         int index = 0;
 
+        // Add elements from nums1 to the merged array
         for (int num : nums1) {
             mergedArray[index++] = num;
         }
+
+        // Add elements from nums2 to the merged array
         for (int num : nums2) {
             mergedArray[index++] = num;
         }
 
-        Arrays.sort(mergedArray);
-        int totalLength = mergedArray.length;
+        // Step 2: Sort the merged array
+        Arrays.sort(mergedArray); // Sort the merged array in ascending order
 
+        // Step 3: Calculate the median
+        int totalLength = mergedArray.length; // Total length of the merged array
+
+        // If the total length is even, return the average of the two middle elements
         if (totalLength % 2 == 0) {
             return (mergedArray[totalLength / 2] + mergedArray[totalLength / 2 - 1]) / 2.0;
         }
+        // If the total length is odd, return the middle element
         else {
             return mergedArray[totalLength / 2];
         }
     }
 }
+
 
 
 
