@@ -88,23 +88,28 @@ class Solution {
 class Solution {
     public int findMin(int[] nums) {
         
-        int left = 0;
-        int right = nums.length - 1;
+        int left = 0;  // Start with the leftmost index
+        int right = nums.length - 1;  // Start with the rightmost index
 
+        // Perform binary search to find the minimum element
         while (left < right) {
-            int mid = left + (right - left) / 2;
+            int mid = left + (right - left) / 2;  // Calculate the middle index
 
+            // If the middle element is less than the rightmost element,
+            // it means the minimum element is on the left side (including mid)
             if (nums[mid] < nums[right]) {
-                right = mid;
+                right = mid;  // Narrow the search to the left side
             }
             else {
-                left = mid + 1;
+                left = mid + 1;  // Narrow the search to the right side
             }
         }
 
+        // At the end, `left` will point to the minimum element
         return nums[left];
     }
 }
+
 
 
 
