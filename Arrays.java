@@ -58,23 +58,28 @@ class Solution {
 class Solution {
     public int findPeakElement(int[] nums) {
         
-        int left = 0;
-        int right = nums.length - 1;
+        int left = 0;  // Start with the leftmost index
+        int right = nums.length - 1;  // Start with the rightmost index
 
+        // Perform a binary search to find the peak element
         while (left < right) {
-            int mid = (left + right) / 2;
-
+            int mid = (left + right) / 2;  // Find the middle index
+            
+            // If the middle element is greater than the next element,
+            // the peak must be on the left side (including mid itself)
             if (nums[mid] > nums[mid + 1]) {
-                right = mid;
+                right = mid;  // Narrow the search to the left side
             }
             else {
-                left = mid + 1;
+                left = mid + 1;  // Narrow the search to the right side
             }
         }
 
+        // At the end, `left` will be the index of the peak element
         return left;
     }
 }
+
 
 
 // Find Minimum in Rotated Sorted Array
