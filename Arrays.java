@@ -246,52 +246,53 @@ class Solution {
 class Solution {
     public void gameOfLife(int[][] board) {
         
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                setAns(i, j, board);
+        // Step 1: Traverse the entire board to determine the next state for each cell
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                updateCellState(row, col, board);
             }
         }
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-
-                if (board[i][j] == 3) {
-                    board[i][j] = 1;
-                }
-                else if (board[i][j] == 4) {
-                    board[i][j] = 0;
+        // Step 2: Update the board to reflect the next state
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                if (board[row][col] == 3) {
+                    board[row][col] = 1;  // Cell becomes alive
+                } else if (board[row][col] == 4) {
+                    board[row][col] = 0;  // Cell becomes dead
                 }
             }
         }
     }
 
-    public void setAns(int row, int col, int[][] board) {
-        int countOne = 0;
+    // Helper method to determine the next state of a cell
+    public void updateCellState(int row, int col, int[][] board) {
+        int liveNeighbors = 0;
 
+        // Count the live neighbors around the current cell
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;  // Skip the current cell
 
-                if (i == 0 && j == 0) continue;
+                int newRow = row + i;
+                int newCol = col + j;
 
-                int nrow = row + i;
-                int ncol = col + j;
-
-                if (nrow >= 0 && nrow < board.length && ncol >= 0 && ncol < board[0].length) {
-                    if (board[nrow][ncol] == 1 || board[nrow][ncol] == 4) {
-                        countOne++;
+                // Check if the new row and column are within bounds
+                if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
+                    // If the neighbor is alive (or previously alive), increment the count
+                    if (board[newRow][newCol] == 1 || board[newRow][newCol] == 4) {
+                        liveNeighbors++;
                     }
                 }
             }
         }
 
-        if (board[row][col] == 0 && countOne == 3) {
-            board[row][col] = 3;
-        }
-        else if (board[row][col] == 1 && countOne > 3) {
-            board[row][col] = 4;
-        }
-        else if (board[row][col] == 1 && countOne < 2) {
-            board[row][col] = 4;
+        // Determine the next state based on the live neighbors
+        if (board[row][col] == 0 && liveNeighbors == 3) {
+            board[row][col] = 3;  // Cell becomes alive
+        } else if (board[row][col] == 1 && (liveNeighbors < 2 || liveNeighbors > 3)) {
+            board[row][col] = 4;  // Cell becomes dead
         }
     }
 }
+
