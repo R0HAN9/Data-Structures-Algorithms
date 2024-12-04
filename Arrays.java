@@ -3,18 +3,21 @@
 
 class Solution {
     public int removeElement(int[] nums, int val) {
-        int k = 0;
+        int k = 0; // Counter to track the position of non-val elements
 
+        // Iterate through the array
         for (int i = 0; i < nums.length; i++) {
+            // If the current element is not equal to the given value
             if (nums[i] != val) {
-                nums[k] = nums[i];
-                k++;
+                nums[k] = nums[i]; // Copy the element to the current position of k
+                k++; // Increment the counter
             }
         }
 
-        return k;        
+        return k; // Return the new length of the array without the `val` elements
     }
 }
+
 
 
 // Rotate Array
