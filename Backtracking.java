@@ -327,42 +327,64 @@ class Solution {
 
 
 class Solution {
+    // Main function to check if the word exists in the board
     public boolean exist(char[][] board, String word) {
         
+        // Iterate through each cell in the board
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
 
+                // Check if the current cell matches the first character of the word
                 if (board[i][j] == word.charAt(0)) {
+
+                    // Start the recursive search from this cell
                     boolean ans = search(board, word, i, j, 0);
 
+                    // If the word is found, return true
                     if (ans) return ans; 
                 }
             }
         }
+        // If the word is not found, return false
         return false;
     }
 
+    // Helper method to perform a recursive search for the word
     public static boolean search(char[][] board, String word, int row, int col, int index) {
+
+        // Base case: If we've matched all characters of the word, return true
         if (index == word.length()) return true;
 
+        // Boundary and character mismatch check
         if (row < 0 || col < 0 || row >= board.length || col >= board[0].length || board[row][col] != word.charAt(index)) {
             return false;
         }
 
+        // Mark the current cell as visited by replacing its value
         board[row][col] = '*';
+
+        // Define the directions for moving up, down, left, and right
         int[] rows = {-1, 1, 0, 0};
         int[] cols = {0, 0, -1, 1};
 
+        // Explore all four possible directions
         for (int i = 0; i < cols.length; i++) {
+
+            // Recursively search the next character in the word
             boolean ans = search(board, word, row + rows[i], col + cols[i], index + 1);
 
+            // If the word is found, return true
             if (ans == true) return ans;
         }
 
+        // Backtrack: Restore the cell's original value
         board[row][col] = word.charAt(index);
+
+        // If the word is not found in any direction, return false
         return false;
     }
 }
+
 
 
 
