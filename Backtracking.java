@@ -192,41 +192,48 @@ class Solution {
 
 
 class Solution {
-    public void swap(List<Integer> numberList, int indexA, int indexB) {
 
+    // Swap two elements in a list at specified indices
+    public void swap(List<Integer> numberList, int indexA, int indexB) {
         int temp = numberList.get(indexA);
         numberList.set(indexA, numberList.get(indexB));
         numberList.set(indexB, temp);
     }
 
+    // Recursive method to generate all permutations
     public void generatePermutations(List<List<Integer>> allPermutations, List<Integer> currentPermutation, int currentIndex) {
 
+        // Base case: If we have a complete permutation
         if (currentIndex == currentPermutation.size()) {
-            allPermutations.add(new ArrayList<>(currentPermutation));
+            allPermutations.add(new ArrayList<>(currentPermutation)); // Add a copy to the result list
             return;
         }
 
+        // Iterate through the elements starting from the current index
         for (int j = currentIndex; j < currentPermutation.size(); j++) {
-
-            swap(currentPermutation, currentIndex, j);
-            generatePermutations(allPermutations, currentPermutation, currentIndex + 1);
-            swap(currentPermutation, currentIndex, j); // backtrack
+            swap(currentPermutation, currentIndex, j); // Place element j at the current index
+            generatePermutations(allPermutations, currentPermutation, currentIndex + 1); // Generate permutations for the next position
+            swap(currentPermutation, currentIndex, j); // Backtrack to restore the original order
         }
     }
 
+    // Public method to initiate the permutation generation
     public List<List<Integer>> permute(int[] inputArray) {
 
-        List<List<Integer>> allPermutations = new ArrayList<>();
-        List<Integer> currentPermutation = new ArrayList<>();
+        List<List<Integer>> allPermutations = new ArrayList<>(); // List to store all permutations
+        List<Integer> currentPermutation = new ArrayList<>();    // Current permutation being constructed
 
+        // Convert the input array into a list
         for (int element : inputArray) {
             currentPermutation.add(element);
         }
         
+        // Start generating permutations from index 0
         generatePermutations(allPermutations, currentPermutation, 0);
         return allPermutations;
     }
 }
+
 
 
 // 3. Combination Sum
