@@ -239,29 +239,47 @@ class Solution {
 // 3. Combination Sum
 
 class Solution {
+
+    // Public method to find all unique combinations that sum to the target
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        
-        List<List<Integer>> result = new ArrayList<>();
-        makeCombination(candidates, target, 0, new ArrayList<>(), 0, result);
-        return result;
+        List<List<Integer>> result = new ArrayList<>(); // List to store all valid combinations
+        makeCombination(candidates, target, 0, new ArrayList<>(), 0, result); // Start the recursive process
+        return result; // Return the result
     }
 
-    private void makeCombination(int[] candidates, int target, int index, List<Integer> comb, int total, List<List<Integer>> result) {
+    // Recursive method to generate combinations
+    private void makeCombination(
+        int[] candidates,            // Array of candidate numbers
+        int target,                  // Desired target sum
+        int index,                   // Current index in candidates array
+        List<Integer> comb,          // Current combination being constructed
+        int total,                   // Current sum of elements in comb
+        List<List<Integer>> result   // List to store all valid combinations
+    ) {
 
+        // Base case: If the current sum equals the target, add the combination to the result
         if (total == target) {
-            result.add(new ArrayList<>(comb));
+            result.add(new ArrayList<>(comb)); // Create a new list and add it to the result
             return;
         }
 
+        // Base case: If the sum exceeds the target or index is out of bounds, stop further exploration
         if (total > target || index >= candidates.length) return;
 
+        // Include the current candidate in the combination
         comb.add(candidates[index]);
+
+        // Explore further by including the current candidate again (allow repetitions)
         makeCombination(candidates, target, index, comb, total + candidates[index], result);
 
+        // Backtrack: Remove the last added candidate to explore other possibilities
         comb.remove(comb.size() - 1);
+
+        // Explore further by moving to the next candidate
         makeCombination(candidates, target, index + 1, comb, total, result);
     }
 }
+
 
 
 
