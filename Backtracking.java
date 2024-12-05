@@ -288,32 +288,38 @@ class Solution {
 
 
 class Solution {
+
+    // Global variable to store all subsets
     List<List<Integer>> Ans = new ArrayList<>();
-    int n;
+    int n; // Length of the input array
 
+    // Public method to generate all subsets of the input array
     public List<List<Integer>> subsets(int[] nums) {
-        
-        List<Integer> op = new ArrayList<>();
-        n = nums.length;
-
-        Helper(op, nums, 0);
-        return Ans;
+        List<Integer> op = new ArrayList<>(); // Temporary list to hold the current subset
+        n = nums.length; // Store the length of the input array
+        Helper(op, nums, 0); // Start the recursive process
+        return Ans; // Return the result
     }
 
+    // Recursive helper function to explore all subsets
     public void Helper(List<Integer> op, int[] nums, int startIndex) {
 
+        // Base case: If startIndex reaches the length of nums, add the current subset to Ans
         if (startIndex == n) {
-            Ans.add(new ArrayList<>(op));
-            return;
+            Ans.add(new ArrayList<>(op)); // Create a copy of op and add it to the result list
+            return; // Stop further recursion
         }
 
-        op.add(nums[startIndex]);
-        Helper(op, nums, startIndex + 1);
+        // Case 1: Include the current element in the subset
+        op.add(nums[startIndex]); // Add the current element to the temporary list
+        Helper(op, nums, startIndex + 1); // Recursive call to process the next index
 
-        op.remove(op.size() - 1);
-        Helper(op, nums, startIndex + 1);
+        // Case 2: Exclude the current element from the subset
+        op.remove(op.size() - 1); // Backtrack by removing the last element
+        Helper(op, nums, startIndex + 1); // Recursive call to process the next index
     }
 }
+
 
 
 
