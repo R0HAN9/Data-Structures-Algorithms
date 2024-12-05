@@ -105,73 +105,86 @@ class Solution {
 
 class Solution {
     public List<List<String>> solveNQueens(int n) {
+        // List to store all valid solutions
         List<List<String>> results = new ArrayList<>();
+        
+        // Edge case: Single queen solution
         if (n == 1) {
             List<String> solution = new ArrayList<>();
             solution.add("Q");
             results.add(solution);
             return results;
         }
+        
+        // Edge case: No solutions for 2x2 or 3x3 boards
         if (n == 2 || n == 3) {
             return results;
         }
 
+        // Array to track queen positions; -1 means no queen placed in that row
         int[] solution = new int[n];
         for (int i = 0; i < n; i++) {
             solution[i] = -1;
         }
 
+        // Start recursive backtracking
         solveNQueensRec(n, solution, 0, results);
         return results;
     }
 
-    // Recursive worker function
+    // Recursive function to solve N-Queens
     private void solveNQueensRec(int n, int[] solution, int row, List<List<String>> results) {
+        // Base case: All queens are placed
         if (row == n) {
+            // Convert solution array into board representation
             List<String> solutionStr = constructSolutionString(solution);
-            results.add(solutionStr);
+            results.add(solutionStr); // Add to results
             return;
         }
 
+        // Try placing a queen in every column of the current row
         for (int i = 0; i < n; i++) {
-            if (isValidMove(row, i, solution)) {
-                solution[row] = i;
-                solveNQueensRec(n, solution, row + 1, results);
-                solution[row] = -1; // Backtrack
+            if (isValidMove(row, i, solution)) { // Check if position is valid
+                solution[row] = i;              // Place the queen
+                solveNQueensRec(n, solution, row + 1, results); // Recurse to next row
+                solution[row] = -1;             // Backtrack
             }
         }
     }
 
-    // This method determines if a queen can be placed at
-    // proposedRow, proposedCol with the current solution
+    // Function to check if placing a queen at (proposedRow, proposedCol) is valid
     private boolean isValidMove(int proposedRow, int proposedCol, int[] solution) {
+        // Check against all previously placed queens
         for (int i = 0; i < proposedRow; i++) {
-            int oldRow = i;
-            int oldCol = solution[i];
-            int diagonalOffset = proposedRow - oldRow;
+            int oldRow = i; // Row of a previously placed queen
+            int oldCol = solution[i]; // Column of that queen
+            int diagonalOffset = proposedRow - oldRow; // Distance in rows
 
-            if (oldCol == proposedCol || oldCol == proposedCol - diagonalOffset
-                    || oldCol == proposedCol + diagonalOffset) {
-                return false;
+            // Check for same column or diagonal conflict
+            if (oldCol == proposedCol || 
+                oldCol == proposedCol - diagonalOffset || 
+                oldCol == proposedCol + diagonalOffset) {
+                return false; // Invalid position
             }
         }
-        return true;
+        return true; // Valid position
     }
 
-    // Constructs the board solution as a list of strings
+    // Converts the solution array into a list of strings representing the board
     private List<String> constructSolutionString(int[] solution) {
         List<String> returnArr = new ArrayList<>();
         for (int i = 0; i < solution.length; i++) {
-            char[] row = new char[solution.length];
+            char[] row = new char[solution.length]; // Create a row
             for (int j = 0; j < solution.length; j++) {
-                row[j] = '.';
+                row[j] = '.'; // Fill the row with empty spaces
             }
-            row[solution[i]] = 'Q';
-            returnArr.add(new String(row));
+            row[solution[i]] = 'Q'; // Place the queen
+            returnArr.add(new String(row)); // Add the row to the board
         }
         return returnArr;
     }
 }
+
 
 
 
