@@ -1,97 +1,102 @@
 // Word Search II
 
 class Node {
-    private Node[] links;
-    private boolean wordEnd;
+    private Node[] links; // Array to store references to child nodes
+    private boolean wordEnd; // Flag to mark the end of a word
 
     public Node() {
-        links = new Node[26];
-        wordEnd = false;
+        links = new Node[26]; // Initialize links for 26 lowercase English letters
+        wordEnd = false; // Initialize word end flag as false
     }
 
     public boolean isNull(int ind) {
-        return links[ind] == null;
+        return links[ind] == null; // Check if a child node at a given index is null
     }
 
     public void put(int ind, Node node) {
-        links[ind] = node;
+        links[ind] = node; // Add a child node at the given index
     }
 
     public Node get(int ind) {
-        return links[ind];
+        return links[ind]; // Retrieve the child node at the given index
     }
 
     public void setEnd() {
-        wordEnd = true;
+        wordEnd = true; // Mark this node as the end of a word
     }
 
     public void unSetEnd() {
-        wordEnd = false;
+        wordEnd = false; // Unmark this node as the end of a word
     }
 
     public boolean isEnd() {
-        return wordEnd;
+        return wordEnd; // Check if this node is the end of a word
     }
 }
 
-
 class Solution {
-    private int[] Y = {-1, 0, 1, 0};
-    private int[] X = {0, -1, 0, 1};
+    private int[] Y = {-1, 0, 1, 0}; // Directions for vertical movement (up, right, down, left)
+    private int[] X = {0, -1, 0, 1}; // Directions for horizontal movement (up, right, down, left)
 
+    // Inserts a word into the Trie
     private void insert(String word, Node node) {
-        for (char ch : word.toCharArray()) {
-            int ind = ch - 'a';
-            if (node.isNull(ind)) {
+        for (char ch : word.toCharArray()) { // Iterate through each character in the word
+            int ind = ch - 'a'; // Get the index of the character in the links array
+            if (node.isNull(ind)) { // If the node does not exist, create it
                 node.put(ind, new Node());
             }
-            node = node.get(ind);
+            node = node.get(ind); // Move to the next node
         }
-        node.setEnd();
+        node.setEnd(); // Mark the last node as the end of the word
     }
 
+    // Recursive function to search for words in the board
     private void checkWord(int i, int j, char[][] board, boolean[][] vis, List<String> res, Node node, String s) {
+        // If a complete word is found
         if (node.isEnd()) {
-            res.add(s);
-            node.unSetEnd();
+            res.add(s); // Add the word to the result list
+            node.unSetEnd(); // Prevent adding the same word multiple times
         }
 
+        // Boundary conditions and visited check
         if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || vis[i][j]) return;
 
-        vis[i][j] = true;
-        int ind = board[i][j] - 'a';
-        if (!node.isNull(ind)) {
-            for (int k = 0; k < 4; k++) {
+        vis[i][j] = true; // Mark the cell as visited
+        int ind = board[i][j] - 'a'; // Get the index for the current character
+        if (!node.isNull(ind)) { // If the character exists in the Trie
+            for (int k = 0; k < 4; k++) { // Explore all 4 directions
                 int ii = i + X[k];
                 int jj = j + Y[k];
-                checkWord(ii, jj, board, vis, res, node.get(ind), s + board[i][j]);
+                checkWord(ii, jj, board, vis, res, node.get(ind), s + board[i][j]); // Recursive call
             }
         }
 
-        vis[i][j] = false;
+        vis[i][j] = false; // Backtrack: Unmark the cell as visited
     }
 
+    // Main function to find all words from the list in the board
     public List<String> findWords(char[][] board, String[] words) {
         int rows = board.length, cols = board[0].length;
-        List<String> res = new ArrayList<>();
-        boolean[][] vis = new boolean[rows][cols];
+        List<String> res = new ArrayList<>(); // Result list to store found words
+        boolean[][] vis = new boolean[rows][cols]; // Visited array to track visited cells
 
-        Node root = new Node();
-        for (String word : words) {
+        Node root = new Node(); // Root node of the Trie
+        for (String word : words) { // Insert all words into the Trie
             insert(word, root);
         }
 
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) { // Traverse each cell of the board
             for (int j = 0; j < cols; j++) {
-                if (!root.isNull(board[i][j] - 'a')) {
+                if (!root.isNull(board[i][j] - 'a')) { // Start searching if the character exists in the Trie
                     checkWord(i, j, board, vis, res, root, "");
                 }
             }
         }
 
-        return res;
+        return res; // Return the list of found words
     }
 }
+
 
 
 
