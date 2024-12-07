@@ -74,40 +74,58 @@ class Solution {
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         
+        // Initialize a result list to store the zigzag level order traversal
         List<List<Integer>> arr = new ArrayList<>();
-        if (root == null) return arr;
+        if (root == null) return arr; // Return an empty list if the tree is empty
 
+        // Use a queue to facilitate level order traversal
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+        queue.add(root); // Start with the root node
 
+        // A flag to determine the direction of traversal at each level
         boolean flag = true;
+
+        // While there are nodes to process in the queue
         while (!queue.isEmpty()) {
 
-            int n = queue.size();
-            List<Integer> arr2 = new ArrayList<>(n);
+            int n = queue.size(); // Number of nodes in the current level
+            List<Integer> arr2 = new ArrayList<>(n); // Temporary list to store values at the current level
 
+            // Process all nodes in the current level
             for (int i = 0; i < n; i++) {
+
+                // Check the left child of the current node and add it to the queue if not null
                 if (queue.peek().left != null) {
                     queue.add(queue.peek().left);
                 }
+
+                // Check the right child of the current node and add it to the queue if not null
                 if (queue.peek().right != null) {
                     queue.add(queue.peek().right);
                 }
 
+                // If the flag is true, add the node's value to the end of the list
                 if (flag) {
                     arr2.add(queue.poll().val);
-                }
+                } 
+                // Otherwise, add the node's value to the front of the list (reverse order for zigzag effect)
                 else {
                     arr2.add(0, queue.poll().val);
                 }
             }
-            flag =! flag;
+
+            // Toggle the flag for the next level to reverse the traversal order
+            flag = !flag;
+
+            // Add the current level's values to the result list
             arr.add(arr2);
         }
 
+        // Return the final zigzag level order traversal
         return arr;
     }
 }
+
 
 
 
