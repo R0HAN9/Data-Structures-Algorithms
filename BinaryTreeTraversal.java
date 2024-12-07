@@ -3,13 +3,22 @@
 class Solution {
     public boolean hasPathSum(TreeNode root, int targetSum) {
         
+        // Base case: If the tree is empty, there's no path to check
         if (root == null) return false;
+
+        // Check if the current node is a leaf node (no left or right child)
+        // and if the value of this node equals the remaining targetSum
         if (root.left == null && root.right == null) return root.val == targetSum;
 
+        // Calculate the remaining sum by subtracting the current node's value from targetSum
         int remainingSum = targetSum - root.val;
+
+        // Recursively check the left and right subtrees to see if a valid path exists
+        // If any of the two subtrees returns true, then there's a valid path
         return hasPathSum(root.left, remainingSum) || hasPathSum(root.right, remainingSum);
     }
 }
+
 
 
 // Binary Tree Maximum Path Sum
