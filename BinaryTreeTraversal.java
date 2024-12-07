@@ -135,35 +135,44 @@ class Solution {
 
 class Solution {
 
-    private int preorderIndex;
-    private Map<Integer, Integer> mapping;
+    private int preorderIndex; // Tracks the current index in the preorder array
+    private Map<Integer, Integer> mapping; // Maps each value in the inorder array to its index for quick lookup
 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        
+        // Step 1: Build a map to quickly find the index of any value in the inorder array
         mapping = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {
             mapping.put(inorder[i], i);
         }
 
-        preorderIndex = 0;
-        return build(preorder, 0, inorder.length - 1);
-
+        preorderIndex = 0; // Initialize preorder index to start from the root (first element in preorder)
+        return build(preorder, 0, inorder.length - 1); // Call helper method to construct the tree
     }
 
     private TreeNode build(int[] preorder, int start, int end) {
-
+        // Base Case: If the start index is greater than the end index, no nodes exist in this subtree
         if (start > end) return null;
-        int rootVal = preorder[preorderIndex++];
 
+        // Step 2: Pick the current root node value from preorder array using preorderIndex
+        int rootVal = preorder[preorderIndex++]; 
+
+        // Create a new TreeNode with the root value
         TreeNode root = new TreeNode(rootVal);
+
+        // Find the index of the root value in the inorder array using the mapping
         int mid = mapping.get(rootVal);
 
+        // Step 3: Recursively build the left subtree with elements to the left of mid in inorder array
         root.left = build(preorder, start, mid - 1); 
+
+        // Step 4: Recursively build the right subtree with elements to the right of mid in inorder array
         root.right = build(preorder, mid + 1, end);
 
+        // Return the constructed subtree rooted at the current node
         return root; 
     }
 }
+
 
 
 // Binary Tree Level Order Traversal
