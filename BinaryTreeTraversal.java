@@ -180,30 +180,31 @@ class Solution {
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
         
-        List<List<Integer>> ans = new ArrayList<>();
-        if (root == null) return ans;
+        List<List<Integer>> ans = new ArrayList<>(); // Initialize the result list to store level-wise node values
+        if (root == null) return ans; // If the tree is empty, return an empty list
 
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+        Queue<TreeNode> queue = new LinkedList<>(); // Initialize a queue to help process nodes level by level
+        queue.add(root); // Start with the root node
 
-        while (!queue.isEmpty()) {
-            int levelSize = queue.size();
+        while (!queue.isEmpty()) { // Continue until there are no nodes left to process in the queue
+            int levelSize = queue.size(); // Number of nodes in the current level
 
-            List<Integer> level = new ArrayList<>();
-            for (int i = 0; i < levelSize; i++) {
+            List<Integer> level = new ArrayList<>(); // List to store node values for the current level
+            for (int i = 0; i < levelSize; i++) { // Process all nodes in the current level
 
-                TreeNode node = queue.poll();
-                level.add(node.val);
+                TreeNode node = queue.poll(); // Remove a node from the queue
+                level.add(node.val); // Add its value to the current level's list
 
-                if (node.left != null) queue.add(node.left);
-                if (node.right != null) queue.add(node.right);
+                if (node.left != null) queue.add(node.left); // If the left child exists, add it to the queue
+                if (node.right != null) queue.add(node.right); // If the right child exists, add it to the queue
             }
-            ans.add(level);
+            ans.add(level); // Add the current level's list to the final result
         }
 
-        return ans;
+        return ans; // Return the list of levels
     }
 }
+
 
 
 
