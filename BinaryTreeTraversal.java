@@ -214,26 +214,35 @@ class Solution {
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
         
+        // List to store the right-side view of the tree
         List<Integer> ans = new ArrayList<>();
-        if (root == null) return ans;
+        if (root == null) return ans; // If the tree is empty, return an empty list
 
+        // Queue for level-order traversal (BFS)
         Queue<TreeNode> temp = new LinkedList<>();
-        temp.add(root);
+        temp.add(root); // Start with the root node
 
-        while (!temp.isEmpty()) {
-            int l = temp.size();
-            int val = 0;
+        while (!temp.isEmpty()) { // Continue until all levels are processed
+            int l = temp.size(); // Number of nodes in the current level
+            int val = 0; // To store the value of the rightmost node at this level
 
-            for (int i = 0; i < l; i++) {
-                TreeNode node = temp.poll();
-                val = node.val;
+            for (int i = 0; i < l; i++) { // Process all nodes in the current level
+                TreeNode node = temp.poll(); // Remove a node from the queue
+                val = node.val; // Update `val` with the value of the current node (last updated value will be the rightmost node)
 
+                // Add the left child to the queue, if it exists
                 if (node.left != null) temp.add(node.left);
+
+                // Add the right child to the queue, if it exists
                 if (node.right != null) temp.add(node.right);
             }
+
+            // Add the rightmost node's value to the result list
             ans.add(val);
         }
 
+        // Return the right-side view of the tree
         return ans;
     }
 }
+
