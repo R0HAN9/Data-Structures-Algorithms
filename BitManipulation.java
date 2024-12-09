@@ -2,18 +2,25 @@
 
 class Solution {
     public int rangeBitwiseAnd(int left, int right) {
-        
+        // Initialize a counter to keep track of the number of right shifts
         int count = 0;
-        while (left != right) {
 
+        // Keep shifting both left and right until they become equal
+        while (left != right) {
+            // Right shift both left and right by 1 (this effectively removes the rightmost bit)
             left >>= 1;
             right >>= 1;
+
+            // Increment the counter to track how many bits have been shifted
             count++;
         }
 
+        // Once left equals right, all differing bits have been eliminated
+        // Left shift the common value back to restore the original bit positions
         return (left << count);
     }
 }
+
 
 
 
