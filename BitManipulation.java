@@ -27,26 +27,34 @@ class Solution {
 // Count Number of Maximum Bitwise-OR Subsets
 
 class Solution {
+    // Backtracking function to explore all subsets of the array
     public void backtrack(int[] nums, int index, int currentOR, int maxOR, int[] count) {
+        // If the current OR matches the maximum OR, we found a valid subset
         if (currentOR == maxOR) {
-            count[0]++;
+            count[0]++; // Increment the count of subsets achieving the max OR
         }
 
+        // Iterate through the array, starting from the current index
         for (int i = index; i < nums.length; i++) {
+            // Include the current number in the subset and calculate the new OR
             backtrack(nums, i + 1, currentOR | nums[i], maxOR, count);
         }
     }
 
     public int countMaxOrSubsets(int[] nums) {
-
+        // Step 1: Calculate the maximum possible OR value of the entire array
         int maxOR = 0;
         for (int num : nums) {
-            maxOR |= num;
+            maxOR |= num; // Perform bitwise OR with each element
         }
 
-        int[] count = new int[1];
+        // Step 2: Initialize a counter to keep track of subsets achieving the max OR
+        int[] count = new int[1]; // Using an array to pass by reference
+
+        // Step 3: Use backtracking to explore all subsets
         backtrack(nums, 0, 0, maxOR, count);
 
+        // Step 4: Return the count of subsets that achieve the max OR
         return count[0];
     }
 }
