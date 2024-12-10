@@ -4,61 +4,74 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         
+        // Create an adjacency list to represent the graph
         ArrayList<ArrayList<Integer>> adjacencyList = new ArrayList<>();
 
+        // Initialize adjacency list for all courses
         for (int i = 0; i < numCourses; i++) {
             adjacencyList.add(new ArrayList<>());
         }
         
-        int numOfPrerequisites = prerequisites.length;
-        for (int i = 0; i < numOfPrerequisites; i++) {
-            
+        // Populate the adjacency list with the prerequisites
+        for (int i = 0; i < prerequisites.length; i++) {
             int course = prerequisites[i][0];
             int prerequisite = prerequisites[i][1];
             adjacencyList.get(prerequisite).add(course);
         }
 
+        // Array to keep track of the in-degree (number of prerequisites) for each course
         int[] inDegree = new int[numCourses];
+        
+        // Calculate in-degrees by iterating over the adjacency list
         for (int i = 0; i < numCourses; i++) {
             for (int neighbor : adjacencyList.get(i)) {
                 inDegree[neighbor]++;
             }
         }
 
+        // Queue to store courses with zero in-degree (ready to take)
         Queue<Integer> queue = new LinkedList<>();
 
+        // Add all courses with zero in-degree to the queue
         for (int i = 0; i < numCourses; i++) {
             if (inDegree[i] == 0) {
                 queue.add(i);
             }
         }
 
+        // Array to store the topological order of courses
         int[] topologicalOrder = new int[numCourses];
         int index = 0;
 
+        // Perform Kahn's Algorithm for topological sorting
         while (!queue.isEmpty()) {
+            // Get a course with zero in-degree
+            int course = queue.poll();
 
-            int course = queue.peek();
-            queue.remove();
+            // Add the course to the topological order
             topologicalOrder[index++] = course;
 
+            // Reduce in-degree of all dependent courses
             for (int neighbor : adjacencyList.get(course)) {
                 inDegree[neighbor]--;
 
+                // If a course's in-degree becomes zero, add it to the queue
                 if (inDegree[neighbor] == 0) {
                     queue.add(neighbor);
                 }
             }
         }
 
+        // Check if all courses have been processed
         if (index == numCourses) {
-            return topologicalOrder;
+            return topologicalOrder; // Valid order found
         }
 
-        int[] emptyArray = {};
-        return emptyArray;
+        // If not all courses are processed, return an empty array (cycle detected)
+        return new int[0];
     }
 }
+
 
 
 // Word Ladder
