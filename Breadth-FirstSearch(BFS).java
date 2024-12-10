@@ -155,25 +155,36 @@ class Solution {
 
 class Solution {
     public Node cloneGraph(Node node) {
+        // If the input graph is empty, return null
         if (node == null) return null;
 
+        // A map to store the mapping from original nodes to their clones
         Map<Node, Node> oldToNew = new HashMap<>();
+
+        // Start the DFS traversal and cloning process
         return dfs(node, oldToNew);
     }
 
     private Node dfs(Node node, Map<Node, Node> oldToNew) {
+        // If the node has already been cloned, return the clone from the map
         if (oldToNew.containsKey(node)) return oldToNew.get(node);
 
+        // Create a new node (clone) with the same value as the original node
         Node copy = new Node(node.val);
+
+        // Add the clone to the map to track it
         oldToNew.put(node, copy);
 
+        // Recursively clone all neighbors and add them to the cloned node's neighbors list
         for (Node neighbor : node.neighbors) {
             copy.neighbors.add(dfs(neighbor, oldToNew));
         }
 
+        // Return the clone of the current node
         return copy;
     }    
 }
+
 
 
 
