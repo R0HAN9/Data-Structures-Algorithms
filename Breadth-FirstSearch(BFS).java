@@ -192,58 +192,83 @@ class Solution {
 
 
 class Solution {
-    public void dfs(String node, String dest, HashMap<String, HashMap<String, Double>> gr, HashSet<String> vis, double[] ans, double temp) {
-        if (vis.contains(node)) return;
 
-        vis.add(node);
-        if (node.equals(dest)){
-            ans[0] = temp;
+    // Depth-First Search to evaluate the division
+    public void dfs(String node, String dest, HashMap<String, HashMap<String, Double>> graph, 
+                    HashSet<String> visited, double[] ans, double currentProduct) {
+        // If the node is already visited, return to avoid cycles
+        if (visited.contains(node)) return;
+
+        // Mark the current node as visited
+        visited.add(node);
+
+        // If the destination node is found, set the answer and return
+        if (node.equals(dest)) {
+            ans[0] = currentProduct;
             return;
         }
 
-        for (Map.Entry<String, Double> entry : gr.get(node).entrySet()) {
-            String ne = entry.getKey();
+        // Explore all neighbors of the current node
+        for (Map.Entry<String, Double> entry : graph.get(node).entrySet()) {
+            String neighbor = entry.getKey();
+            double value = entry.getValue();
 
-            double val = entry.getValue();
-            dfs(ne, dest, gr, vis, ans, temp * val);
+            // Recursively perform DFS for the neighbor with updated product
+            dfs(neighbor, dest, graph, visited, ans, currentProduct * value);
         }
     }
+
+    // Build the graph representation from equations and their values
     public HashMap<String, HashMap<String, Double>> buildGraph(List<List<String>> equations, double[] values) {
-        HashMap<String, HashMap<String, Double>> gr = new HashMap<>();
+        HashMap<String, HashMap<String, Double>> graph = new HashMap<>();
 
         for (int i = 0; i < equations.size(); i++) {
             String dividend = equations.get(i).get(0);
             String divisor = equations.get(i).get(1);
             double value = values[i];
 
-            gr.putIfAbsent(dividend, new HashMap<>());
-            gr.putIfAbsent(divisor, new HashMap<>());
-            
-            gr.get(dividend).put(divisor, value);
-            gr.get(divisor).put(dividend, 1.0 / value);
+            // Ensure both nodes are present in the graph
+            graph.putIfAbsent(dividend, new HashMap<>());
+            graph.putIfAbsent(divisor, new HashMap<>());
+
+            // Add the edge between dividend and divisor with the given value
+            graph.get(dividend).put(divisor, value);
+
+            // Add the reverse edge with reciprocal value
+            graph.get(divisor).put(dividend, 1.0 / value);
         }
-        return gr;
+
+        return graph;
     }
 
+    // Main function to calculate answers for each query
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        HashMap<String, HashMap<String, Double>> gr = buildGraph(equations, values);
-        double[] finalAns = new double[queries.size()];
+        // Build the graph using the equations and values
+        HashMap<String, HashMap<String, Double>> graph = buildGraph(equations, values);
 
+        // Array to store the results of the queries
+        double[] results = new double[queries.size()];
+
+        // Process each query
         for (int i = 0; i < queries.size(); i++) {
             String dividend = queries.get(i).get(0);
             String divisor = queries.get(i).get(1);
 
-            if (!gr.containsKey(dividend) || !gr.containsKey(divisor)) {
-                finalAns[i] = -1.0;
+            // If either node is missing from the graph, the result is -1.0
+            if (!graph.containsKey(dividend) || !graph.containsKey(divisor)) {
+                results[i] = -1.0;
             } else {
-                HashSet<String> vis = new HashSet<>();
-                double[] ans = {-1.0};
-                double temp = 1.0;
-                dfs(dividend, divisor, gr, vis, ans, temp);
-                finalAns[i] = ans[0];
+                // Use DFS to calculate the result for the current query
+                HashSet<String> visited = new HashSet<>();
+                double[] ans = {-1.0}; // Default answer
+                double initialProduct = 1.0;
+
+                dfs(dividend, divisor, graph, visited, ans, initialProduct);
+                results[i] = ans[0]; // Store the result in the results array
             }
         }
 
-        return finalAns;
+        return results;
     }
 }
+
