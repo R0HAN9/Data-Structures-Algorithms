@@ -1,52 +1,69 @@
 // Course Schedule
 
 
-class Solution {
+import java.util.*;
+
+public class Solution {
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        
+        // Step 1: Initialize inDegree array and adjacency list
+        // `inDegree[i]` represents the number of prerequisites for course `i`.
         int[] inDegree = new int[numCourses];
         List<List<Integer>> adjList = new ArrayList<>();
 
+        // Create an adjacency list to represent the graph of courses and prerequisites.
         for (int i = 0; i < numCourses; i++) {
             adjList.add(new ArrayList<>());
         }
 
+        // Step 2: Populate the adjacency list and inDegree array
         for (int[] prerequisite : prerequisites) {
+            int course = prerequisite[0]; // The course to be taken.
+            int pre = prerequisite[1];    // The prerequisite for the course.
 
-            int course = prerequisite[0];
-            int pre = prerequisite[1];
-
+            // Add the course to the adjacency list of the prerequisite.
             adjList.get(pre).add(course);
+
+            // Increment the inDegree of the course, indicating one more prerequisite.
             inDegree[course]++;
         }
 
+        // Step 3: Initialize a queue for courses with no prerequisites
         Queue<Integer> queue = new LinkedList<>();
 
+        // Add all courses with inDegree of 0 (no prerequisites) to the queue.
         for (int i = 0; i < numCourses; i++) {
-            
             if (inDegree[i] == 0) {
                 queue.offer(i);
             }
         }
 
-        int count = 0;
-        while (!queue.isEmpty()) {
+        // Step 4: Process the courses using a BFS approach
+        int count = 0; // Counter for the number of courses that can be completed.
 
+        while (!queue.isEmpty()) {
+            // Remove a course from the queue and increment the count.
             int current = queue.poll();
             count++;
 
+            // Iterate over all the courses that depend on the current course.
             for (int neighbor : adjList.get(current)) {
+                // Decrease the inDegree of the dependent course.
                 inDegree[neighbor]--;
 
+                // If the dependent course has no more prerequisites, add it to the queue.
                 if (inDegree[neighbor] == 0) {
                     queue.offer(neighbor);
                 }
             }
         }
 
+        // Step 5: Check if all courses have been processed
+        // If `count` equals `numCourses`, all courses can be finished; otherwise, they cannot.
         return count == numCourses;
     }
 }
+
 
 // Minimum Absolute Difference in BST
 
