@@ -158,38 +158,49 @@ class Solution {
     int[][] dp;
 
     public int coinChange(int[] coins, int amount) {
-        
+        // Initialize the dp table with dimensions (number of coins + 1) x (amount + 1)
         dp = new int[coins.length + 1][amount + 1];
 
+        // Fill in the base cases
         for (int i = 0; i < dp.length; i++) {
             for (int j = 0; j < dp[0].length; j++) {
-
+                // If we have zero coins, we cannot make any amount (except 0), so we set them to max value.
                 if (i == 0) dp[i][j] = Integer.MAX_VALUE - 1;
+                
+                // If the amount is zero, we need zero coins.
                 if (j == 0) dp[i][j] = 0;
 
+                // Base case for the first coin: Only coins[0] are available.
                 if (i == 1 && j != 0) {
+                    // If the amount is divisible by the first coin, set the number of coins needed.
                     if (j % coins[0] == 0) {
                         dp[i][j] = j / coins[0];
-                    }
-                    else {
+                    } else {
                         dp[i][j] = Integer.MAX_VALUE - 1;
                     }
                 }
             }
         }
+
+        // Fill in the dp table for the rest of the coins
         for (int i = 2; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
-
-                if (coins[i-1] <= j) {
-                    dp[i][j] = Math.min(1 + dp[i][j - coins[i-1]], dp[i-1][j]);
-                }
-                else {
-                    dp[i][j] = dp[i-1][j];
+                // If the current coin can be used for the current amount `j`
+                if (coins[i - 1] <= j) {
+                    // Option 1: Use the current coin and solve for the remaining amount (j - coins[i-1])
+                    dp[i][j] = Math.min(1 + dp[i][j - coins[i - 1]], dp[i - 1][j]);
+                } else {
+                    // Option 2: Don't use the current coin, just carry forward the result from the previous row
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
+
+        // If the value in dp[coins.length][amount] is still max value, return -1 (cannot form the amount)
         if (dp[coins.length][amount] >= Integer.MAX_VALUE - 1) return -1;
 
+        // Return the minimum number of coins required to form the amount
         return dp[coins.length][amount];
     }
 }
+
