@@ -112,29 +112,39 @@ class Solution {
 
 class Solution {
     public long kthLargestLevelSum(TreeNode root, int k) {
-        
+        // Initialize a list to store the sum of each level
         List<Long> result = new ArrayList<>();
+        
+        // Initialize a queue for level-order (BFS) traversal
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+        queue.add(root);  // Add the root node to the queue
 
+        // Perform level-order traversal
         while (!queue.isEmpty()) {
-            int num = queue.size();
-            long sum = 0;
+            int num = queue.size();  // Number of nodes at the current level
+            long sum = 0;  // Sum of values at the current level
 
+            // Process all nodes at the current level
             for (int i = 0; i < num; i++) {
-                TreeNode node = queue.poll();
-                sum += node.val;
+                TreeNode node = queue.poll();  // Remove node from the front of the queue
+                sum += node.val;  // Add the node's value to the sum
 
+                // Add left and right child nodes to the queue if they exist
                 if (node.left != null) queue.add(node.left);
                 if (node.right != null) queue.add(node.right);
             }
 
+            // Store the sum of the current level
             result.add(sum);
         }
 
+        // If k is greater than the number of levels, return -1
         if (k > result.size()) return -1;
+
+        // Sort the sums of each level in descending order to find the k-th largest level sum
         result.sort(Collections.reverseOrder());
 
+        // Return the k-th largest sum (index k-1 since list is 0-based)
         return result.get(k - 1);
     }
 }
