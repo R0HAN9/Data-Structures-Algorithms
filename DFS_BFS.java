@@ -65,30 +65,48 @@ public class Solution {
 }
 
 
+
 // Minimum Absolute Difference in BST
 
 class Solution {
     public int getMinimumDifference(TreeNode root) {
-        
+        // Step 1: Create a list to store the values of nodes in in-order
         List<Integer> values = new ArrayList<>();
+        
+        // Step 2: Perform in-order traversal to fill the values list
         inOrder(root, values);
 
+        // Step 3: Initialize the minDiff to the largest possible integer
         int minDiff = Integer.MAX_VALUE;
+        
+        // Step 4: Iterate through the values list and find the minimum difference
         for (int i = 1; i < values.size(); i++) {
+            // Update the minDiff with the smaller value between the current minDiff and the difference between adjacent values
             minDiff = Math.min(minDiff, values.get(i) - values.get(i - 1));
         }
 
+        // Step 5: Return the minimum difference found
         return minDiff;
     }
+    
+    // Helper function for in-order traversal
     private void inOrder(TreeNode node, List<Integer> values) {
+        // Base case: if the node is null, return
         if (node == null) return;
 
+        // Recursively traverse the left subtree
         inOrder(node.left, values);
+
+        // Add the current node's value to the list
         values.add(node.val);
 
+        // Recursively traverse the right subtree
         inOrder(node.right, values);
     }
 }
+
+
+
 
 // Kth Largest Sum in a Binary Tree
 
