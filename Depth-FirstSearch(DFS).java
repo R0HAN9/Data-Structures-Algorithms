@@ -50,47 +50,58 @@ class Solution {
 
 class Solution {
     public TreeNode replaceValueInTree(TreeNode root) {
-        
+        // Step 1: Start the DFS traversal with the root node wrapped in an array
         dfs(new TreeNode[] {root});
+        
+        // Step 2: Set the root's value to 0 as the final step of the transformation
         root.val = 0;
+        
+        // Step 3: Return the modified root node
         return root;
     }
 
     private void dfs(TreeNode[] arr) {
-
+        // Step 4: Base case - if the array is empty, return (no nodes to process)
         if (arr.length == 0) return;
+
+        // Step 5: Calculate the total sum of values of all the left and right children of the nodes in the current level
         int sum = 0;
-
         for (TreeNode node : arr) {
-
             if (node == null) continue;
+            // Add the left and right children's values to the sum
             if (node.left != null) sum += node.left.val;
             if (node.right != null) sum += node.right.val;
         }
 
+        // Step 6: Create a new array to hold the children nodes for the next level
         TreeNode[] childArr = new TreeNode[arr.length * 2];
         int index = 0;
 
+        // Step 7: Process each node in the current level and update its children
         for (TreeNode node : arr) {
             int currSum = 0;
 
+            // Calculate the sum of the left and right children's values of the current node
             if (node.left != null) currSum += node.left.val;
             if (node.right != null) currSum += node.right.val;
 
+            // Step 8: For each child, set its new value to the total sum minus the current node's children sum
             if (node.left != null) {
-                node.left.val = sum - currSum;
-                childArr[index++] = node.left;
+                node.left.val = sum - currSum; // Set the new value for the left child
+                childArr[index++] = node.left; // Add left child to the next level
             }
 
             if (node.right != null) {
-                node.right.val = sum - currSum;
-                childArr[index++] = node.right;
+                node.right.val = sum - currSum; // Set the new value for the right child
+                childArr[index++] = node.right; // Add right child to the next level
             }
         }
 
+        // Step 9: Recursively call dfs with the new array of children to process the next level
         dfs(java.util.Arrays.copyOf(childArr, index));
     }
 }
+
 
 
 // Flip Equivalent Binary Trees
