@@ -135,30 +135,43 @@ class Solution {
     public TreeNode buildHelper(int[] inorder, int inorderStart, int inorderEnd, 
                                  int[] postorder, int postorderStart, int postorderEnd, 
                                  Map<Integer, Integer> indexMap) {
+        // Step 1: Base case - if the start index is greater than the end index, return null
         if (postorderStart > postorderEnd || inorderStart > inorderEnd) {
             return null;
         }
 
+        // Step 2: The root of the tree is the last element in the postorder segment
         TreeNode rootNode = new TreeNode(postorder[postorderEnd]);
+
+        // Step 3: Find the index of the root in the inorder array using the map
         int rootIndexInInorder = indexMap.get(rootNode.val);
+
+        // Step 4: Calculate the size of the left subtree
         int leftSubtreeSize = rootIndexInInorder - inorderStart;
 
+        // Step 5: Recursively build the left subtree
         rootNode.left = buildHelper(inorder, inorderStart, rootIndexInInorder - 1, 
                                      postorder, postorderStart, postorderStart + leftSubtreeSize - 1, 
                                      indexMap);
+
+        // Step 6: Recursively build the right subtree
         rootNode.right = buildHelper(inorder, rootIndexInInorder + 1, inorderEnd, 
                                       postorder, postorderStart + leftSubtreeSize, postorderEnd - 1, 
                                       indexMap);
 
+        // Step 7: Return the root node after both subtrees are built
         return rootNode;
     }
 
     public TreeNode buildTree(int[] inorder, int[] postorder) {
+        // Step 8: Create a map to store the index of each element in inorder array for quick lookup
         Map<Integer, Integer> indexMap = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {
             indexMap.put(inorder[i], i);
         }
 
+        // Step 9: Call the buildHelper function with initial bounds of the inorder and postorder arrays
         return buildHelper(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1, indexMap);
     }
 }
+
