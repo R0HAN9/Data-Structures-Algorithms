@@ -2,43 +2,46 @@
 
 class Solution {
     public Node cloneGraph(Node node) {
-     if(node==null)
-     {
-        return null;
-     }
-     //hashmap to keep track of all cloned nodes
-     Map<Node , Node>map= new HashMap<>();
-
-     //queue to perform a bfs
-     Queue<Node> queue = new LinkedList<>();
-
-
-     queue.add(node);
-     map.put(node,new Node(node.val));
-
-     while(!queue.isEmpty())
-     {
-        Node curr = queue.poll();
-        Node currClone = map.get(curr);
-
-      for(Node neighbor:curr.neighbors)
-      {
-        if(!map.containsKey(neighbor))
-        {
-            //clone the neighbor node and add it to map
-
-            map.put(neighbor,new Node(neighbor.val));
-            queue.add(neighbor);
+        // Step 1: Base case - if the input node is null, return null
+        if(node == null) {
+            return null;
         }
 
-        currClone.neighbors.add(map.get(neighbor));
-      }
-     }
+        // Step 2: Create a HashMap to store the mapping between original nodes and their clones
+        Map<Node, Node> map = new HashMap<>();
 
-return map.get(node);
-        
+        // Step 3: Use a Queue to perform BFS traversal of the graph
+        Queue<Node> queue = new LinkedList<>();
+
+        // Add the starting node to the queue and create its clone, store it in the map
+        queue.add(node);
+        map.put(node, new Node(node.val));
+
+        // Step 4: Perform BFS traversal
+        while(!queue.isEmpty()) {
+            // Get the current node from the queue
+            Node curr = queue.poll();
+            // Get the clone of the current node from the map
+            Node currClone = map.get(curr);
+
+            // Step 5: Traverse the neighbors of the current node
+            for(Node neighbor: curr.neighbors) {
+                // If the neighbor hasn't been cloned yet, clone it and add to map
+                if(!map.containsKey(neighbor)) {
+                    map.put(neighbor, new Node(neighbor.val));
+                    queue.add(neighbor);  // Add the neighbor to the queue for further processing
+                }
+
+                // Step 6: Add the cloned neighbor to the cloned node's neighbors list
+                currClone.neighbors.add(map.get(neighbor));
+            }
+        }
+
+        // Step 7: Return the cloned node corresponding to the original input node
+        return map.get(node);
     }
 }
+
 
 
 
