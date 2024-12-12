@@ -109,19 +109,23 @@ class Solution {
 
 class Solution {
     public boolean flipEquiv(TreeNode root1, TreeNode root2) {
-        
+        // Step 1: Start by calling the checker function to compare both trees
         return checker(root1, root2);
     }
 
     public boolean checker(TreeNode node1, TreeNode node2) {
-
+        // Step 2: Base case - both nodes are null, trees are considered equal at this point
         if (node1 == null && node2 == null) return true;
+        
+        // Step 3: If one of the nodes is null or the values don't match, return false
         if (node1 == null || node2 == null || node1.val != node2.val) return false;
 
+        // Step 4: Recursively check both children with two possible orientations (flip or no flip)
         return (checker(node1.left, node2.left) || checker(node1.left, node2.right)) && 
-                (checker(node1.right, node2.right) || checker(node1.right, node2.left)); 
+               (checker(node1.right, node2.right) || checker(node1.right, node2.left));
     }
 }
+
 
 
 
