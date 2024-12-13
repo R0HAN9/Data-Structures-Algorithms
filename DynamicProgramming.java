@@ -345,29 +345,35 @@ class Solution {
 class Solution {
     public int maxMoves(int[][] grid) {
         
-        int m = grid.length;
-        int n = grid[0].length;
+        int m = grid.length;      // Number of rows
+        int n = grid[0].length;   // Number of columns
 
+        // DP array to store the maximum moves possible at each cell
         int[][] dp = new int[m][n];
-        int maxMoves = 0;
+        int maxMoves = 0;         // Result variable to track the maximum moves
 
+        // Start from the second last column and work backwards
         for (int col = n - 2; col >= 0; col--) {
             for (int row = 0; row < m; row++) {
 
+                // Check if we can move to the row above in the next column
                 if (row > 0 && grid[row][col] < grid[row - 1][col + 1]) {
                     dp[row][col] = Math.max(dp[row][col], dp[row - 1][col + 1] + 1);
                 }
 
+                // Check if we can move to the same row in the next column
                 if (grid[row][col] < grid[row][col + 1]) {
                     dp[row][col] = Math.max(dp[row][col], dp[row][col + 1] + 1);
                 }
 
+                // Check if we can move to the row below in the next column
                 if (row < m - 1 && grid[row][col] < grid[row + 1][col + 1]) {
                     dp[row][col] = Math.max(dp[row][col], dp[row + 1][col + 1] + 1);
                 }
             }
         }
 
+        // Find the maximum moves possible starting from the first column
         for (int row = 0; row < m; row++) {
             maxMoves = Math.max(maxMoves, dp[row][0]);
         }
@@ -375,6 +381,7 @@ class Solution {
         return maxMoves;
     }
 }
+
 
 
 
