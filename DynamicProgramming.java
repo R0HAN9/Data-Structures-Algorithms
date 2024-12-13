@@ -314,25 +314,28 @@ class Solution {
 class Solution {
     public int longestSquareStreak(int[] nums) {
         
+        // Use a HashMap to store the streak length for each number
         Map<Integer, Integer> mp = new HashMap<>();
-        Arrays.sort(nums);
+        Arrays.sort(nums);  // Sort the input array for sequential processing
 
-        int result = -1;
+        int result = -1;  // Initialize result to -1 (indicating no streak found)
         for (int num : nums) {
 
-            int sqrt = (int) Math.sqrt(num);
-            if (sqrt * sqrt == num && mp.containsKey(sqrt)) {
-                mp.put(num, mp.get(sqrt) + 1);
-                result = Math.max(result, mp.get(num));
+            int sqrt = (int) Math.sqrt(num);  // Calculate the square root of the current number
+            if (sqrt * sqrt == num && mp.containsKey(sqrt)) {  
+                // Check if the number is a perfect square and if its root exists in the map
+                mp.put(num, mp.get(sqrt) + 1);  // Extend the streak from its square root
+                result = Math.max(result, mp.get(num));  // Update the maximum streak length
             }
             else {
-                mp.put(num, 1);
+                mp.put(num, 1);  // Start a new streak for this number
             }
         }
 
-        return result;
+        return result;  // Return the longest streak found, or -1 if no streak exists
     }
 }
+
 
 
 
