@@ -99,17 +99,29 @@ class Solution {
 
 class Solution {
     public int rob(int[] nums) {
+        // `rob` represents the maximum amount we can rob by including the current house
         int rob = 0;
+        // `norob` represents the maximum amount we can rob by excluding the current house
         int norob = 0;
-        for (int i = 0; i < nums.length; i ++) {
+
+        // Iterate through each house in the array
+        for (int i = 0; i < nums.length; i++) {
+            // Calculate the new amount if we decide to rob the current house
             int newRob = norob + nums[i];
+
+            // Calculate the new amount if we decide NOT to rob the current house
             int newNoRob = Math.max(norob, rob);
-            rob = newRob;
-            norob = newNoRob;
+
+            // Update `rob` and `norob` for the next iteration
+            rob = newRob;      // Now, `rob` represents the new maximum amount by robbing the current house
+            norob = newNoRob;  // Now, `norob` represents the new maximum amount by not robbing the current house
         }
+
+        // The final result is the maximum of robbing or not robbing the last house
         return Math.max(rob, norob);
     }
 }
+
 
 
 // Maximum Product Subarray
