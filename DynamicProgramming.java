@@ -236,23 +236,33 @@ class Solution {
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         
+        // Create a DP array where dp[i] indicates whether the substring s[0...i-1] can be segmented
         boolean[] dp = new boolean[s.length() + 1];
+        
+        // Base case: An empty string can always be segmented
         dp[0] = true;
 
+        // Iterate through the length of the string
         for (int i = 1; i <= s.length(); i++) {
+            // Iterate through all words in the dictionary
             for (String word : wordDict) {
-
+                // Calculate the start index of the word in the substring
                 int start = i - word.length();
+
+                // Check if the word can fit within the current substring
+                // and if the part before this word can be segmented
                 if (start >= 0 && dp[start] && s.substring(start, i).equals(word)) {
-                    dp[i] = true;
-                    break;
+                    dp[i] = true; // Mark dp[i] as true since segmentation is possible
+                    break;        // No need to check further words for this index
                 }
             }
         }
 
+        // Return whether the entire string can be segmented
         return dp[s.length()];
     }
 }
+
 
 
 // Count Square Submatrices with All Ones
