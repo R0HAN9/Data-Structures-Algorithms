@@ -4,33 +4,49 @@ public class BurstBallons {
     public int maxCoins(int[] nums) {
 
         int n = nums.length;
+
+        // Create a new array to include virtual balloons at the boundaries with value 1.
         int[] balloons = new int[n + 2];
+        balloons[0] = 1; // Virtual balloon at the left boundary.
+        balloons[n + 1] = 1; // Virtual balloon at the right boundary.
 
-        balloons[0] = 1;
-        balloons[n + 1] = 1;
-
+        // Copy the original balloon values into the new array.
         for (int i = 0; i < n; i++) {
             balloons[i + 1] = nums[i];
         }
+
+        // Create a 2D dp array to store the maximum coins that can be obtained
+        // by bursting balloons in a given range.
         int[][] dp = new int[n + 2][n + 2];
 
+        // Iterate over all possible lengths of subarrays of balloons to consider.
         for (int length = 2; length <= n + 1; length++) {
+
+            // Iterate over all possible starting indices for the subarray.
             for (int start = 0; start <= n + 1 - length; start++) {
 
-                int end = start + length;
+                int end = start + length; // Determine the end index of the subarray.
+
+                // Iterate over all possible last balloons to burst in the current range.
                 for (int k = start + 1; k < end; k++) {
 
+                    // Calculate the coins obtained by bursting balloon 'k' last in the range.
                     int coins = balloons[start] * balloons[k] * balloons[end];
-                    int totalCoins = coins + dp[start][k] * dp[k][end];
 
+                    // Add the coins obtained from previously solved subproblems (left and right of 'k').
+                    int totalCoins = coins + dp[start][k] + dp[k][end];
+
+                    // Update the dp table with the maximum coins for the current range.
                     dp[start][end] = Math.max(dp[start][end], totalCoins);
                 }
             }
         }
 
+        // Return the maximum coins obtainable for bursting all balloons (0 to n+1 range).
         return dp[0][n + 1];
     }
 }
+
 
 
 
