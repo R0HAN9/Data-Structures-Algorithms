@@ -55,28 +55,39 @@ public class BurstBallons {
 class Solution {
     public int minPathSum(int[][] grid) {
         
+        // Get the number of rows and columns in the grid
         int rows = grid.length;
         int cols = grid[0].length;
 
+        // Create a DP table to store the minimum path sum at each cell
         int[][] dp = new int[rows][cols];
 
+        // Iterate through each cell in the grid
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
 
+                // Base case: starting cell (top-left corner)
                 if (i == 0 && j == 0) {
                     dp[i][j] = grid[i][j];
-                    continue;
+                    continue; // Move to the next iteration
                 }
 
-                int leftPathSum = (int) (1e9);
-                int upPathSum = (int) (1e9);
+                // Initialize variables to store path sums from left and above
+                int leftPathSum = (int) (1e9); // Representing infinity initially
+                int upPathSum = (int) (1e9); // Representing infinity initially
 
+                // Calculate the minimum path sum from the left cell, if it exists
                 if (j > 0) leftPathSum = grid[i][j] + dp[i][j - 1];
+
+                // Calculate the minimum path sum from the above cell, if it exists
                 if (i > 0) upPathSum = grid[i][j] + dp[i - 1][j];
+
+                // Store the minimum of the two possible path sums in the DP table
                 dp[i][j] = Math.min(leftPathSum, upPathSum);
             }
         }
 
+        // Return the minimum path sum to reach the bottom-right corner
         return dp[rows - 1][cols - 1];
     }
 }
