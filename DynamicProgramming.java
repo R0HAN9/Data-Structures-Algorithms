@@ -127,33 +127,65 @@ class Solution {
 // Maximum Product Subarray
 
 class Solution {
-    int max = 1; int min = 1;
+    // Global variables to store the current maximum and minimum product
+    int max = 1; 
+    int min = 1;
+
     public int maxProduct(int[] nums) {
+        // Start the recursive DFS from index 0
         return dfs(0, nums);
     }
+
     public int dfs(int i, int[] nums) {
+        // Base case: If we reach the last element in the array
         if (i >= nums.length - 1) {
-            max = nums[nums.length - 1]; min = max;
+            max = nums[nums.length - 1]; // Initialize max to the last element
+            min = max;                  // Initialize min to the last element
+
+            // If the last element is 0, reset max and min to 1
             if (nums[nums.length - 1] == 0) {
-                min = 1; max = 1;
+                min = 1; 
+                max = 1;
             }
+
+            // Return the last element as the result, unless it is 0
             return nums[nums.length - 1] != 0 ? max : 0;
         }
+
+        // Recursive call for the next index
         int res = dfs(i + 1, nums);
-        
-        if (nums[i] == 0) { min = 1; max = 1; 
-                 return res > 0 ? res : 0;
+
+        // If the current element is 0, reset min and max to 1
+        if (nums[i] == 0) { 
+            min = 1; 
+            max = 1; 
+            return res > 0 ? res : 0; // Return the maximum of result and 0
         }
+
+        // Store the current max temporarily before updating it
         int temp = max;
+
+        // Update max by considering:
+        // 1. Product of current max and current element
+        // 2. Product of current min and current element
+        // 3. Current element itself
         max = Math.max(max * nums[i], min * nums[i]);
         max = Math.max(max, nums[i]);
+
+        // Update min by considering:
+        // 1. Product of current max (before update) and current element
+        // 2. Product of current min and current element
+        // 3. Current element itself
         min = Math.min(temp * nums[i], min * nums[i]);
         min = Math.min(min, nums[i]);
-        
+
+        // Update the result to the maximum of itself or the current max
         res = Math.max(res, max);
+
         return res;
     }
 }
+
 
 
 // Unique Paths
