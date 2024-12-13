@@ -270,35 +270,43 @@ class Solution {
 class Solution {
     public int countSquares(int[][] matrix) {
         
-        int rows = matrix.length;
-        int cols = matrix[0].length;
+        int rows = matrix.length;  // Number of rows in the matrix
+        int cols = matrix[0].length;  // Number of columns in the matrix
 
+        // Create a DP table where dp[i][j] represents the size of the largest square ending at cell (i, j)
         int[][] dp = new int[rows][cols];
-        int totalCount = 0;
+        int totalCount = 0;  // Initialize total count of square submatrices
 
+        // Fill the first column of the DP table
         for (int i = 0; i < rows; i++) {
-            dp[i][0] = matrix[i][0];
-            totalCount += dp[i][0];
+            dp[i][0] = matrix[i][0];  // If the matrix cell is 1, there's a 1x1 square
+            totalCount += dp[i][0];  // Add to the total count
         }
 
+        // Fill the first row of the DP table
         for (int j = 1; j < cols; j++) {
-            dp[0][j] = matrix[0][j];
-            totalCount += dp[0][j];
+            dp[0][j] = matrix[0][j];  // If the matrix cell is 1, there's a 1x1 square
+            totalCount += dp[0][j];  // Add to the total count
         }
 
+        // Process the rest of the matrix
         for (int i = 1; i < rows; i++) {
             for (int j = 1; j < cols; j++) {
-
+                // If the current cell is 1, calculate the size of the largest square ending at (i, j)
                 if (matrix[i][j] == 1) {
-                    dp[i][j] = 1 + Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]);
+                    dp[i][j] = 1 + Math.min(
+                        Math.min(dp[i][j - 1], dp[i - 1][j]),  // Minimum of left and top cells
+                        dp[i - 1][j - 1]  // Top-left diagonal cell
+                    );
                 }
-                totalCount += dp[i][j];
+                totalCount += dp[i][j];  // Add the size of the square to the total count
             }
         }
 
-        return totalCount;
+        return totalCount;  // Return the total count of square submatrices
     }
 }
+
 
 
 // Longest Square Streak in an Array
