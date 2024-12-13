@@ -193,27 +193,38 @@ class Solution {
 class Solution {
     public int uniquePaths(int m, int n) {
         
+        // Base case: If the grid is 1x1, there is only one unique path
         if (m == 1 && n == 1) return 1;
+
+        // Create a 1D array to store the results of the previous row
         int[] prev = new int[n];
 
+        // Iterate through all rows of the grid
         for (int i = 0; i < m; i++) {
+            // Create a temporary array to calculate the current row
             int[] curr = new int[n];
 
+            // Iterate through all columns of the grid
             for (int j = 0; j < n; j++) {
+                // If we are at the top-left corner, initialize it to 1
                 if (i == 0 && j == 0) {
                     curr[j] = 1;
-                }
-                else {
+                } else {
+                    // Retrieve the number of paths from the cell above
                     int up = prev[j];
+                    // Retrieve the number of paths from the cell to the left
                     int left = 0;
-
                     if (j > 0) left = curr[j - 1];
+
+                    // Total unique paths to the current cell
                     curr[j] = left + up;
                 }
             }
+            // Update the previous row to be the current row
             prev = curr;
         }
 
+        // The last element in the previous row array contains the result
         return prev[n - 1];
     }
 }
