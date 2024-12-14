@@ -32,21 +32,29 @@ public class Solution {
 
 
 class Solution {
-    public long maxKelements(int[] nums, int k) {
-        
-        PriorityQueue<Long> maxHeap = new PriorityQueue<>((a, b) -> Long.compare(b, a));
-        for (int num : nums) {
-            maxHeap.add((long) num);
-        }
-
-        long score = 0;
-        for (int i = 0; i < k; i++) {
-
-            long maxVal = maxHeap.poll();
-            score += maxVal;
-            maxHeap.add((maxVal + 2) / 3);
-        }
-
-        return score;
+public long maxKelements(int[] nums, int k) {
+    // Create a max-heap (PriorityQueue with descending order) to store elements as long
+    // Max-heap ensures the largest element is always at the top
+    PriorityQueue<Long> maxHeap = new PriorityQueue<>((a, b) -> Long.compare(b, a));
+    
+    // Add all elements from the nums array into the max-heap, converting them to long
+    for (int num : nums) {
+        maxHeap.add((long) num);
     }
+
+    long score = 0; // Variable to keep track of the total score
+    
+    // Perform the operation k times
+    for (int i = 0; i < k; i++) {
+        // Poll (remove and retrieve) the largest element from the heap
+        long maxVal = maxHeap.poll();
+        // Add the largest element's value to the score
+        score += maxVal;
+        // Calculate the new value (maxVal + 2) / 3 and add it back to the heap
+        maxHeap.add((maxVal + 2) / 3);
+    }
+
+    // Return the final score after k operations
+    return score;
+  }
 }
