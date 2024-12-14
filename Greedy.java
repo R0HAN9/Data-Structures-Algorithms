@@ -3,21 +3,30 @@
 
 class Solution {
     public long minimumSteps(String s) {
-        
+        // Variable to keep track of the total steps required
         long answer = 0;
+        // Variable to count the number of '1's (black tiles) encountered so far
         int blackCount = 0;
 
+        // Iterate through the string `s`
         for (int i = 0; i < s.length(); i++) {
+            // If the current character is '0' (white tile)
             if (s.charAt(i) == '0') {
+                // Add the number of black tiles encountered so far to the answer
                 answer += blackCount;
-            }
+            } 
+            // If the current character is '1' (black tile)
             else {
+                // Increment the blackCount to track the black tiles
                 blackCount++;
             }
         }
+
+        // Return the total minimum steps required
         return answer;
     }
 }
+
 
 
 // Longest Happy String
