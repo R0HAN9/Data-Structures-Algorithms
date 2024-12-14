@@ -132,18 +132,23 @@ class Solution {
 
 class Solution {
     public boolean canJump(int[] nums) {
-        
+        // Initialize the goal as the last index of the array
         int goal = nums.length - 1;
 
+        // Traverse the array backward from the second-to-last element
         for (int i = nums.length - 2; i >= 0; i--) {
+            // Check if the current index can reach or surpass the goal
             if (i + nums[i] >= goal) {
+                // Update the goal to the current index
                 goal = i;
             }
         }
 
+        // If the goal has moved to index 0, it means the first index can reach the last
         return goal == 0;
     }
 }
+
 
 
 // Minimum Number of Removals to Make Mountain Array
