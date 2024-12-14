@@ -94,31 +94,38 @@ class Solution {
 
 class Solution {
     public int maximumSwap(int num) {
-        
+        // Convert the number to a character array for easier manipulation
         char[] numArr = Integer.toString(num).toCharArray();
         int n = numArr.length;
 
+        // Array to store the last occurrence of each digit (0-9)
         int[] last = new int[10];
         for (int i = 0; i < n; i++) {
-            last[numArr[i] - '0'] = i;
+            last[numArr[i] - '0'] = i; // Record the last index of the digit
         }
 
+        // Iterate through each digit in the number
         for (int i = 0; i < n; i++) {
+            // Check for a larger digit (starting from 9) to swap with the current digit
             for (int d = 9; d > numArr[i] - '0'; d--) {
-
+                // If a larger digit exists and its index is after the current index
                 if (last[d] > i) {
+                    // Swap the current digit with the larger digit
                     char temp = numArr[i];
                     numArr[i] = numArr[last[d]];
                     numArr[last[d]] = temp;
 
+                    // Convert the modified array back to an integer and return it
                     return Integer.parseInt(new String(numArr));
                 }
             }
         }
 
+        // If no swap is performed, return the original number
         return num;
     }
 }
+
 
 
 // Jump Game
