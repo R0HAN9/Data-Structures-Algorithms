@@ -34,39 +34,58 @@ class Solution {
 
 class Solution {
     public String longestDiverseString(int a, int b, int c) {
-        
+        // Create a max-heap (PriorityQueue) to store the counts of each character and the character itself
+        // The character with the highest count will be at the top
         PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> y[0] - x[0]);
+
+        // Add the counts of each character to the heap if they are greater than 0
         if (a > 0) pq.offer(new int[] {a, 'a'});
         if (b > 0) pq.offer(new int[] {b, 'b'});
         if (c > 0) pq.offer(new int[] {c, 'c'});
 
+        // StringBuilder to construct the result string
         StringBuilder result = new StringBuilder();
 
+        // Continue until the heap is empty
         while (!pq.isEmpty()) {
+            // Get the character with the highest count
             int[] first = pq.poll();
 
-            if (result.length() >= 2 && result.charAt(result.length() - 1) == first[1] && result.charAt(result.length() - 2) == first[1]) {
+            // Check if adding the current character would cause three consecutive occurrences
+            if (result.length() >= 2 &&
+                result.charAt(result.length() - 1) == first[1] &&
+                result.charAt(result.length() - 2) == first[1]) {
 
-                if (pq.isEmpty()) break;
+                // If we cannot add the current character, check if there is another character in the heap
+                if (pq.isEmpty()) break; // No other character to use, so break the loop
+
+                // Get the second-highest character from the heap
                 int[] second = pq.poll();
 
+                // Add the second-highest character to the result
                 result.append((char) second[1]);
-                second[0]--;
+                second[0]--; // Decrease its count
 
+                // If the second character still has remaining count, add it back to the heap
                 if (second[0] > 0) pq.offer(second);
-                pq.offer(first);
-            }
-            else {
-                result.append((char) first[1]);
-                first[0]--;
 
+                // Add the first character back to the heap to process later
+                pq.offer(first);
+            } else {
+                // If adding the current character is safe, append it to the result
+                result.append((char) first[1]);
+                first[0]--; // Decrease its count
+
+                // If the current character still has remaining count, add it back to the heap
                 if (first[0] > 0) pq.offer(first);
             }
         }
 
+        // Return the constructed string as the result
         return result.toString();
     }
 }
+
 
 
 // Maximum Swap
