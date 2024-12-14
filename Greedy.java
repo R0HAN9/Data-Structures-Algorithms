@@ -156,37 +156,50 @@ class Solution {
 class Solution {
     public int minimumMountainRemovals(int[] nums) {
         int num = nums.length;
+
+        // Arrays to store the length of the Longest Increasing Subsequence (LIS)
+        // and Longest Decreasing Subsequence (LDS) for each element
         int[] LIS = new int[num];
         int[] LDS = new int[num];
 
+        // Initialize LIS and LDS arrays to 1 (each element is a subsequence of length 1 by itself)
         Arrays.fill(LIS, 1);
         Arrays.fill(LDS, 1);
 
+        // Calculate LIS for each element (left to right)
         for (int i = 0; i < num; i++) {
             for (int j = 0; j < i; j++) {
-
+                // Update LIS[i] if nums[i] can extend the increasing subsequence ending at nums[j]
                 if (nums[i] > nums[j]) {
                     LIS[i] = Math.max(LIS[i], LIS[j] + 1);
                 }
             }
         }
 
+        // Calculate LDS for each element (right to left)
         for (int i = num - 1; i >= 0; --i) {
             for (int j = num - 1; j > i; --j) {
-
+                // Update LDS[i] if nums[i] can extend the decreasing subsequence starting at nums[j]
                 if (nums[i] > nums[j]) {
                     LDS[i] = Math.max(LDS[i], LDS[j] + 1);
                 }
             }
         }
+
+        // Variable to store the maximum length of a valid mountain subsequence
         int maxMountainLength = 0;
 
+        // Find the maximum mountain subsequence length
         for (int i = 1; i < num - 1; ++i) {
+            // A valid mountain peak must have LIS > 1 and LDS > 1 at index i
             if (LIS[i] > 1 && LDS[i] > 1) {
+                // Combine LIS and LDS at i and subtract 1 (to avoid double-counting the peak element)
                 maxMountainLength = Math.max(maxMountainLength, LIS[i] + LDS[i] - 1);
             }
         }
 
+        // The minimum removals required to form a mountain array
         return num - maxMountainLength;
     }
 }
+
