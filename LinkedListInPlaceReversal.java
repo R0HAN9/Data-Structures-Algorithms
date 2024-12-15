@@ -38,27 +38,37 @@ class Solution {
 class Solution {
     public Node copyRandomList(Node head) {
         
+        // A map to store the mapping between original nodes and their corresponding copies.
         Map<Node, Node> hashMap = new HashMap<>();
         Node current = head;
 
+        // First pass: Create copies of each node and store them in the map.
         while (current != null) {
             hashMap.put(current, new Node(current.val));
             current = current.next;
         }
 
+        // Second pass: Set the next and random pointers for each copied node.
         current = head;
-
         while (current != null) {
+            // Get the copied node from the map.
             Node copy = hashMap.get(current);
 
+            // Set the next pointer of the copied node to the copied node of current.next.
             copy.next = hashMap.get(current.next);
-            copy.random = hashMap.get(current.random);
-            current = current.next;
 
+            // Set the random pointer of the copied node to the copied node of current.random.
+            copy.random = hashMap.get(current.random);
+
+            // Move to the next node in the original list.
+            current = current.next;
         }
+
+        // Return the copied list starting from the new head (the copy of the original head).
         return hashMap.get(head);
     }
 }
+
 
 
 
