@@ -45,28 +45,39 @@ class Solution {
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
         
+        // Create a bucket array where index represents frequency and each index stores a list of numbers with that frequency.
         List<Integer>[] bucket = new List[nums.length + 1];
+        
+        // HashMap to store the frequency of each number in the nums array.
         HashMap<Integer, Integer> hashMap = new HashMap<>();
 
+        // Count the frequency of each number in the input array.
         for (int num : nums) {
+            // Use getOrDefault to simplify incrementing the frequency count.
             hashMap.put(num, hashMap.getOrDefault(num, 0) + 1);
         }
 
+        // Group numbers by their frequency into the bucket array.
         for (int key : hashMap.keySet()) {
             int freq = hashMap.get(key);
 
+            // If no bucket for this frequency exists, create one.
             if (bucket[freq] == null) {
                 bucket[freq] = new ArrayList<>();
             }
+            
+            // Add the number to the corresponding bucket based on its frequency.
             bucket[freq].add(key);
         }
 
+        // Prepare the result array to store the top K frequent elements.
         int[] ans = new int[k];
         int pos = 0;
 
+        // Traverse the bucket array from the highest frequency to the lowest.
         for (int i = bucket.length - 1; i >= 0; i--) {
             if (bucket[i] != null) {
-
+                // Iterate over the numbers in the current bucket and add them to the result array.
                 for (int j = 0; j < bucket[i].size() && pos < k; j++) {
                     ans[pos] = bucket[i].get(j);
                     pos++;
@@ -74,9 +85,11 @@ class Solution {
             }
         }
 
+        // Return the top K frequent elements.
         return ans;
     }
 }
+
 
 // Maximum Sum Circular Subarray
 
