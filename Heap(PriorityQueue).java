@@ -97,23 +97,37 @@ class Solution {
 class Solution {
     public int maxSubarraySumCircular(int[] nums) {
         
+        // Variables to keep track of the total sum of the array, 
+        // the current maximum and minimum subarray sums, and 
+        // the global maximum and minimum subarray sums.
         int totalSum = 0, currentMax = 0, currentMin = 0;
         int maxSum = Integer.MIN_VALUE, minSum = Integer.MAX_VALUE;
 
+        // Traverse through the array to calculate both the maximum subarray sum
+        // and the minimum subarray sum using Kadane's Algorithm.
         for (int num : nums) {
-            totalSum += num;
+            totalSum += num; // Update the total sum of the array.
 
-            currentMax = Math.max(currentMax + num, num);
-            maxSum = Math.max(maxSum, currentMax);
+            // Kadane's Algorithm for maximum subarray sum.
+            currentMax = Math.max(currentMax + num, num); // Either continue the current subarray or start a new subarray.
+            maxSum = Math.max(maxSum, currentMax); // Update the global maximum sum.
 
-            currentMin = Math.min(currentMin + num, num);
-            minSum = Math.min(minSum, currentMin);
+            // Kadane's Algorithm for minimum subarray sum.
+            currentMin = Math.min(currentMin + num, num); // Either continue the current subarray or start a new subarray.
+            minSum = Math.min(minSum, currentMin); // Update the global minimum sum.
         }
 
+        // If the maximum sum is negative, it means all elements are negative,
+        // so we simply return the maximum subarray sum.
         if (maxSum < 0) return maxSum;
+
+        // Otherwise, calculate the maximum sum that can be obtained by considering circular subarrays.
+        // The totalSum - minSum gives the sum of the array excluding the minimum subarray sum, 
+        // effectively considering the circular subarray.
         return Math.max(maxSum, totalSum - minSum);
     }
 }
+
 
 // Find Median from Data Stream
 
