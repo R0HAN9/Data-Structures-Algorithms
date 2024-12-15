@@ -2,29 +2,39 @@
 
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
+        // PriorityQueue (min-heap) to store the nodes based on their values in ascending order
         PriorityQueue<ListNode> heap = new PriorityQueue<>((a, b) -> a.val - b.val);
 
+        // Add the first node of each list into the heap (if not null)
         for(ListNode node : lists){
             if(node != null)
                 heap.add(node);
         }
 
+        // Create a dummy node to serve as the head of the merged list
         ListNode head = new ListNode(0);
-        ListNode current = head;
+        ListNode current = head; // Pointer to track the current node in the merged list
 
+        // Process the nodes in the heap
         while(!heap.isEmpty()){
+            // Poll the node with the smallest value from the heap
             ListNode node = heap.poll();
+            
+            // Attach the node to the merged list
             current.next = node;
-            current = current.next;
+            current = current.next; // Move the current pointer to the newly added node
 
+            // If the current node has a next node, add it to the heap
             if (node.next != null) {
                 heap.add(node.next);
             }
         }
         
+        // Return the merged list, skipping the dummy node at the beginning
         return head.next;
     }
 }
+
 
 
 
