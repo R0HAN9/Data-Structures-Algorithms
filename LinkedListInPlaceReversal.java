@@ -4,22 +4,33 @@
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         
+        // Create a dummy node to simplify edge cases, such as when the head itself is removed.
         ListNode result = new ListNode(0, head);
+        
+        // A pointer to traverse the list, starting from the dummy node.
         ListNode dummy = result;
 
+        // Move the 'head' pointer n steps ahead to create a gap of n between dummy and the node to be removed.
         for (int i = 0; i < n; i++) {
             head = head.next;
         }
 
+        // Traverse the list until 'head' reaches the end.
+        // This ensures that 'dummy' will be positioned right before the node to be removed.
         while (head != null) {
             head = head.next;
             dummy = dummy.next;
         }
+
+        // Now 'dummy' points to the node just before the one we need to remove.
+        // Skip the nth node from the end by adjusting the next pointer.
         dummy.next = dummy.next.next;
 
+        // Return the modified list, starting from the original head.
         return result.next;
     }
 }
+
 
 
 // Copy List with Random Pointer
