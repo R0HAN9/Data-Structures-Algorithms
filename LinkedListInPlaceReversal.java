@@ -103,19 +103,35 @@ class Solution {
 
 class Solution {
     public void flatten(TreeNode root) {
-
+        
+        // Initialize 'curr' to the root of the tree.
         TreeNode curr = root;
+        
+        // Traverse the tree using 'curr' as the current node.
         while (curr != null) {
+            
+            // If the current node has a left child, we need to flatten it.
             if (curr.left != null) {
-
-                TreeNode runner = curr.left;
-                while (runner.right != null) runner = runner.right;
                 
+                // Find the rightmost node of the left subtree.
+                TreeNode runner = curr.left;
+                while (runner.right != null) {
+                    runner = runner.right;
+                }
+                
+                // Connect the right subtree of the current node to the rightmost node of the left subtree.
                 runner.right = curr.right;
+                
+                // Make the left child the new right child of the current node.
                 curr.right = curr.left;
+                
+                // Set the left child to null, as we are flattening the tree to a linked list.
                 curr.left = null;
             }
+            
+            // Move to the next node in the flattened tree.
             curr = curr.right;
         }
     }
 }
+
