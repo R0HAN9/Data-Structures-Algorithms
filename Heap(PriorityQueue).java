@@ -135,32 +135,42 @@ class Solution {
 
 class MedianFinder {
 
-    private PriorityQueue<Integer> lowerHalf;
-    private PriorityQueue<Integer> upperHalf;
+    // Priority queues (heaps) to store the two halves of the numbers.
+    private PriorityQueue<Integer> lowerHalf; // Max-heap to store the lower half of numbers.
+    private PriorityQueue<Integer> upperHalf; // Min-heap to store the upper half of numbers.
 
     public MedianFinder() {
-        
-        lowerHalf = new PriorityQueue<>((a,b) -> b-a);
-        upperHalf = new PriorityQueue<>();
+        // Initialize the two heaps:
+        // - lowerHalf stores the smaller half (max-heap), and 
+        // - upperHalf stores the larger half (min-heap).
+        lowerHalf = new PriorityQueue<>((a, b) -> b - a); // Max-heap (reverse order for largest at the top)
+        upperHalf = new PriorityQueue<>(); // Min-heap (natural order for smallest at the top)
     }
     
+    // Adds a number to the data structure.
     public void addNum(int num) {
-        
+        // Add the number to the lower half (max-heap).
         lowerHalf.offer(num);
+
+        // Move the largest element from lowerHalf to upperHalf (min-heap).
         upperHalf.offer(lowerHalf.poll());
 
+        // Ensure the heaps are balanced. If upperHalf has more elements, move one back to lowerHalf.
         if (lowerHalf.size() < upperHalf.size()) {
             lowerHalf.offer(upperHalf.poll());
         }
     }
     
+    // Finds the median of the current numbers.
     public double findMedian() {
-        
+        // If lowerHalf has more elements, the median is the top element of lowerHalf.
         if (lowerHalf.size() > upperHalf.size()) {
             return lowerHalf.peek();
         }
+        // Otherwise, the median is the average of the top elements of both heaps.
         else {
             return (lowerHalf.peek() + upperHalf.peek()) / 2.0;
         }
     }
 }
+
