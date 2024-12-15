@@ -76,19 +76,26 @@ class Solution {
 
 class Solution {
     public ListNode swapPairs(ListNode head) {
-        if(head==null || head.next==null)
-        {
+        
+        // Base case: if the list is empty or has only one node, return the head as is.
+        if(head == null || head.next == null) {
             return head;
         }
 
+        // Store the second node in a temporary variable, as it will be the new head after swapping.
         ListNode tmp = head.next;
 
+        // Recursively swap the pairs starting from the third node and link it back to the current pair.
         head.next = swapPairs(head.next.next);
-        tmp.next=head;
 
+        // Set the 'next' of the second node (tmp) to the first node (head), completing the swap.
+        tmp.next = head;
+
+        // Return the new head of the swapped pair (tmp).
         return tmp;
     }
 }
+
 
 
 // 2. Flatten Binary Tree to Linked List
