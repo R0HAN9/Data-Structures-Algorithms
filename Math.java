@@ -111,19 +111,27 @@ class Solution {
 
 class Solution {
     public double myPow(double x, int n) {
+        // Call the helper function to handle the computation.
+        // Since `n` can be very large or negative, convert it to long to avoid overflow.
         return binaryExp(x, (long) n);
     }
 
     private double binaryExp(double x, long n) {
-
+        // Base case: If the power is 0, any number raised to the power of 0 is 1.
         if (n == 0) return 1;
+
+        // If `n` is negative, compute the reciprocal of the result for `-n` (positive exponent).
         if (n < 0) return 1.0 / binaryExp(x, -n);
 
+        // If `n` is odd, split the problem:
+        // Multiply the base `x` with the result of `x^(n-1)`, where `x^(n-1)` is computed recursively.
         if (n % 2 == 1) {
             return x * binaryExp(x * x, (n - 1) / 2);
         }
+        // If `n` is even, directly compute `x^n` as `(x^2)^(n/2)` to reduce the number of recursive calls.
         else {
             return binaryExp(x * x, n / 2);
         }
     }
 }
+
