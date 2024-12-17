@@ -30,22 +30,33 @@ class Solution {
 
 class Solution {
     public int[] plusOne(int[] digits) {
-        
+        // Iterate through the array from the last digit (rightmost) to the first (leftmost).
         for (int i = digits.length - 1; i >= 0; i--) {
-
+            // If adding 1 to the current digit doesn't result in a carry (not 10):
             if (digits[i] + 1 != 10) {
+                // Increment the current digit by 1.
                 digits[i] += 1;
+                
+                // Return the updated array as no carry is needed further.
                 return digits;
             }
+            
+            // If adding 1 results in 10, set the current digit to 0 (carry over to the next digit).
             digits[i] = 0;
         }
 
+        // If we reach here, all digits were 9 and we have a carry beyond the leftmost digit.
+        // Create a new array with an additional digit to handle the carry.
         int[] newDigits = new int[digits.length + 1];
+        
+        // Set the first digit to 1 as it's the carry.
         newDigits[0] = 1;
 
+        // Return the new array. The rest of the digits are already initialized to 0 by default.
         return newDigits;
     }
 }
+
 
 
 // Sqrt(x)
