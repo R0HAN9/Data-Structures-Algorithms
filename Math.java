@@ -3,19 +3,27 @@
 
 class Solution {
     public boolean isPalindrome(int x) {
+        // Negative numbers cannot be palindromes, so return false immediately.
         if (x < 0) return false;
 
+        // Store the original number for comparison later.
         int original = x;
         int reversed = 0;
 
+        // Reverse the digits of the number.
         while (x > 0) {
+            // Extract the last digit of x and add it to the reversed number.
             reversed = (reversed * 10) + (x % 10);
+            
+            // Remove the last digit from x.
             x /= 10;
         }
 
+        // Check if the reversed number is the same as the original number.
         return reversed == original;
     }
 }
+
 
 
  // Plus One
