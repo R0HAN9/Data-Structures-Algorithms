@@ -63,33 +63,46 @@ class Solution {
 
 class Solution {
     public int mySqrt(int x) {
-        
+        // If x is 0, the square root is also 0.
         if (x == 0) return 0;
 
+        // Initialize the search range for binary search.
+        // `left` starts at 1 because the square root of 0 is already handled.
         long left = 1;
-        long right = x;
-        long result = 0;
+        long right = x; // The square root cannot exceed x itself.
+        long result = 0; // Variable to store the largest integer whose square is <= x.
 
+        // Perform binary search.
         while (left <= right) {
-
+            // Calculate the mid-point to prevent potential overflow.
             long mid = left + (right - left) / 2;
+
+            // Calculate the square of the mid-point.
             long midSquared = mid * mid;
 
+            // If mid^2 equals x, we've found the exact square root.
             if (midSquared == x) {
-                return (int) mid;
+                return (int) mid; // Return mid as the square root.
             }
+            // If mid^2 is less than x, it means mid is a potential answer.
+            // Move the left pointer to search for larger numbers.
             else if (midSquared < x) {
-                result = mid;
+                result = mid; // Update the result to the current mid value.
                 left = mid + 1;
             }
+            // If mid^2 is greater than x, it means mid is too large.
+            // Move the right pointer to search for smaller numbers.
             else {
                 right = mid - 1;
             }
         }
 
+        // If we exit the loop, the exact square root was not found.
+        // Return the largest integer whose square is <= x.
         return (int) result;
     }
 }
+
 
 
 
