@@ -3,60 +3,74 @@
 
 class Solution {
     public void solve(char[][] board) {
-        
-        int n = board.length;
-        int m = board[0].length;
+        // Get dimensions of the board.
+        int n = board.length;      // Number of rows
+        int m = board[0].length;   // Number of columns
 
+        // Arrays to represent directions (up, right, down, left).
         int[] dRow = {-1, 0, 1, 0};
         int[] dCol = {0, 1, 0, -1};
+
+        // Create a visited array to keep track of cells that are already processed.
         boolean[][] vis = new boolean[n][m];
 
+        // Traverse the first and last columns for every row.
         for (int i = 0; i < n; i++) {
+            // Check the first column of the current row.
             if (!vis[i][0] && board[i][0] == 'O') {
-                dfs(i, 0, dRow, dCol, vis, board);
+                dfs(i, 0, dRow, dCol, vis, board); // Mark all connected 'O' cells as visited.
             }
-
+            // Check the last column of the current row.
             if (!vis[i][m - 1] && board[i][m - 1] == 'O') {
-                dfs(i, m - 1, dRow, dCol, vis, board);
+                dfs(i, m - 1, dRow, dCol, vis, board); // Mark all connected 'O' cells as visited.
             }
         }
 
+        // Traverse the first and last rows for every column.
         for (int i = 0; i < m; i++) {
+            // Check the first row of the current column.
             if (!vis[0][i] && board[0][i] == 'O') {
-                dfs(0, i, dRow, dCol, vis, board);
+                dfs(0, i, dRow, dCol, vis, board); // Mark all connected 'O' cells as visited.
             }
-
+            // Check the last row of the current column.
             if (!vis[n - 1][i] && board[n - 1][i] == 'O') {
-                dfs(n - 1, i, dRow, dCol, vis, board);
+                dfs(n - 1, i, dRow, dCol, vis, board); // Mark all connected 'O' cells as visited.
             }
         }
 
+        // Convert all remaining unvisited 'O' cells to 'X'.
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-
                 if (!vis[i][j] && board[i][j] == 'O') {
-                    board[i][j] = 'X';
+                    board[i][j] = 'X'; // Flip isolated 'O' cells to 'X'.
                 }
             }
         }
     }
 
+    // Depth First Search to mark all connected 'O' cells.
     public void dfs(int row, int col, int[] dRow, int[] dCol, boolean[][] vis, char[][] board) {
-
+        // Mark the current cell as visited.
         vis[row][col] = true;
-        int n = board.length;
-        int m = board[0].length;
 
+        // Get dimensions of the board.
+        int n = board.length;      // Number of rows
+        int m = board[0].length;   // Number of columns
+
+        // Explore all 4 possible directions (up, right, down, left).
         for (int i = 0; i < 4; i++) {
-            int newRow = row + dRow[i];
-            int newCol = col + dCol[i];
+            int newRow = row + dRow[i]; // Calculate the new row index.
+            int newCol = col + dCol[i]; // Calculate the new column index.
 
-            if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && !vis[newRow][newCol] && board[newRow][newCol] == 'O') { 
-                dfs(newRow, newCol, dRow, dCol, vis, board);
+            // Check if the new cell is within bounds, not visited, and contains 'O'.
+            if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < m &&
+                !vis[newRow][newCol] && board[newRow][newCol] == 'O') {
+                dfs(newRow, newCol, dRow, dCol, vis, board); // Recur for the new cell.
             }
         }
     }
 }
+
 
 
 
