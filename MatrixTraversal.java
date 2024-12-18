@@ -295,32 +295,45 @@ class Solution {
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         
-        int rows = matrix.length;
-        int cols = matrix[0].length;
+        // Get the number of rows and columns in the matrix
+        int rows = matrix.length; 
+        int cols = matrix[0].length; 
 
-        int left = 0;
-        int right = rows * cols - 1;
+        // Treat the 2D matrix as a 1D array for binary search
+        int left = 0; 
+        int right = rows * cols - 1; 
 
+        // Perform binary search
         while (left <= right) {
 
-            int mid = (left + right) / 2;
-            int row = mid / cols;
-            int col = mid % cols;
+            // Find the middle index of the virtual 1D array
+            int mid = (left + right) / 2; 
 
-            int guess = matrix[row][col];
+            // Map the middle index to a row and column in the 2D matrix
+            int row = mid / cols; 
+            int col = mid % cols; 
+
+            // Get the value at the calculated position
+            int guess = matrix[row][col]; 
+
+            // If the value matches the target, return true
             if (guess == target) return true;
 
+            // If the value is less than the target, move to the right half
             else if (guess < target) {
-                left = mid + 1;
+                left = mid + 1; 
             }
+            // If the value is greater than the target, move to the left half
             else {
-                right = mid - 1;
+                right = mid - 1; 
             }
         }
 
-        return false;
+        // If the target is not found, return false
+        return false; 
     }
 }
+
 
 
 
