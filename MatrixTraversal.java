@@ -245,32 +245,45 @@ class Solution {
 class Solution {
     public int maximalSquare(char[][] matrix) {
         
+        // If the matrix is empty, return 0 (no squares possible)
         if (matrix.length == 0 || matrix[0].length == 0) return 0;
 
-        int rows = matrix.length;
-        int cols = matrix[0].length;
+        int rows = matrix.length;  // Number of rows in the matrix
+        int cols = matrix[0].length;  // Number of columns in the matrix
+        
+        // Create a DP table to store the side length of the largest square ending at each cell
         int[][] dp = new int[rows][cols];
-        int maxSide = 0;
+        
+        int maxSide = 0;  // Variable to track the maximum side length of a square
 
+        // Iterate through the matrix
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
 
+                // Process only cells with '1'
                 if (matrix[i][j] == '1') {
                     if (i == 0 || j == 0) {
-
+                        // If the cell is in the first row or first column, it can only form a square of size 1
                         dp[i][j] = 1;
+                    } else {
+                        // Otherwise, the square side length depends on the minimum side lengths of squares
+                        // ending at the top, left, and top-left diagonal cells
+                        dp[i][j] = Math.min(
+                            Math.min(dp[i-1][j], dp[i][j-1]),  // Top and left
+                            dp[i-1][j-1]  // Top-left diagonal
+                        ) + 1;
                     }
-                    else {
-                        dp[i][j] = Math.min(Math.min(dp[i-1][j], dp[i][j-1]), dp[i-1][j-1]) + 1;
-                    }
+                    // Update the maximum side length found so far
                     maxSide = Math.max(maxSide, dp[i][j]);
                 }
             }
         }
 
+        // The area of the largest square is the square of its side length
         return maxSide * maxSide;
     }
 }
+
 
 
 
