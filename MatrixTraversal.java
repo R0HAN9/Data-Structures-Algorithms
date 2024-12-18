@@ -382,21 +382,27 @@ class Solution {
 class Solution {
     public boolean isValidSudoku(char[][] board) {
         
+        // Boolean arrays to track the presence of numbers in rows, columns, and sub-boxes
         boolean[][] rows = new boolean[9][9];
         boolean[][] columns = new boolean[9][9];
         boolean[][] subBoxes = new boolean[9][9];
 
+        // Iterate through each cell in the board
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
 
-                if (board[i][j] != '.') {
-                    int num = board[i][j] - '1';
+                if (board[i][j] != '.') { // Check only non-empty cells
+                    int num = board[i][j] - '1'; // Convert char to integer (0-based index)
 
-                    int boxIndex = (i/3) * 3 + (j/3);
+                    // Calculate sub-box index using row and column
+                    int boxIndex = (i / 3) * 3 + (j / 3);
+
+                    // Check if the number already exists in the current row, column, or sub-box
                     if (rows[i][num] || columns[j][num] || subBoxes[boxIndex][num]) {
-                        return false;
+                        return false; // Sudoku rule violation
                     }
 
+                    // Mark the number as seen in the current row, column, and sub-box
                     rows[i][num] = true;
                     columns[j][num] = true;
                     subBoxes[boxIndex][num] = true;
@@ -404,6 +410,6 @@ class Solution {
             }
         }
 
-        return true;
+        return true; // All checks passed, the Sudoku is valid
     }
 }
