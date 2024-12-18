@@ -343,24 +343,28 @@ class Solution {
 class Solution {
     public void rotate(int[][] matrix) {
         
-        int edgeLength = matrix.length;
-        int top = 0;
-        int bottom = edgeLength - 1;
+        int edgeLength = matrix.length; // Length of the matrix (assuming square matrix)
+        int top = 0; // Pointer to the top row
+        int bottom = edgeLength - 1; // Pointer to the bottom row
 
+        // Step 1: Reverse the rows of the matrix
         while (top < bottom) {
             for (int col = 0; col < edgeLength; col++) {
 
+                // Swap elements in the top and bottom rows
                 int temp = matrix[top][col];
                 matrix[top][col] = matrix[bottom][col];
                 matrix[bottom][col] = temp;
             }
-            top++;
-            bottom--;
+            top++; // Move top pointer down
+            bottom--; // Move bottom pointer up
         }
 
+        // Step 2: Transpose the matrix
         for (int row = 0; row < edgeLength; row++) {
             for (int col = row + 1; col < edgeLength; col++) {
 
+                // Swap elements to transpose the matrix
                 int temp = matrix[row][col];
                 matrix[row][col] = matrix[col][row];
                 matrix[col][row] = temp;
@@ -368,6 +372,7 @@ class Solution {
         }
     }
 }
+
 
 
 
