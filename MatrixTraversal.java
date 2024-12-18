@@ -78,35 +78,45 @@ class Solution {
 
 class Solution {
     public int numIslands(char[][] grid) {
+        // Check for edge cases: If the grid is null or empty, there are no islands.
         if (grid == null || grid.length == 0) {
-            return 0;
+            return 0; // Return 0 as there are no islands.
         }
         
-        int numIslands = 0;
+        int numIslands = 0; // Counter to keep track of the number of islands.
+        
+        // Iterate through every cell in the grid.
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
+                // If the current cell is '1' (land), it indicates the start of a new island.
                 if (grid[i][j] == '1') {
-                    numIslands++;
+                    numIslands++; // Increment the island count.
+                    // Use DFS to mark all the cells in this island as visited.
                     dfs(grid, i, j);
                 }
             }
         }
         
-        return numIslands;
+        return numIslands; // Return the total number of islands.
     }
     
     private void dfs(char[][] grid, int i, int j) {
+        // Check if the current cell is out of bounds or is not part of the island.
         if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1') {
-            return;
+            return; // Stop further exploration.
         }
         
-        grid[i][j] = '0'; // mark as visited
-        dfs(grid, i + 1, j); // down
-        dfs(grid, i - 1, j); // up
-        dfs(grid, i, j + 1); // right
-        dfs(grid, i, j - 1); // left
+        // Mark the current cell as visited by setting it to '0'.
+        grid[i][j] = '0';
+        
+        // Explore all four directions: down, up, right, and left.
+        dfs(grid, i + 1, j); // Move down.
+        dfs(grid, i - 1, j); // Move up.
+        dfs(grid, i, j + 1); // Move right.
+        dfs(grid, i, j - 1); // Move left.
     }
-}  
+}
+  
 
 // If we can update grid directly, we can write solutions below.
 
