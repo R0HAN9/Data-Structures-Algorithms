@@ -122,48 +122,63 @@ class Solution {
 
 class Solution {
     public int numIslands(char[][] grid) {
-        
+        // Variable to count the number of islands
         int island = 0;
+        // Get the number of rows and columns in the grid
         int rows = grid.length;
         int cols = grid[0].length;
 
+        // Traverse every cell in the grid
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
 
+                // If the cell contains '1', it's part of an island
                 if (grid[r][c] == '1') {
+                    // Increment the island count
                     island++;
+                    // Perform BFS to mark the entire island as visited
                     bfs(grid, r, c, rows, cols);
                 }
             }
         }
+        // Return the total count of islands
         return island;
     }
 
     private void bfs(char[][] grid, int r, int c, int rows, int cols) {
-
+        // Initialize a queue for BFS, starting with the current cell
         Queue<int[]> q = new LinkedList<>();
         q.add(new int[] {r, c});
+        // Mark the current cell as visited by setting it to '0'
         grid[r][c] = '0';
 
+        // Define directions for traversing up, down, left, and right
         int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
+        // Perform BFS until the queue is empty
         while (!q.isEmpty()) {
+            // Get the next cell to process from the queue
             int[] point = q.poll();
             int row = point[0], col = point[1];
 
+            // Explore all possible directions from the current cell
             for (int[] direction : directions) {
 
-                int nr = row + direction[0];
-                int nc = col + direction[1];
+                int nr = row + direction[0]; // New row
+                int nc = col + direction[1]; // New column
 
+                // Check if the neighboring cell is valid and contains '1'
                 if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == '1') {
+                    // Add the neighboring cell to the queue
                     q.add(new int[] {nr, nc});
+                    // Mark the neighboring cell as visited
                     grid[nr][nc] = '0';
                 }
             }
         }
     }
 }
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
