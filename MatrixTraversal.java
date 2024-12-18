@@ -188,31 +188,55 @@ class Solution {
 class Solution {
     public int smallestChair(int[][] times, int targetFriend) {
         
-        int n = times.length;
-        Integer[] order = new Integer[n];
+        int n = times.length; // Total number of friends
+        Integer[] order = new Integer[n]; // Array to track the order of friends by arrival time
 
-        for (int i = 0; i < n; i++) order[i] = i;
+        // Initialize the order array with indices 0 to n-1
+        for (int i = 0; i < n; i++) {
+            order[i] = i;
+        }
+
+        // Sort the friends by their arrival times using the order array
         Arrays.sort(order, (a, b) -> Integer.compare(times[a][0], times[b][0]));
 
+        // Min-heap to manage available (empty) seats by their indices
         PriorityQueue<Integer> emptySeats = new PriorityQueue<>();
+
+        // Min-heap to manage occupied seats, sorted by leave time
         PriorityQueue<int[]> takenSeats = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
 
-        for (int i = 0; i < n; i++) emptySeats.offer(i);
+        // Initially, all chairs are available
+        for (int i = 0; i < n; i++) {
+            emptySeats.offer(i);
+        }
+
+        // Iterate over the sorted order of friends
         for (int i : order) {
 
-            int arrival = times[i][0], leave = times[i][1];
+            int arrival = times[i][0]; // Current friend's arrival time
+            int leave = times[i][1];  // Current friend's leaving time
+
+            // Release chairs that become available by the current arrival time
             while (!takenSeats.isEmpty() && takenSeats.peek()[0] <= arrival) {
                 emptySeats.offer(takenSeats.poll()[1]);
             }
 
+            // Assign the smallest available seat to the current friend
             int seat = emptySeats.poll();
-            if (i == targetFriend) return seat;
+
+            // If this is the target friend, return the assigned seat
+            if (i == targetFriend) {
+                return seat;
+            }
+
+            // Add the current friend's leave time and assigned seat to the takenSeats heap
             takenSeats.offer(new int[] {leave, seat});
         }
 
-        return -1;
+        return -1; // Default return value (shouldn't be reached in this problem)
     }
 }
+
 
 
 // 3. Maximal Square
