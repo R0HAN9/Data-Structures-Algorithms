@@ -41,18 +41,25 @@ class Solution {
 
 class Solution {
     public int[] dailyTemperatures(int[] temperatures) {
-        int n = temperatures.length;
-        Deque<Integer> stk = new ArrayDeque<>();
-        int[] ans = new int[n];
+        int n = temperatures.length; // Get the length of the input array
+        Deque<Integer> stk = new ArrayDeque<>(); // Stack to store indices of temperatures
+        int[] ans = new int[n]; // Array to store the result for each day
+
+        // Traverse the array in reverse (from right to left)
         for (int i = n - 1; i >= 0; --i) {
+            // Remove indices from the stack where the temperature is less than or equal to the current temperature
             while (!stk.isEmpty() && temperatures[stk.peek()] <= temperatures[i]) {
                 stk.pop();
             }
+            // If the stack is not empty, calculate the number of days until a warmer temperature
             if (!stk.isEmpty()) {
                 ans[i] = stk.peek() - i;
             }
+            // Push the current index onto the stack
             stk.push(i);
         }
-        return ans;
+
+        return ans; // Return the result array
     }
 }
+
