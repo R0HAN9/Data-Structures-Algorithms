@@ -3,49 +3,57 @@
 
 class Solution {
 
-    int[] depth;
-    int[] levelArray;
-    int[] max1;
-    int[] max2;
+    // Arrays to store depth, levels, and maximum heights at each level
+    int[] depth; 
+    int[] levelArray; 
+    int[] max1; 
+    int[] max2; 
 
     public int height(TreeNode root, int level) {
 
-        if (root == null) return 0;
+        if (root == null) return 0; // Base case: null node has height 0
+
+        // Store the level of the current node
         levelArray[root.val] = level;
+
+        // Compute the depth of the current node recursively
         depth[root.val] = 1 + Math.max(height(root.left, level + 1), height(root.right, level + 1));
 
+        // Update the maximum and second maximum depths at the current level
         if (max1[level] < depth[root.val]) {
-
             max2[level] = max1[level];
             max1[level] = depth[root.val];
-        }
-        else if (max2[level] < depth[root.val]) {
+        } else if (max2[level] < depth[root.val]) {
             max2[level] = depth[root.val];
         }
 
-        return depth[root.val];
+        return depth[root.val]; // Return the depth of the current node
     }
 
     public int[] treeQueries(TreeNode root, int[] queries) {
         
+        // Initialize arrays for up to 100001 nodes
         depth = new int[100001];
         levelArray = new int[100001];
         max1 = new int[100001];
         max2 = new int[100001];
 
+        // Calculate depths and levels of all nodes
         height(root, 0);
+
         for (int i = 0; i < queries.length; i++) {
 
-            int q = queries[i];
-            int level = levelArray[q];
+            int q = queries[i]; // Current query node
+            int level = levelArray[q]; // Level of the query node
 
+            // Compute the new height of the tree excluding the query node
             queries[i] = (max1[level] == depth[q] ? max2[level] : max1[level]) + level - 1;
-
         }
 
-        return queries;
+        return queries; // Return the results for all queries
     }
 }
+
 
 
 
