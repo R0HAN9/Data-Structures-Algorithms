@@ -63,32 +63,39 @@ class Solution {
 
 class Solution {
     public int search(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
+        int left = 0; // Initialize the left pointer
+        int right = nums.length - 1; // Initialize the right pointer
 
         while (left <= right) {
-            int mid = (left + right) / 2;
+            int mid = (left + right) / 2; // Calculate the middle index
 
             if (nums[mid] == target) {
-                return mid;
-            } else if (nums[mid] >= nums[left]) {
+                return mid; // If the middle element is the target, return its index
+            } 
+            // Check if the left half is sorted
+            else if (nums[mid] >= nums[left]) {
+                // If the target lies in the sorted left half
                 if (nums[left] <= target && target <= nums[mid]) {
-                    right = mid - 1;
+                    right = mid - 1; // Adjust the right pointer
                 } else {
-                    left = mid + 1;
+                    left = mid + 1; // Adjust the left pointer
                 }
-            } else {
+            } 
+            // Else, the right half must be sorted
+            else {
+                // If the target lies in the sorted right half
                 if (nums[mid] <= target && target <= nums[right]) {
-                    left = mid + 1;
+                    left = mid + 1; // Adjust the left pointer
                 } else {
-                    right = mid - 1;
+                    right = mid - 1; // Adjust the right pointer
                 }
             }
         }
 
-        return -1;        
+        return -1; // Return -1 if the target is not found
     }
 }
+
 
 
 
