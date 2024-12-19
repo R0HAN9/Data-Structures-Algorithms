@@ -33,20 +33,20 @@ class Solution {
 
 import java.util.*;
 
+// Define a class Pair to represent intervals with a start (first) and end (second)
 public class Solution {
     static class Pair implements Comparable<Pair> {
 
-        int first, second;
+        int first, second; // Interval start and end
 
-        Pair(int f, int s) {
+        Pair(int f, int s) { // Constructor to initialize a Pair
             first = f;
             second = s;
         }
 
         @Override
-
         public int compareTo(Pair o) {
-
+            // Comparator to sort intervals by their ending time (second value)
             if (this.second > o.second)
                 return 1;
             else if (this.second == o.second)
@@ -55,18 +55,24 @@ public class Solution {
         }
     }
 
+    // Function to find and print the maximum number of disjoint intervals
     static void maxDisjointIntervals(Pair[] list) {
-
+        // Sort intervals based on their end times
         Collections.sort(Arrays.asList(list));
+
+        // Print the first interval as it is always part of the solution
         System.out.println("[" + list[0].first + "," + list[0].second + "]" + "\n");
 
-        int r1 = list[0].second;
+        int r1 = list[0].second; // Track the end time of the last included interval
+
+        // Iterate through the intervals starting from the second one
         for (int i = 1; i < list.length; i++) {
+            int l1 = list[i].first; // Start of the current interval
+            int r2 = list[i].second; // End of the current interval
 
-            int l1 = list[i].first;
-            int r2 = list[i].second;
-
+            // Check if the current interval does not overlap with the last included interval
             if (l1 > r1) {
+                // Print the interval and update the end time tracker
                 System.out.println("[" + l1 + ", " + r2 + "]" + "\n");
                 r1 = r2;
             }
@@ -74,13 +80,15 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-
+        // Initialize a list of intervals
         Pair[] intervals = {
                 new Pair(1, 4),
                 new Pair(2, 3),
                 new Pair(4, 6),
                 new Pair(8, 9) };
 
+        // Find and print the maximum number of disjoint intervals
         maxDisjointIntervals(intervals);
     }
 }
+
