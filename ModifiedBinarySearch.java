@@ -104,26 +104,35 @@ class Solution {
 
 class Solution {
     public int findKthLargest(int[] nums, int k) {
-        int main_max = Integer.MIN_VALUE;
-        HashMap<Integer,Integer> hm = new HashMap<>();
-        for(int i=0;i<nums.length;i++){
-            if(hm.containsKey(nums[i])){
-                hm.put(nums[i],hm.get(nums[i]) +1);
-            }else{
-                hm.put(nums[i],1);
+        int main_max = Integer.MIN_VALUE; // Initialize the maximum value to the smallest integer
+        HashMap<Integer, Integer> hm = new HashMap<>(); // Map to store frequency of each number
+        
+        // Populate the hashmap with frequencies and find the maximum number
+        for (int i = 0; i < nums.length; i++) {
+            if (hm.containsKey(nums[i])) {
+                hm.put(nums[i], hm.get(nums[i]) + 1); // Increment frequency if number exists in map
+            } else {
+                hm.put(nums[i], 1); // Add number to map with frequency 1
             }
-            main_max = Math.max(main_max,nums[i]);
+            main_max = Math.max(main_max, nums[i]); // Update maximum number
         }
-        if(hm.size()==1){
+        
+        // If all elements are the same, return the maximum value
+        if (hm.size() == 1) {
             return main_max;
         }
-        k -= hm.get(main_max);
-        while(k>0){
-            main_max--;
-            if(hm.containsKey(main_max)){
-                k -= hm.get(main_max);
+
+        k -= hm.get(main_max); // Subtract frequency of the maximum number from k
+        
+        // Traverse backwards from the maximum to find the kth largest element
+        while (k > 0) {
+            main_max--; // Move to the next smaller number
+            if (hm.containsKey(main_max)) {
+                k -= hm.get(main_max); // Subtract frequency of the current number from k
             }
         }
-        return main_max;
+        
+        return main_max; // Return the kth largest number
     }
 }
+
