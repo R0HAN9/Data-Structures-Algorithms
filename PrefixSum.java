@@ -70,30 +70,39 @@ class Solution {
 
 class Trie {
 
+    // A HashSet to store complete words added to the Trie
     private HashSet<String> data;
+
+    // A HashSet to store all prefixes of the words in the Trie
     private HashSet<String> prefs;
 
+    // Constructor to initialize the data structures
     public Trie() {
-        
-        data = new HashSet<>();
-        prefs = new HashSet<>();
+        data = new HashSet<>(); // Initialize HashSet for storing complete words
+        prefs = new HashSet<>(); // Initialize HashSet for storing prefixes
     }
     
+    // Method to insert a word into the Trie
     public void insert(String word) {
-        
-        StringBuilder curr = new StringBuilder();
+        StringBuilder curr = new StringBuilder(); // StringBuilder to build prefixes step by step
+
+        // Iterate through each character of the word
         for (int i = 0; i < word.length(); i++) {
-            curr.append(word.charAt(i));
-            prefs.add(curr.toString());
+            curr.append(word.charAt(i)); // Add the current character to the prefix being constructed
+            prefs.add(curr.toString()); // Store the current prefix in the prefix set
         }
+
+        // Add the full word to the set of words
         data.add(word);
     }
     
+    // Method to check if a word exists in the Trie
     public boolean search(String word) {
-        return data.contains(word);
+        return data.contains(word); // Return true if the word is found in the word set
     }
     
+    // Method to check if there is any word in the Trie that starts with the given prefix
     public boolean startsWith(String prefix) {
-        return prefs.contains(prefix);
+        return prefs.contains(prefix); // Return true if the prefix is found in the prefix set
     }
 }
