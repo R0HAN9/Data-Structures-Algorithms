@@ -91,47 +91,58 @@ import java.util.*;
 
 class Solution {
     public boolean parseBoolExpr(String expression) {
+        // Stack to process the expression and store intermediate results
         Stack<Character> stack = new Stack<>();
 
+        // Traverse through each character in the expression
         for (char c : expression.toCharArray()) {
+            // If the character is a closing parenthesis, evaluate the sub-expression
             if (c == ')') {
                 List<Character> subExpr = new ArrayList<>();
+                // Collect all characters in the current sub-expression
                 while (stack.peek() != '(') {
                     subExpr.add(stack.pop());
                 }
-                stack.pop(); // Remove '('
+                stack.pop(); // Remove the opening parenthesis '('
 
-                char op = stack.pop(); // Get the operator
+                char op = stack.pop(); // Get the operator preceding '('
 
+                // Evaluate the sub-expression based on the operator
                 if (op == '!') {
+                    // Negation operator - flips the value of the single boolean
                     stack.push(subExpr.get(0) == 't' ? 'f' : 't');
                 } else if (op == '&') {
+                    // AND operator - result is 't' only if all values are 't'
                     char result = 't';
                     for (char e : subExpr) {
                         if (e == 'f') {
                             result = 'f';
-                            break;
+                            break; // Short-circuit evaluation
                         }
                     }
                     stack.push(result);
                 } else if (op == '|') {
+                    // OR operator - result is 't' if at least one value is 't'
                     char result = 'f';
                     for (char e : subExpr) {
                         if (e == 't') {
                             result = 't';
-                            break;
+                            break; // Short-circuit evaluation
                         }
                     }
                     stack.push(result);
                 }
             } else if (c != ',') {
+                // Push other characters (operators, parentheses, and boolean values) onto the stack
                 stack.push(c);
             }
         }
-        
+
+        // Final result is the top of the stack after evaluation
         return stack.peek() == 't';
     }
 }
+
 
 
 
