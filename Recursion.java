@@ -178,32 +178,35 @@ class Solution {
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         
+        // Create a dummy node to build the resulting linked list
         ListNode dummy = new ListNode();
-        ListNode result = dummy;
+        ListNode result = dummy; // Pointer to the head of the resulting list
         
-        int total = 0;
-        int carry = 0;
+        int total = 0; // To store the sum of the current digits and carry
+        int carry = 0; // To store the carry from the previous addition
 
+        // Traverse through both linked lists and process remaining carry
         while (l1 != null || l2 != null || carry != 0) {
-            total = carry;
+            total = carry; // Start with the carry from the previous operation
 
             if (l1 != null) {
-                total += l1.val;
-                l1 = l1.next;
+                total += l1.val; // Add the value from the first list
+                l1 = l1.next;    // Move to the next node in the first list
             }
 
             if (l2 != null) {
-                total += l2.val;
-                l2 = l2.next;
+                total += l2.val; // Add the value from the second list
+                l2 = l2.next;    // Move to the next node in the second list
             }
 
-            int num = total % 10;
-            carry = total / 10;
+            int num = total % 10; // Get the current digit to store in the result
+            carry = total / 10;   // Calculate the new carry
 
-            dummy.next = new ListNode(num);
-            dummy = dummy.next;
+            dummy.next = new ListNode(num); // Create a new node for the result
+            dummy = dummy.next;            // Move the dummy pointer to the next node
         }
 
-        return result.next;
+        return result.next; // Return the head of the resulting linked list
     }
 }
+
