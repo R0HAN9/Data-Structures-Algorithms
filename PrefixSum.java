@@ -35,32 +35,33 @@ class Solution {
     public int minGroups(int[][] intervals) {
         
         int n = intervals.length;
-        int[] startTime = new int[n];
-        int[] endTime = new int[n];
+        int[] startTime = new int[n]; // Array to store start times of intervals
+        int[] endTime = new int[n];   // Array to store end times of intervals
 
         for (int i = 0; i < n; i++) {
-            startTime[i] = intervals[i][0];
-            endTime[i] = intervals[i][1];
+            startTime[i] = intervals[i][0]; // Fill start times
+            endTime[i] = intervals[i][1];  // Fill end times
         }
 
-        Arrays.sort(startTime);
-        Arrays.sort(endTime);
+        Arrays.sort(startTime); // Sort start times
+        Arrays.sort(endTime);   // Sort end times
 
-        int endPtr = 0;
-        int groupCount = 0;
+        int endPtr = 0; // Pointer for end times
+        int groupCount = 0; // Count of overlapping groups
 
         for (int start : startTime) {
-            if (start > endTime[endPtr]) {
-                endPtr++;
+            if (start > endTime[endPtr]) { // Check if current start is after earliest end
+                endPtr++; // Move end pointer forward
             }
             else {
-                groupCount++;
+                groupCount++; // Increment group count for overlap
             }
         }
 
-        return groupCount;
+        return groupCount; // Return total groups needed
     }
 }
+
 
 
 
