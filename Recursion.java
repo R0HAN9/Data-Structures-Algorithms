@@ -4,65 +4,83 @@
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
         
+        // Pointer to keep track of the previous group's tail
         ListNode prevTail = null;
+        // Pointers to track the current group's head and tail
         ListNode currentHead = head;
         ListNode currentTail = head;
 
+        // Pointer to store the head of the next group
         ListNode nextHead = null;
+
+        // Iterate through the linked list to process groups of size k
         while (currentHead != null) {
 
-            int count = 1;
-            while (currentTail.next != null && count < k) {
+            int count = 1; // Counter to track the size of the current group
 
+            // Move the currentTail pointer to the end of the group
+            while (currentTail.next != null && count < k) {
                 currentTail = currentTail.next;
                 count++;
             }
+
+            // If the group size is less than k, exit the loop (no reversal needed)
             if (count != k) {
                 break;
             }
 
+            // Save the head of the next group
             nextHead = currentTail.next;
+            // Disconnect the current group from the rest of the list
             currentTail.next = null;
 
+            // If there's a previous group, disconnect its tail
             if (prevTail != null) {
                 prevTail.next = null;
             }
 
+            // Reverse the current group
             currentTail = reverse(currentHead);
+
+            // Connect the previous group's tail to the reversed group's head
             if (prevTail != null) {
                 prevTail.next = currentTail;
-            }
-            else {
-                head = currentTail;
+            } else {
+                head = currentTail; // Update head if it's the first group
             }
 
+            // Connect the reversed group's tail to the next group
             currentHead.next = nextHead;
+
+            // Update pointers for the next iteration
             prevTail = currentHead;
             currentHead = nextHead;
             currentTail = nextHead;
-
         }
+
         return head;
     }
 
+    // Helper function to reverse a linked list
     private ListNode reverse(ListNode head) {
-
+        // Initialize pointers for reversing the list
         ListNode prevNode = null;
         ListNode currentNode = head;
         ListNode nextNode = head;
 
+        // Traverse and reverse the list
         while (currentNode != null) {
+            nextNode = nextNode.next; // Move to the next node
+            currentNode.next = prevNode; // Reverse the current node's pointer
 
-            nextNode = nextNode.next;
-            currentNode.next = prevNode;
-
-            prevNode = currentNode;
-            currentNode = nextNode;
+            prevNode = currentNode; // Move prevNode forward
+            currentNode = nextNode; // Move currentNode forward
         }
 
-        return prevNode;
+        return prevNode; // Return the new head of the reversed list
     }
 }
+
 
 
 
