@@ -63,26 +63,45 @@ class Solution {
 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
+        // Variable to store the maximum length of a substring without repeating characters.
         int maxLength = 0;
+
+        // Left pointer of the sliding window.
         int left = 0;
+
+        // Map to keep track of the frequency of characters within the current window.
         Map<Character, Integer> count = new HashMap<>();
 
+        // Iterate through the string using the right pointer of the sliding window.
         for (int right = 0; right < s.length(); right++) {
+            // Get the current character at the right pointer.
             char c = s.charAt(right);
+
+            // Increment the frequency of the character in the map.
             count.put(c, count.getOrDefault(c, 0) + 1);
-            
+
+            // Shrink the window from the left if there are duplicate characters in the current window.
             while (count.get(c) > 1) {
+                // Get the character at the left pointer.
                 char leftChar = s.charAt(left);
+
+                // Decrease the frequency of the left character as it is removed from the window.
                 count.put(leftChar, count.get(leftChar) - 1);
+
+                // Move the left pointer to the right to shrink the window.
                 left++;
             }
-            
+
+            // Update the maximum length of the substring.
+            // The current window size is `right - left + 1`.
             maxLength = Math.max(maxLength, right - left + 1);
         }
-        
+
+        // Return the maximum length of substring found.
         return maxLength;       
     }
 }
+
 
 // 2. Group Anagrams
 
