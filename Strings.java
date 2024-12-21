@@ -104,31 +104,46 @@ class Solution {
 // Split a String Into the Max Number of Unique Substrings
 
 class Solution {
+    // Main method that calls the helper function
     public int maxUniqueSplit(String s) {
         return solve(0, s, new HashSet<>());
     }
 
+    // Helper function that uses recursion to solve the problem
     public int solve(int start, String s, Set<String> set) {
+        // If the starting index reaches the length of the string, no more splits are possible
         if (start == s.length()) {
-            return 0;
+            return 0;  // No more splits, return 0
         }
 
-        int maxSplits = 0;
+        int maxSplits = 0; // Variable to keep track of the maximum splits possible
+
+        // Iterate through the string, trying all possible substrings starting from 'start'
         for (int i = start + 1; i <= s.length(); i++) {
-            
+            // Extract a substring from 'start' to 'i'
             String substring = s.substring(start, i);
+
+            // Check if the substring is not already present in the set
             if (!set.contains(substring)) {
+                // If it's not in the set, add it
                 set.add(substring);
 
+                // Recursively calculate the splits starting from index 'i' and add 1 for the current split
                 int splits = 1 + solve(i, s, set);
+
+                // Update maxSplits with the maximum of current maxSplits and splits
                 maxSplits = Math.max(maxSplits, splits);
+
+                // Remove the substring from the set after exploring this path
                 set.remove(substring);
             }
         }
 
+        // Return the maximum number of unique splits
         return maxSplits;
     }
 }
+
 
 
 
