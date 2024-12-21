@@ -156,49 +156,70 @@ public List<List<String>> groupAnagrams(String[] strs) {
 
 class Solution {
     public String minWindow(String s, String t) {
-        
+        // If the length of `s` is smaller than `t`, it's impossible to form the substring.
         if (s.length() < t.length()) return "";
+
+        // Map to store the frequency of each character in `t`.
         Map<Character, Integer> charCount = new HashMap<>();
 
+        // Initialize the map with characters in `t`.
         for (char ch : t.toCharArray()) {
             charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
         }
 
+        // Total number of characters in `t` that need to be matched.
         int targetCharRemaining = t.length();
+
+        // Array to store the start and end indices of the smallest valid window found so far.
         int[] minWindow = {0, Integer.MAX_VALUE};
+
+        // Start index of the sliding window.
         int startIndex = 0;
 
+        // Iterate through `s` with the `endIndex` pointer as the right bound of the window.
         for (int endIndex = 0; endIndex < s.length(); endIndex++) {
-
             char ch = s.charAt(endIndex);
+
+            // If `ch` is in the target map and has a positive count, decrement `targetCharRemaining`.
             if (charCount.containsKey(ch) && charCount.get(ch) > 0) {
                 targetCharRemaining--;
             }
+
+            // Decrement the count of the current character in the map (if it's not in the map, count will become negative).
             charCount.put(ch, charCount.getOrDefault(ch, 0) - 1);
 
+            // When all target characters are matched (`targetCharRemaining` == 0), try to shrink the window.
             if (targetCharRemaining == 0) {
                 while (true) {
-
+                    // Character at the start of the current window.
                     char charAtStart = s.charAt(startIndex);
+
+                    // Stop shrinking if removing `charAtStart` would make the window invalid.
                     if (charCount.containsKey(charAtStart) && charCount.get(charAtStart) == 0) {
                         break;
                     }
 
+                    // Otherwise, increase the count of `charAtStart` in the map and move the start pointer.
                     charCount.put(charAtStart, charCount.getOrDefault(charAtStart, 0) + 1);
                     startIndex++;
                 }
 
+                // Update the smallest window if the current window is smaller.
                 if (endIndex - startIndex < minWindow[1] - minWindow[0]) {
                     minWindow[0] = startIndex;
                     minWindow[1] = endIndex;
                 }
 
+                // Move the `startIndex` pointer to shrink the window further and update the counts.
                 charCount.put(s.charAt(startIndex), charCount.getOrDefault(s.charAt(startIndex), 0) + 1);
                 targetCharRemaining++;
                 startIndex++;
             }
         }
 
+        // If no valid window was found, return an empty string.
+        // Otherwise, return the substring corresponding to the smallest valid window.
         return minWindow[1] >= s.length() ? "" : s.substring(minWindow[0], minWindow[1] + 1);
     }
 }
+
