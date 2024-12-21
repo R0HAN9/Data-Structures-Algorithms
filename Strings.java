@@ -2,22 +2,34 @@
 
 class Solution {
     public List<String> removeSubfolders(String[] folder) {
-        
+        // Step 1: Sort the folder array lexicographically.
+        // Sorting ensures that all subfolders come immediately after their parent folder in the list.
         Arrays.sort(folder);
+
+        // Step 2: Create a list to store the final answer (unique parent folders).
         List<String> answer = new ArrayList<>();
+
+        // Step 3: Add the first folder as it's the smallest lexicographically and cannot be a subfolder.
         answer.add(folder[0]);
 
+        // Step 4: Iterate through the remaining folders.
         for (int i = 1; i < folder.length; i++) {
+            // Retrieve the last folder added to the answer list and append a slash (`/`).
+            // The slash ensures that we only consider full folder paths as subfolders.
             String lastFolder = answer.get(answer.size() - 1) + "/";
 
+            // Check if the current folder does NOT start with the last added folder plus a slash.
+            // If it doesn't, it's not a subfolder, so we add it to the answer.
             if (!folder[i].startsWith(lastFolder)) {
                 answer.add(folder[i]);
             }
         }
 
+        // Step 5: Return the list of unique parent folders.
         return answer;
     }
 }
+
 
 
 // Basic Calculator
