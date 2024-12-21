@@ -260,20 +260,30 @@ class Solution {
 
 
 class Solution {
+    // Main method to generate all valid parentheses combinations
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
-
+        
+        // Start the depth-first search (DFS) with initial values
         dfs(0, 0, "", n, result);
         return result;
     }
 
+    // Helper method to perform DFS and generate valid combinations
     private void dfs(int openP, int closeP, String str, int n, List<String> result) {
        
+        // If the number of open and close parentheses are equal and we've used 2*n parentheses,
+        // it means we have a valid combination, so we add it to the result
         if (openP == closeP && openP + closeP == n * 2) {
             result.add(str);
             return;
         }
+        
+        // If we have not yet added n opening parentheses, we add one and recurse
         if (openP < n) dfs(openP + 1, closeP, str + "(", n, result);
+        
+        // If we have more opening parentheses than closing ones, we can add a closing parenthesis
         if (closeP < openP) dfs(openP, closeP + 1, str + ")", n, result);
     }
 }
+
