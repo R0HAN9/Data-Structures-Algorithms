@@ -37,42 +37,64 @@ class Solution {
 
 class Solution {
     public int calculate(String s) {
-        
-        int number = 0;
-        int signValue = 1;
-        int result = 0;
+        // Initialize variables
+        int number = 0; // To build the current number from digits in the string
+        int signValue = 1; // Tracks the current sign (+1 for positive, -1 for negative)
+        int result = 0; // The running result of the calculation
 
+        // Stack to handle results and signs when encountering parentheses
         Stack<Integer> optStack = new Stack<>();
 
+        // Iterate through each character in the input string
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
 
-            if (Character.isDigit(c)) number = number * 10 + (c - '0');
+            if (Character.isDigit(c)) {
+                // Build the number digit by digit
+                number = number * 10 + (c - '0');
+            } 
             else if (c == '+' || c == '-') {
-
+                // When encountering a '+' or '-' operator:
+                // Add the previously built number to the result using the current sign
                 result += number * signValue;
-                signValue = (c == '-') ? -1 : 1;
-                number = 0;
-            }
-            else if (c == '(') {
 
+                // Update the sign based on the current operator
+                signValue = (c == '-') ? -1 : 1;
+
+                // Reset the number to start building the next number
+                number = 0;
+            } 
+            else if (c == '(') {
+                // When encountering an open parenthesis '(':
+                // Push the current result and sign onto the stack
                 optStack.push(result);
                 optStack.push(signValue);
+
+                // Reset the result and sign for the new expression inside the parentheses
                 result = 0;
                 signValue = 1;
-            }
+            } 
             else if (c == ')') {
-
+                // When encountering a closing parenthesis ')':
+                // Add the current number (if any) to the result
                 result += signValue * number;
+
+                // Multiply the result by the sign value popped from the stack
                 result *= optStack.pop();
+
+                // Add the result from before the parentheses (also popped from the stack)
                 result += optStack.pop();
+
+                // Reset the number for subsequent calculations
                 number = 0;
             }
         }
 
+        // Add any remaining number to the result (to account for the last number)
         return result + number * signValue;
     }
 }
+
 
 
 
