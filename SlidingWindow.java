@@ -4,40 +4,58 @@
 class Solution {
     public int[] smallestRange(List<List<Integer>> nums) {
         
+        // Priority Queue (Min-Heap) to store the current elements being considered from each list.
+        // Each entry in the heap is an array of [value, listIndex, elementIndex].
         PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+
+        // Variable to track the current maximum value among the elements in the heap.
         int currentMax = Integer.MIN_VALUE;
 
+        // Initialize the heap with the first element of each list and update the current maximum.
         for (int i = 0; i < nums.size(); i++) {
-            minHeap.offer(new int[] {nums.get(i).get(0), i, 0});
-            currentMax = Math.max(currentMax, nums.get(i).get(0));
+            minHeap.offer(new int[] {nums.get(i).get(0), i, 0}); // Add the first element of each list to the heap
+            currentMax = Math.max(currentMax, nums.get(i).get(0)); // Update the maximum value
         }
 
+        // Array to store the smallest range [start, end].
+        // Initially set to an invalid range (max range).
         int[] smallRange = new int[] {0, Integer.MAX_VALUE};
 
+        // Process the heap until one of the lists is exhausted.
         while (true) {
+            // Extract the smallest element from the heap (current minimum value).
             int[] curr = minHeap.poll();
-            int currentMin = curr[0], listIdx = curr[1], elementIdx = curr[2];
+            int currentMin = curr[0]; // Value of the current smallest element
+            int listIdx = curr[1];   // Index of the list the element came from
+            int elementIdx = curr[2]; // Index of the element in its list
 
+            // Update the smallest range if the current range [currentMin, currentMax] is smaller.
+            // Also prioritize smaller `currentMin` for tie-breaking.
             if ((currentMax - currentMin < smallRange[1] - smallRange[0]) ||
                 (currentMax - currentMin == smallRange[1] - smallRange[0] && currentMin < smallRange[0])) {
                     smallRange[0] = currentMin;
                     smallRange[1] = currentMax;
-                }
+            }
 
+            // Check if there is a next element in the same list of the current smallest element.
             if (elementIdx + 1 < nums.get(listIdx).size()) {
-
+                // Add the next element from the same list to the heap.
                 int nextVal = nums.get(listIdx).get(elementIdx + 1);
                 minHeap.offer(new int[] {nextVal, listIdx, elementIdx + 1});
+
+                // Update the current maximum with the new value.
                 currentMax = Math.max(currentMax, nextVal);
-            }
-            else {
+            } else {
+                // If any list is exhausted, we cannot consider a range that includes all lists anymore.
                 break;
             }
         }
 
+        // Return the smallest range found.
         return smallRange;
     }
 }
+
 
 
 
