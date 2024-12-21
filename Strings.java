@@ -152,37 +152,46 @@ class Solution {
 
 class WordDictionary {
 
-    private List<String> wordsList;
+    private List<String> wordsList;  // List to store all the words in the dictionary
 
+    // Constructor to initialize the wordsList
     public WordDictionary() {
         wordsList = new ArrayList<>();
     }
     
+    // Method to add a word to the dictionary
     public void addWord(String word) {
-        wordsList.add(word);
+        wordsList.add(word);  // Add the given word to the wordsList
     }
     
+    // Method to search for a word in the dictionary, where '.' can be a wildcard character
     public boolean search(String word) {
         
+        // Loop through each word in the wordsList
         for (String savedWord : wordsList) {
+            // If the lengths of the word and savedWord are not equal, continue to the next savedWord
             if (savedWord.length() != word.length()) continue;
 
-            boolean wordsMatch = true;
+            boolean wordsMatch = true;  // Flag to check if the words match
 
+            // Compare each character in the word and savedWord
             for (int i = 0; i < word.length(); i++) {
-
+                // If the character in the search word is not '.' and does not match the saved word, set wordsMatch to false
                 if (word.charAt(i) != '.' && savedWord.charAt(i) != word.charAt(i)) {
                     wordsMatch = false;
-                    break;
+                    break;  // No need to check further if there is a mismatch
                 }
             }
             
+            // If wordsMatch is still true, it means the word matches the savedWord, so return true
             if (wordsMatch) return true;
         }
 
+        // If no match was found after checking all words, return false
         return false;
     }
 }
+
 
 
 // Letter Combinations of a Phone Number
