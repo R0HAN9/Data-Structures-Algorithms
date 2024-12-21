@@ -198,8 +198,10 @@ class WordDictionary {
 
 class Solution {
 
+    // A map to associate each digit with its corresponding letters
     private static final Map<Character, String> phoneMap = new HashMap<>();
 
+    // Static block to initialize the phoneMap
     static {
         phoneMap.put('2', "abc");
         phoneMap.put('3', "def");
@@ -208,36 +210,50 @@ class Solution {
         phoneMap.put('6', "mno");
         phoneMap.put('7', "pqrs");
         phoneMap.put('8', "tuv");
-        phoneMap.put('9', "wxyz"); 
+        phoneMap.put('9', "wxyz");
     }
 
+    // Main function to return all possible letter combinations for the given digits
     public List<String> letterCombinations(String digits) {
         
         List<String> result = new ArrayList<>();
+        
+        // If the input string is empty, return an empty result list
         if (digits == null || digits.length() == 0) return result;
 
+        // Start backtracking to generate combinations
         backtrack(result, new StringBuilder(), digits, 0);
         return result;
     }
 
+    // Helper function to perform the backtracking
     private void backtrack(List<String> result, StringBuilder combination, String digits, int index) {
 
+        // If we've processed all digits, add the current combination to the result
         if (index == digits.length()) {
             result.add(combination.toString());
             return;
         }
 
+        // Get the current digit and the corresponding letters from the map
         char d = digits.charAt(index);
         String letters = phoneMap.get(d);
 
+        // Loop through each letter associated with the current digit
         for (char l : letters.toCharArray()) {
 
+            // Add the current letter to the combination
             combination.append(l);
+
+            // Recur to process the next digit
             backtrack(result, combination, digits, index + 1);
+
+            // Remove the last letter (backtrack) to try the next letter
             combination.deleteCharAt(combination.length() - 1);
         }
     }
 }
+
 
 
 // Generate Parentheses
