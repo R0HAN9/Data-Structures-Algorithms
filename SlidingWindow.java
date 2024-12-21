@@ -107,32 +107,47 @@ class Solution {
 
 
 class Solution {
-    public List<List<String>> groupAnagrams(String[] strs) {
-        
-        Map<String, List<String>> ans = new HashMap<>();
-        
-        for (String s : strs) {
-            int[] count = new int[26];
+public List<List<String>> groupAnagrams(String[] strs) {
+    // Map to store the grouped anagrams.
+    // Key: A unique representation of character counts (frequency signature).
+    // Value: List of strings (anagrams) that share the same key.
+    Map<String, List<String>> ans = new HashMap<>();
+    
+    // Iterate through each string in the input array.
+    for (String s : strs) {
+        // Array to store the frequency of each character in the current string.
+        // Since we are dealing with lowercase English letters, the size is 26.
+        int[] count = new int[26];
 
-            for (char c : s.toCharArray()) {
-                count[c - 'a']++;
-            }
-
-            StringBuilder sb = new StringBuilder();
-            for (int num : count) {
-                sb.append(num).append("#");
-            }
-
-            String key = sb.toString();
-            if (!ans.containsKey(key)) {
-                ans.put(key, new ArrayList<>());
-            }
-            ans.get(key).add(s);
+        // Count the frequency of each character in the string.
+        for (char c : s.toCharArray()) {
+            count[c - 'a']++; // Increment the count for the corresponding character.
         }
 
-        return new ArrayList<>(ans.values());
+        // Create a unique string representation of the frequency array.
+        // This will act as the key in the map.
+        StringBuilder sb = new StringBuilder();
+        for (int num : count) {
+            sb.append(num).append("#"); // Use a delimiter ("#") to separate counts for uniqueness.
+        }
+
+        // Convert the StringBuilder to a string key.
+        String key = sb.toString();
+
+        // If the key is not already in the map, add a new entry.
+        if (!ans.containsKey(key)) {
+            ans.put(key, new ArrayList<>());
+        }
+
+        // Add the current string to the list corresponding to its key.
+        ans.get(key).add(s);
     }
+
+    // Convert the map values to a list and return it.
+    // Each value in the map represents a group of anagrams.
+    return new ArrayList<>(ans.values());
 }
+
 
 
 
