@@ -219,25 +219,39 @@ class Solution {
 
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        
+        // Initialize pointers:
+        // 'midx' points to the last element in the initial portion of nums1.
         int midx = m - 1;
+        
+        // 'nidx' points to the last element in nums2.
         int nidx = n - 1;
+        
+        // 'right' points to the last position in nums1 where the merged element will be placed.
         int right = m + n - 1;
 
+        // Iterate while there are elements left in nums2 to merge.
         while (nidx >= 0) {
-            
+            // Compare elements from the end of nums1's initialized portion and nums2.
             if (midx >= 0 && nums1[midx] > nums2[nidx]) {
+                // If the current element in nums1 is greater, place it at the 'right' position.
                 nums1[right] = nums1[midx];
+                
+                // Move the pointer in nums1 backward.
                 midx--;
-            }
-            else {
+            } else {
+                // Otherwise, place the current element from nums2 at the 'right' position.
                 nums1[right] = nums2[nidx];
+                
+                // Move the pointer in nums2 backward.
                 nidx--;
             }
+            
+            // Move the 'right' pointer backward to fill the next position.
             right--;
         }
     }
 }
+
 
 
 // Sort List
