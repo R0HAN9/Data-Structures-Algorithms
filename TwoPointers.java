@@ -258,49 +258,65 @@ class Solution {
 
 
 class Solution {
+    // Helper function to find the middle node of a linked list
     private ListNode mid(ListNode head) {
+        // Base case: if the list is empty or has only one node, return the head
         if (head == null || head.next == null) return head;
 
-        ListNode slow = head;
-        ListNode fast = head.next;
+        ListNode slow = head;  // Slow pointer to find the middle
+        ListNode fast = head.next;  // Fast pointer to traverse the list twice as fast
 
+        // Move the slow pointer one step and fast pointer two steps
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
+
+        // Slow pointer now points to the middle node
         return slow;
     }
 
+    // Helper function to merge two sorted linked lists
     private ListNode mergeSort(ListNode l1, ListNode l2) {
+        // Create a dummy node to simplify the merging process
         ListNode dummy = new ListNode(0);
-        ListNode curr = dummy;
+        ListNode curr = dummy;  // Pointer to build the merged list
 
+        // Compare nodes from both lists and attach the smaller one to the merged list
         while (l1 != null && l2 != null) {
-
             if (l1.val < l2.val) {
-                curr.next = l1;
-                l1 = l1.next;
+                curr.next = l1;  // Attach l1's node
+                l1 = l1.next;    // Move l1 to its next node
+            } else {
+                curr.next = l2;  // Attach l2's node
+                l2 = l2.next;    // Move l2 to its next node
             }
-            else {
-                curr.next = l2;
-                l2 = l2.next;
-            }
-            curr = curr.next;
+            curr = curr.next;    // Move the pointer in the merged list
         }
+
+        // Attach any remaining nodes from either list
         curr.next = (l1 != null) ? l1 : l2;
+
+        // Return the merged list, skipping the dummy node
         return dummy.next;
     }
 
+    // Main function to sort the linked list using merge sort
     public ListNode sortList(ListNode head) {
+        // Base case: if the list is empty or has only one node, it's already sorted
         if (head == null || head.next == null) return head;
 
+        // Find the middle node
         ListNode mid = mid(head);
-        ListNode newNode = mid.next;
-        mid.next = null;
+        ListNode newNode = mid.next;  // The start of the right half
+        mid.next = null;  // Split the list into two halves
 
+        // Recursively sort both halves
         ListNode leftHalf = sortList(head);
         ListNode rightHalf = sortList(newNode);
 
+        // Merge the two sorted halves and return the result
         return mergeSort(leftHalf, rightHalf);
     }
 }
+
