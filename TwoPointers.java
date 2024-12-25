@@ -63,37 +63,56 @@ class Solution {
 
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        // Initialize a list to store the resulting triplets.
         List<List<Integer>> res = new ArrayList<>();
+        
+        // Sort the array to allow the use of the two-pointer technique.
         Arrays.sort(nums);
 
+        // Iterate through the array with the first pointer, 'i'.
         for (int i = 0; i < nums.length; i++) {
-            if (i > 0 && nums[i] == nums[i-1]) {
+            // Skip duplicate values for the first element to avoid duplicate triplets.
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             
+            // Initialize the two pointers: 
+            // 'j' starts right after 'i' (as the second element),
+            // 'k' starts at the end of the array (as the third element).
             int j = i + 1;
             int k = nums.length - 1;
 
+            // Use the two-pointer technique to find triplets that sum to zero.
             while (j < k) {
+                // Calculate the sum of the current triplet.
                 int total = nums[i] + nums[j] + nums[k];
 
                 if (total > 0) {
+                    // If the sum is greater than zero, move the right pointer 'k' leftward 
+                    // to decrease the sum.
                     k--;
                 } else if (total < 0) {
+                    // If the sum is less than zero, move the left pointer 'j' rightward 
+                    // to increase the sum.
                     j++;
                 } else {
+                    // If the sum is zero, add the triplet to the result list.
                     res.add(Arrays.asList(nums[i], nums[j], nums[k]));
-                    j++;
+                    j++; // Move the left pointer to find other potential triplets.
 
-                    while (nums[j] == nums[j-1] && j < k) {
+                    // Skip duplicate values for the second element to avoid duplicate triplets.
+                    while (nums[j] == nums[j - 1] && j < k) {
                         j++;
                     }
                 }
             }
         }
+
+        // Return the list of all unique triplets that sum to zero.
         return res;        
     }
 }
+
 
 
 // 3. Longest Palindromic Substring
