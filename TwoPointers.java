@@ -173,26 +173,45 @@ class Solution {
 
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
-        
+        // Create an array to store the result (1-based indices of the two numbers).
         int[] ans = new int[2];
+        
+        // Initialize two pointers:
+        // 'left' starts at the beginning of the array.
         int left = 0;
+        
+        // 'right' starts at the end of the array.
         int right = numbers.length - 1;
 
+        // Use the two-pointer technique to find the two numbers that sum up to the target.
         while (left < right) {
-            
-            if ((numbers[left] + numbers[right]) < target) left++;
-            else if ((numbers[left] + numbers[right]) > target) right--;
+            // Calculate the sum of the two numbers at the current pointers.
+            int sum = numbers[left] + numbers[right];
 
-            else {
+            if (sum < target) {
+                // If the sum is less than the target, move the left pointer to the right 
+                // to increase the sum.
+                left++;
+            } else if (sum > target) {
+                // If the sum is greater than the target, move the right pointer to the left
+                // to decrease the sum.
+                right--;
+            } else {
+                // If the sum matches the target:
+                // Store the 1-based indices in the result array.
                 ans[0] = left + 1;
                 ans[1] = right + 1;
+                
+                // Break out of the loop as we found the solution.
                 break;
             }
         }
 
+        // Return the result array containing the indices.
         return ans;
     }
 }
+
 
 
  // Merge Sorted Array
