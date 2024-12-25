@@ -121,35 +121,51 @@ class Solution {
 
 class Solution {
     public String longestPalindrome(String s) {
-        
+        // Edge case: if the string is null or empty, return an empty string.
         if (s == null || s.length() == 0) return "";
+        
+        // Variables to store the start and end indices of the longest palindrome found.
         int start = 0;
         int end = 0;
 
+        // Iterate through each character in the string as a potential center of a palindrome.
         for (int i = 0; i < s.length(); i++) {
+            // Check for odd-length palindromes (single character center).
+            int odd = expandAroundCenter(s, i, i);
             
-            int odd = expandAroundCenter(s, i , i);
+            // Check for even-length palindromes (two-character center).
             int even = expandAroundCenter(s, i, i + 1);
+            
+            // Find the maximum length between odd and even palindromes.
             int maxLen = Math.max(odd, even);
 
+            // Update the start and end indices if a longer palindrome is found.
             if (maxLen > end - start) {
+                // Calculate the start index of the palindrome.
                 start = i - (maxLen - 1) / 2;
+                
+                // Calculate the end index of the palindrome.
                 end = i + maxLen / 2;
             }
         }
+
+        // Extract and return the longest palindrome substring using the start and end indices.
         return s.substring(start, end + 1);
     }
 
+    // Helper function to expand around the center and calculate palindrome length.
     private int expandAroundCenter(String s, int left, int right) {
-
+        // Expand outward as long as the characters match and indices are within bounds.
         while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
-            left--;
-            right++;
+            left--; // Move the left pointer outward.
+            right++; // Move the right pointer outward.
         }
 
-        return right - left - 1;
+        // Calculate the length of the palindrome.
+        return right - left - 1; // Subtract 1 because left and right have moved past the valid range.
     }
 }
+
 
 
 // Two Sum II - Input Array Is Sorted
