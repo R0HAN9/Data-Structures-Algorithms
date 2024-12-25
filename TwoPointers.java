@@ -2,21 +2,28 @@
 
 class Solution {
     public int removeDuplicates(int[] nums) {
-        
+        // If the array is empty, no elements to process, return 0
         if (nums.length == 0) return 0;
+
+        // Pointer to track the position of the next unique element
         int idx = 1;
 
+        // Loop through the array starting from the second element
         for (int j = 1; j < nums.length; j++) {
+            // Check if the current element is different from the previous unique element
             if(nums[j] != nums[idx - 1]) {
-
+                // Place the current unique element at the idx position
                 nums[idx] = nums[j];
+                // Move the index forward
                 idx++;
             }
         }
 
+        // Return the count of unique elements
         return idx;
     }
 }
+
 
 
 // Container With Most Water
