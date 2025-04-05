@@ -4,7 +4,7 @@ public class Solution {
     public int solve(int A, int B, int C) {
         ArrayList<Integer> ans=new ArrayList<>();
         for(int i=A;i<=B;i++)
-        {
+        { 
             if(isPalandrome(i))
             {
                 ans.add(i);
