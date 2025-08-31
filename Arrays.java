@@ -1,6 +1,5 @@
 // Remove Element
 
-
 class Solution {
     public int removeElement(int[] nums, int val) {
         int k = 0; // Counter to track the position of non-val elements
